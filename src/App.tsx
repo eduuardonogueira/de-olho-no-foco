@@ -1,9 +1,8 @@
-import { RouterAllRoutes } from "./router"
+import "./global.css";
+import { RouterAllRoutes } from "./router";
 
 export const App = () => {
+  return <RouterAllRoutes />;
+};
 
-  return <RouterAllRoutes />
-}
-
-export default App
-
+export default App;

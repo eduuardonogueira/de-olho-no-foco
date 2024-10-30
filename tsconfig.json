@@ -23,7 +23,7 @@
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@pages/*": ["./src/pages/*"],
-      "@types/*": ["./src/types/*"],
+      "@customtypes/*": ["./src/types/*"],
       "@contexts/*": ["./src/contexts/*"],
       "@constants/*": ["./src/constants/*"],
       "@hooks/*": ["./src/hooks/*"]

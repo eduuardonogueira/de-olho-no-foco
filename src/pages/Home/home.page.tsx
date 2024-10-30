@@ -1,15 +1,16 @@
-import { Map } from "@components/index";
+import { Map, Sidebar } from "@components/index";
 import styles from "./home.module.scss";
-import { IHostArray } from "../../types/map";
+import { IHost } from "@customtypes/map";
 import { MapContainer, Polyline, useMapEvents } from "react-leaflet";
 import { useState } from "react";
 import { LatLngExpression } from "leaflet";
 
 export const Home = () => {
-  const hostsArray: IHostArray = [
+  const hostsArray: IHost[] = [
     {
       hostname: "UFRA",
       coordinates: [-1.4752083704157242, -48.45592221201885],
+      description: "portas: 26, 27",
       connections: [
         {
           fiberCoordinates: [
@@ -44,35 +45,71 @@ export const Home = () => {
     },
   ];
 
+  const [drawCoordinates, setDrawCoordinates] = useState<LatLngExpression[]>(
+    []
+  );
+  const [lineColor, setLineColor] = useState({ color: "blue" });
+
+  const map = document.getElementById("mapContainer");
+
   function DrawFunction() {
-    const [position, setPosition] = useState<LatLngExpression[]>([]);
     useMapEvents({
       click(e) {
         const newPosition: LatLngExpression = [e.latlng.lat, e.latlng.lng];
-        if (position) {
-          setPosition((prevLine) => [...prevLine, newPosition]);
+        setDrawCoordinates((prevLine) => [...prevLine, newPosition]);
+      },
+      mouseover() {
+        if (map) {
+          map.style.cursor = "initial";
+        }
+      },
+
+      drag() {
+        if (map) {
+          map.style.cursor = "grabbing";
+        }
+      },
+
+      dragend() {
+        if (map) {
+          map.style.cursor = "initial";
         }
       },
     });
 
-    return position === null ? null : (
-      <Polyline positions={position} pathOptions={{ color: "blue" }} />
+    return drawCoordinates == null ? null : (
+      <Polyline positions={drawCoordinates} pathOptions={lineColor} />
     );
   }
 
+  function handleRemoveLine(beforeLine: number, line: number) {
+    setDrawCoordinates((prevLine) => prevLine.slice(beforeLine, line));
+  }
+
+  function handleSetColor(color: string) {
+    setLineColor({ color: color });
+  }
+
   return (
-    <section>
-      <h1 className={styles.title}>Metrobel</h1>
-      <MapContainer
-        center={[-1.4688582141013906, -48.45580618259812]}
-        zoom={15}
-        // scrollWheelZoom={false}
-        style={{ height: 800 }}
-      >
-        <Map hostArray={hostsArray} />
-        <DrawFunction />
-      </MapContainer>
-    </section>
+    <div className={styles.container}>
+      <main className={styles.mapContainer}>
+        <h1 className={styles.title}>Metrobel</h1>
+        <MapContainer
+          id="mapContainer"
+          center={[-1.4688582141013906, -48.45580618259812]}
+          zoom={15}
+          style={{ height: 800 }}
+        >
+          <Map hostArray={hostsArray} />
+          <DrawFunction />
+        </MapContainer>
+      </main>
+      <Sidebar
+        coordinates={drawCoordinates}
+        removeLine={handleRemoveLine}
+        setColor={handleSetColor}
+      />
+    </div>
   );
 };
 
