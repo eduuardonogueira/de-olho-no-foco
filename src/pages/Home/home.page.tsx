@@ -1,22 +1,37 @@
-import { Map, Sidebar } from "@components/index";
+import { Map } from "@components/index";
 import styles from "./home.module.scss";
-import { MapContainer, Polyline, useMapEvents } from "react-leaflet";
-import { useState } from "react";
-import { LatLngExpression } from "leaflet";
+import { MapContainer } from "react-leaflet";
+import { useEffect, useRef, useState, MutableRefObject } from "react";
+import { LatLngExpression, Map as TypeMap } from "leaflet";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 
 export const Home = () => {
+  const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);
   const map = document.getElementById("mapContainer");
   const [userLocation, setUserLocation] = useState<
     LatLngExpression | undefined
   >();
 
-  navigator.geolocation.watchPosition((position) => {
-    console.log(position.coords.latitude);
-    setUserLocation([position.coords.latitude, position.coords.longitude]);
-  });
-
-  console.log(userLocation);
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        (position) => {
+          const location: LatLngExpression = [
+            position.coords.latitude,
+            position.coords.longitude,
+          ];
+          setUserLocation(location);
+          
+          // Centralizar o mapa
+          if (mapRef.current) {
+            mapRef.current.flyTo(location, 15);
+          }
+        },
+        (error) => console.error("Erro ao obter localização:", error),
+        { enableHighAccuracy: true }
+      );
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -26,8 +41,9 @@ export const Home = () => {
           <MagnifyingGlass size={32} weight="bold" />
         </section>
         <MapContainer
+          ref={mapRef}
           id="mapContainer"
-          center={userLocation}
+          center={userLocation || [0, 0]}
           zoom={15}
           style={{ height: 800 }}
         >
