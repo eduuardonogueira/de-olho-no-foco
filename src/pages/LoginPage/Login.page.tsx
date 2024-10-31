@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './login.module.scss';
+import icon from '../../assets/icons/image 1.png';
+import googleIcon from '../../assets/icons/googleIcon.png'; // Adicione o caminho do ícone do Google
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +9,6 @@ const Login: React.FC = () => {
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
-    // Aqui você pode adicionar a lógica de autenticação
     console.log('Email:', email);
     console.log('Password:', password);
   };
@@ -15,7 +16,7 @@ const Login: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <img src='' alt="Logo De olho no foco" className={styles.logo} />
+        <img src={icon} alt="Logo De olho no foco" className={styles.logo} />
         <h1>De olho no foco</h1>
         <p>Faça login para reportar e compartilhar focos de queimadas</p>
       </div>
@@ -44,7 +45,10 @@ const Login: React.FC = () => {
         <button type="submit" className={styles.btn}>Entrar</button>
         
         <div className={styles.socialLogin}>
-          <button type="button">Continuar com o Google</button>
+          <button type="button" className={styles.googleButton}>
+            <img src={googleIcon} alt="Google logo" className={styles.googleIcon} /> {/* Ícone do Google */}
+            Continuar com o Google
+          </button>
         </div>
         
         <div className={styles.footer}>
