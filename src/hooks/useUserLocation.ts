@@ -23,30 +23,7 @@ export const useUserLocation = () => {
             rotation: prevLocation?.rotation || 0,
           }));
         },
-        (error) => {
-          console.error("Erro ao obter localização:", error);
-
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const { latitude, longitude } = position.coords;
-              setUserLocation((prevLocation) => ({
-                coordinates: [latitude, longitude],
-                rotation: prevLocation?.rotation || 0,
-              }));
-            },
-            (error) => {
-              console.error("Erro ao obter localização atual:", error);
-              setUserLocation({
-                coordinates: [-1.4548981866300403, -48.44616551421902],
-                rotation: 0,
-              });
-            },
-            {
-              enableHighAccuracy: true,
-              timeout: 5000,
-            }
-          );
-        },
+        (error) => console.error("Erro ao obter localização:", error),
         { enableHighAccuracy: true, maximumAge: 100000, timeout: 5000 }
       );
 

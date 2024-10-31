@@ -15,6 +15,7 @@ import L from "leaflet";
 import { Area, Point } from "@customtypes/map";
 import useUserLocation from "@hooks/useUserLocation";
 import { useState } from "react";
+import { Centralize } from "@components/Centralize/centralize.component";
 
 interface MapProps {
   className?: string;
@@ -24,15 +25,20 @@ interface MapProps {
 
 export const MyMap = ({ className, points, areas }: MapProps) => {
   const map = useMapEvents({
-    zoomstart() {
-      setZoom(map.getZoom());
-      console.log(zoom)
+    zoomend() {
+      setCurrentZoom(map.getZoom());
+    },
+    click() {
+      map.locate();
+    },
+    locationfound(e) {
+      map.flyTo(e.latlng, map.getZoom());
     },
   });
 
   const API_KEY = import.meta.env.VITE_API_MAPS;
   const { userLocation } = useUserLocation();
-  const [zoom, setZoom] = useState<number>(15);
+  const [currentZoom, setCurrentZoom] = useState<number>(15);
 
   // const pinIcon = new L.Icon({
   //   iconUrl: pinSvg,
@@ -42,7 +48,7 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
 
   const CursorIcon = new L.DivIcon({
     html: `<img src="${cursorSvg}" style="transform: rotate(${
-      userLocation?.rotation || 0
+      userLocation ? userLocation.rotation + 45 : 0
     }deg); width: 50px; height: 50px;" />`,
     iconSize: [50, 50],
     className: styles.cursorIcon,
@@ -51,13 +57,13 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
   return (
     <>
       <TileLayer
-        // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | <a href="https://openmaptiles.org/" target="_blank">© OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a> contributors'
         url={`https://maps.geoapify.com/v1/tile/klokantech-basic/{z}/{x}/{y}.png?apiKey=${API_KEY}`}
         id="osm-bright"
         className={className}
       />
+
+      <Centralize currentPosition={userLocation?.coordinates} />
       <ZoomControl position="bottomleft" />
 
       {!userLocation ? (
@@ -65,7 +71,7 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
       ) : (
         <>
           <Marker position={userLocation.coordinates} icon={CursorIcon} />
-          {zoom <= 15 ? (
+          {currentZoom <= 15 ? (
             ""
           ) : (
             <Circle
