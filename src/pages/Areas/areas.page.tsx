@@ -1,12 +1,12 @@
 import styles from "./areas.module.scss";
 import { Menu, MyMap, SearchBar } from "@components/index";
-import { MapContainer, Polyline, useMapEvents } from "react-leaflet";
+import { MapContainer } from "react-leaflet";
 import { useEffect, useRef, useState } from "react";
 import { LatLngExpression, Map as TypeMap } from "leaflet";
 
 export const Areas = () => {
   const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);
-  const map = document.getElementById("mapContainer");
+  // const map = document.getElementById("mapContainer");
   const [mainLocation, setMainLocation] = useState<
     LatLngExpression | undefined
   >();
@@ -32,49 +32,49 @@ export const Areas = () => {
     }
   }, []);
 
-  const [drawCoordinates, setDrawCoordinates] = useState<LatLngExpression[]>(
-    []
-  );
-  const [lineColor, setLineColor] = useState({ color: "blue" });
+  // const [drawCoordinates, setDrawCoordinates] = useState<LatLngExpression[]>(
+  //   []
+  // );
+  // const [lineColor, setLineColor] = useState({ color: "blue" });
 
 
-  function DrawFunction() {
-    useMapEvents({
-      click(e) {
-        const newPosition: LatLngExpression = [e.latlng.lat, e.latlng.lng];
-        setDrawCoordinates((prevLine) => [...prevLine, newPosition]);
-      },
-      mouseover() {
-        if (map) {
-          map.style.cursor = "initial";
-        }
-      },
+  // function DrawFunction() {
+  //   useMapEvents({
+  //     click(e) {
+  //       const newPosition: LatLngExpression = [e.latlng.lat, e.latlng.lng];
+  //       setDrawCoordinates((prevLine) => [...prevLine, newPosition]);
+  //     },
+  //     mouseover() {
+  //       if (map) {
+  //         map.style.cursor = "initial";
+  //       }
+  //     },
 
-      drag() {
-        if (map) {
-          map.style.cursor = "grabbing";
-        }
-      },
+  //     drag() {
+  //       if (map) {
+  //         map.style.cursor = "grabbing";
+  //       }
+  //     },
 
-      dragend() {
-        if (map) {
-          map.style.cursor = "initial";
-        }
-      },
-    });
+  //     dragend() {
+  //       if (map) {
+  //         map.style.cursor = "initial";
+  //       }
+  //     },
+  //   });
 
-    return drawCoordinates == null ? null : (
-      <Polyline positions={drawCoordinates} pathOptions={lineColor} />
-    );
-  }
+  //   return drawCoordinates == null ? null : (
+  //     <Polyline positions={drawCoordinates} pathOptions={lineColor} />
+  //   );
+  // }
 
-  function handleRemoveLine(beforeLine: number, line: number) {
-    setDrawCoordinates((prevLine) => prevLine.slice(beforeLine, line));
-  }
+  // function handleRemoveLine(beforeLine: number, line: number) {
+  //   setDrawCoordinates((prevLine) => prevLine.slice(beforeLine, line));
+  // }
 
-  function handleSetColor(color: string) {
-    setLineColor({ color: color });
-  }
+  // function handleSetColor(color: string) {
+  //   setLineColor({ color: color });
+  // }
 
   return (
     <div className={styles.container}>

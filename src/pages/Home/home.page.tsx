@@ -7,7 +7,7 @@ import useUserLocation from "@hooks/useUserLocation";
 
 export const Home = () => {
   const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);
-  const map = document.getElementById("mapContainer");
+  // const map = document.getElementById("mapContainer");
   
   const { userLocation } = useUserLocation() 
 

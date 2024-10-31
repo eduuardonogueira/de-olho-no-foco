@@ -9,7 +9,7 @@ import {
   ZoomControl,
 } from "react-leaflet";
 import { TileLayer } from "react-leaflet/TileLayer";
-import pinSvg from "@assets/icons/pin.svg";
+// import pinSvg from "@assets/icons/pin.svg";
 import cursorSvg from "@assets/icons/cursor.svg";
 import L from "leaflet";
 import { Area, Point } from "@customtypes/map";
@@ -34,11 +34,11 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
   const { userLocation } = useUserLocation();
   const [zoom, setZoom] = useState<number>(15);
 
-  const pinIcon = new L.Icon({
-    iconUrl: pinSvg,
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
-  });
+  // const pinIcon = new L.Icon({
+  //   iconUrl: pinSvg,
+  //   iconSize: [50, 50],
+  //   iconAnchor: [25, 50],
+  // });
 
   const CursorIcon = new L.DivIcon({
     html: `<img src="${cursorSvg}" style="transform: rotate(${

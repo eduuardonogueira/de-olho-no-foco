@@ -1,4 +1,4 @@
-import { AREAS_ROUTE, HOME_ROUTE, LOGIN_ROUTE, NOTIFICATIONS_ROUTE, PROFILE_ROUTE, SIGNUP_ROUTE } from "@constants/routes";
+import { AREAS_ROUTE, HOME_ROUTE, LOGIN_ROUTE, NOTIFICATIONS_ROUTE, PROFILE_ROUTE } from "@constants/routes";
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Areas, Notifications, Profile } from "./pages";
