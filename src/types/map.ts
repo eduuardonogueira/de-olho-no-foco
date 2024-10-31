@@ -16,3 +16,8 @@ export type Area = {
     color: string;
   };
 };
+
+export interface UserLocation {
+  coordinates: LatLngExpression;
+  rotation: number;
+}

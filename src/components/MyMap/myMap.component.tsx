@@ -1,17 +1,20 @@
 import styles from "./myMap.module.scss";
-import { Marker, Polyline, Popup, Tooltip, ZoomControl } from "react-leaflet";
+import {
+  Circle,
+  Marker,
+  Polyline,
+  Popup,
+  Tooltip,
+  useMapEvents,
+  ZoomControl,
+} from "react-leaflet";
 import { TileLayer } from "react-leaflet/TileLayer";
 import pinSvg from "@assets/icons/pin.svg";
+import cursorSvg from "@assets/icons/cursor.svg";
 import L from "leaflet";
 import { Area, Point } from "@customtypes/map";
-import { useEffect } from "react";
 import useUserLocation from "@hooks/useUserLocation";
-
-const pinIcon = new L.Icon({
-  iconUrl: pinSvg,
-  iconSize: [50, 50],
-  iconAnchor: [25, 50],
-});
+import { useState } from "react";
 
 interface MapProps {
   className?: string;
@@ -20,9 +23,30 @@ interface MapProps {
 }
 
 export const MyMap = ({ className, points, areas }: MapProps) => {
-  const API_KEY = import.meta.env.VITE_API_MAPS;
+  const map = useMapEvents({
+    zoomstart() {
+      setZoom(map.getZoom());
+      console.log(zoom)
+    },
+  });
 
+  const API_KEY = import.meta.env.VITE_API_MAPS;
   const { userLocation } = useUserLocation();
+  const [zoom, setZoom] = useState<number>(15);
+
+  const pinIcon = new L.Icon({
+    iconUrl: pinSvg,
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+  });
+
+  const CursorIcon = new L.DivIcon({
+    html: `<img src="${cursorSvg}" style="transform: rotate(${
+      userLocation?.rotation || 0
+    }deg); width: 50px; height: 50px;" />`,
+    iconSize: [50, 50],
+    className: styles.cursorIcon,
+  });
 
   return (
     <>
@@ -36,7 +60,22 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
       />
       <ZoomControl position="bottomleft" />
 
-      {!userLocation ? "" : <Marker position={userLocation} icon={pinIcon} />}
+      {!userLocation ? (
+        ""
+      ) : (
+        <>
+          <Marker position={userLocation.coordinates} icon={CursorIcon} />
+          {zoom <= 15 ? (
+            ""
+          ) : (
+            <Circle
+              center={userLocation.coordinates}
+              pathOptions={{ color: "#fff", fillColor: "#0004FF" }}
+              radius={150}
+            />
+          )}
+        </>
+      )}
 
       {!points || points.length === 0
         ? ""

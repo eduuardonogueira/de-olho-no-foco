@@ -1,8 +1,8 @@
 import { Menu, MyMap, SearchBar } from "@components/index";
 import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
-import { useEffect, useRef, useState } from "react";
-import { LatLngExpression, Map as TypeMap } from "leaflet";
+import { useRef } from "react";
+import { Map as TypeMap } from "leaflet";
 import useUserLocation from "@hooks/useUserLocation";
 
 export const Home = () => {
@@ -12,7 +12,7 @@ export const Home = () => {
   const { userLocation } = useUserLocation() 
 
   if (mapRef.current && userLocation) {
-    mapRef.current.flyTo(userLocation, 15);
+    mapRef.current.flyTo(userLocation.coordinates, 15);
   }
 
   return (
@@ -22,7 +22,7 @@ export const Home = () => {
         <MapContainer
           ref={mapRef}
           id="mapContainer"
-          center={userLocation || [-1.4548981866300403, -48.44616551421902]}
+          center={userLocation?.coordinates || [-1.4548981866300403, -48.44616551421902]}
           zoom={15}
           className={styles.mapContainer}
           zoomControl={false}
