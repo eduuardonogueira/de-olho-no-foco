@@ -1,54 +1,35 @@
-import { Map } from "@components/index";
+import { Menu, MyMap, SearchBar } from "@components/index";
 import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
-import { useEffect, useRef, useState, MutableRefObject } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LatLngExpression, Map as TypeMap } from "leaflet";
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import useUserLocation from "@hooks/useUserLocation";
 
 export const Home = () => {
   const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);
   const map = document.getElementById("mapContainer");
-  const [userLocation, setUserLocation] = useState<
-    LatLngExpression | undefined
-  >();
+  
+  const { userLocation } = useUserLocation() 
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        (position) => {
-          const location: LatLngExpression = [
-            position.coords.latitude,
-            position.coords.longitude,
-          ];
-          setUserLocation(location);
-          
-          // Centralizar o mapa
-          if (mapRef.current) {
-            mapRef.current.flyTo(location, 15);
-          }
-        },
-        (error) => console.error("Erro ao obter localização:", error),
-        { enableHighAccuracy: true }
-      );
-    }
-  }, []);
+  if (mapRef.current && userLocation) {
+    mapRef.current.flyTo(userLocation, 15);
+  }
 
   return (
     <div className={styles.container}>
-      <main className={styles.mapContainer}>
-        <section>
-          <input type="text" />
-          <MagnifyingGlass size={32} weight="bold" />
-        </section>
+      <main className={styles.pointsContainer}>
+        <SearchBar />
         <MapContainer
           ref={mapRef}
           id="mapContainer"
-          center={userLocation || [0, 0]}
+          center={userLocation || [-1.4548981866300403, -48.44616551421902]}
           zoom={15}
-          style={{ height: 800 }}
+          className={styles.mapContainer}
+          zoomControl={false}
         >
-          <Map />
+          <MyMap className={styles.map} />
         </MapContainer>
+        <Menu />
       </main>
     </div>
   );

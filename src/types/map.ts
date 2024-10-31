@@ -1,15 +1,18 @@
-import { LatLngExpression } from "leaflet";
+import { Icon, LatLngExpression } from "leaflet";
 
-export type IHost = {
-    hostname: string;
-    coordinates: LatLngExpression;
-    description: string;
-    connections: {
-      fiberCoordinates: LatLngExpression[];
-      fiberOptions: { color: string };
-    }[];
+export type Point = {
+  type: string;
+  icon: Icon;
+  coordinates: LatLngExpression;
+  description: string;
+  createdAt: Date;
 };
 
-export type IHostDb = {
-  host: IHost
-}
+export type Area = {
+  type: string;
+  coordinates: LatLngExpression[];
+  pathOptions: {
+    fillColor: string;
+    color: string;
+  };
+};

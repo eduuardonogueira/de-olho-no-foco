@@ -1,0 +1,69 @@
+import styles from "./myMap.module.scss";
+import { Marker, Polyline, Popup, Tooltip, ZoomControl } from "react-leaflet";
+import { TileLayer } from "react-leaflet/TileLayer";
+import pinSvg from "@assets/icons/pin.svg";
+import L from "leaflet";
+import { Area, Point } from "@customtypes/map";
+import { useEffect } from "react";
+import useUserLocation from "@hooks/useUserLocation";
+
+const pinIcon = new L.Icon({
+  iconUrl: pinSvg,
+  iconSize: [50, 50],
+  iconAnchor: [25, 50],
+});
+
+interface MapProps {
+  className?: string;
+  points?: Point[];
+  areas?: Area[];
+}
+
+export const MyMap = ({ className, points, areas }: MapProps) => {
+  const API_KEY = import.meta.env.VITE_API_MAPS;
+
+  const { userLocation } = useUserLocation();
+
+  return (
+    <>
+      <TileLayer
+        // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | <a href="https://openmaptiles.org/" target="_blank">© OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a> contributors'
+        url={`https://maps.geoapify.com/v1/tile/klokantech-basic/{z}/{x}/{y}.png?apiKey=${API_KEY}`}
+        id="osm-bright"
+        className={className}
+      />
+      <ZoomControl position="bottomleft" />
+
+      {!userLocation ? "" : <Marker position={userLocation} icon={pinIcon} />}
+
+      {!points || points.length === 0
+        ? ""
+        : points.map((point) => (
+            <Marker
+              position={point.coordinates}
+              key={point.type}
+              icon={point.icon}
+            >
+              <Popup>
+                {point.type}
+                <Tooltip>{point.description}</Tooltip>
+                <Tooltip>{point.createdAt.toISOString()}</Tooltip>
+              </Popup>
+            </Marker>
+          ))}
+      {!areas || areas.length === 0
+        ? ""
+        : areas.map((area, index) => (
+            <Polyline
+              key={index}
+              positions={area.coordinates}
+              pathOptions={area.pathOptions}
+            />
+          ))}
+    </>
+  );
+};
+
+export default MyMap;

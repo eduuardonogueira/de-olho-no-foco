@@ -1,2 +1,3 @@
-export * from './Map/map.component'
-export * from './Sidebar/sidebar.component'
+export * from "./MyMap/myMap.component";
+export * from "./Menu/menu.component";
+export * from "./SearchBar/searchBar.component";
