@@ -3,34 +3,20 @@ import { Menu, MyMap, SearchBar } from "@components/index";
 import { MapContainer } from "react-leaflet";
 import { useEffect, useRef, useState } from "react";
 import { LatLngExpression, Map as TypeMap } from "leaflet";
+import useUserLocation from "@hooks/useUserLocation";
 
 export const Areas = () => {
   const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);
   // const map = document.getElementById("mapContainer");
-  const [mainLocation, setMainLocation] = useState<
-    LatLngExpression | undefined
-  >();
+
+  const { userLocation } = useUserLocation();
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        (position) => {
-          const location: LatLngExpression = [
-            position.coords.latitude,
-            position.coords.longitude,
-          ];
-          setMainLocation(location);
-
-          // Centralizar o mapa
-          if (mapRef.current) {
-            mapRef.current.flyTo(location, 15);
-          }
-        },
-        (error) => console.error("Erro ao obter localização:", error),
-        { enableHighAccuracy: true }
-      );
+    if (mapRef.current && userLocation) {
+      mapRef.current.flyTo(userLocation.coordinates, 15);
     }
-  }, []);
+  }, [mapRef.current]);
+   
 
   // const [drawCoordinates, setDrawCoordinates] = useState<LatLngExpression[]>(
   //   []
@@ -83,7 +69,7 @@ export const Areas = () => {
         <MapContainer
           ref={mapRef}
           id="mapContainer"
-          center={mainLocation || [-1.4548981866300403, -48.44616551421902]}
+          center={userLocation?.coordinates || [-1.4548981866300403, -48.44616551421902]}
           zoom={15}
           className={styles.mapContainer}
           zoomControl={false}

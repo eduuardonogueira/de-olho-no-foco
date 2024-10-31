@@ -1,12 +1,18 @@
-import { Menu } from "@components/index"
+import styles from "./profile.module.scss";
+import { Menu } from "@components/index";
+import { LOGIN_ROUTE } from "@constants/routes";
+import { Link } from "react-router-dom";
 
 export const Profile = () => {
   return (
-    <section>
-      <h1>Profile Page</h1>
+    <main className={styles.profileContainer}>
+      <section className={styles.profile}>
+        <h1>Profile Page</h1>
+        <Link to={LOGIN_ROUTE}>Sair</Link>
+      </section>
       <Menu />
-    </section>
-  )
-}
+    </main>
+  );
+};
 
-export default Profile
+export default Profile;

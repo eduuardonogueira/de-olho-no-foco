@@ -1,12 +1,15 @@
-import { Menu } from "@components/index"
+import styles from "./notifications.module.scss";
+import { Menu } from "@components/index";
 
 export const Notifications = () => {
   return (
-    <section>
-      <h1>Notifications</h1>
+    <main className={styles.notificationsContainer}>
+      <section className={styles.notifications}>
+        <h1>Notifications</h1>
+      </section>
       <Menu />
-    </section>
-  )
-}
+    </main>
+  );
+};
 
-export default Notifications
+export default Notifications;

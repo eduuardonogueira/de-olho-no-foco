@@ -1,0 +1,12 @@
+.notificationsContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
