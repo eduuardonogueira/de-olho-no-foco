@@ -1,8 +1,8 @@
 import styles from "./areas.module.scss";
 import { Menu, MyMap, SearchBar } from "@components/index";
 import { MapContainer } from "react-leaflet";
-import { useEffect, useRef, useState } from "react";
-import { LatLngExpression, Map as TypeMap } from "leaflet";
+import { useEffect, useRef } from "react";
+import {  Map as TypeMap } from "leaflet";
 import useUserLocation from "@hooks/useUserLocation";
 
 export const Areas = () => {
