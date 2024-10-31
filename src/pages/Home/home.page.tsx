@@ -11,9 +11,12 @@ export const Home = () => {
   
   const { userLocation } = useUserLocation() 
 
-  if (mapRef.current && userLocation) {
+  useEffect(() => {
+   if (mapRef.current && userLocation) {
     mapRef.current.flyTo(userLocation.coordinates, 15);
-  }
+   }
+  }, [])
+
 
   return (
     <div className={styles.container}>
