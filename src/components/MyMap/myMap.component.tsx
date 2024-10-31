@@ -48,7 +48,7 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
 
   const CursorIcon = new L.DivIcon({
     html: `<img src="${cursorSvg}" style="transform: rotate(${
-      userLocation ? userLocation.rotation - 45 : 0
+      userLocation ? userLocation.rotation - 90 : 0
     }deg); width: 50px; height: 50px;" />`,
     iconSize: [50, 50],
     className: styles.cursorIcon,
