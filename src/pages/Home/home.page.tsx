@@ -4,6 +4,40 @@ import { MapContainer } from "react-leaflet";
 import { useEffect, useRef } from "react";
 import { Map as TypeMap } from "leaflet";
 import useUserLocation from "@hooks/useUserLocation";
+import { Point } from "@customtypes/map";
+
+const points: Point[] = [
+  {
+    type: "sanitation",
+    coordinates: [-1.3680755834664953, -48.47771036265044],
+    description: "Aqui tem muito problema de Agua",
+    createdAt: new Date(),
+  },
+  {
+    type: "courteous",
+    coordinates: [-1.3630648201222184, -48.4761319362582],
+    description: "Aqui tem muito problema de Agua",
+    createdAt: new Date(),
+  },
+  {
+    type: "trash",
+    coordinates: [-1.3664976090582104, -48.474276597540516],
+    description: "Aqui tem muito problema de Agua",
+    createdAt: new Date(),
+  },
+  {
+    type: "flood",
+    coordinates: [-1.3630021006720876, -48.479374437919674],
+    description: "Aqui tem muito problema de Agua",
+    createdAt: new Date(),
+  },
+  {
+    type: "flood",
+    coordinates: [-1.3614410821963085, -48.47320288283111],
+    description: "Aqui tem muito problema de Agua",
+    createdAt: new Date(),
+  },
+];
 
 export const Home = () => {
   const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);
@@ -33,7 +67,7 @@ export const Home = () => {
           className={styles.mapContainer}
           zoomControl={false}
         >
-          <MyMap className={styles.map} />
+          <MyMap className={styles.map} points={points}/>
         </MapContainer>
         <Menu />
       </main>

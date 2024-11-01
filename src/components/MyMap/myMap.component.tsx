@@ -3,8 +3,6 @@ import {
   Circle,
   Marker,
   Polyline,
-  Popup,
-  Tooltip,
   useMapEvents,
   ZoomControl,
 } from "react-leaflet";
@@ -16,6 +14,7 @@ import { Area, Point } from "@customtypes/map";
 import useUserLocation from "@hooks/useUserLocation";
 import { useState } from "react";
 import { Centralize } from "@components/Centralize/centralize.component";
+import { MapPoints } from "@components/MapPoints/mapPoints.component";
 
 interface MapProps {
   className?: string;
@@ -39,12 +38,6 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
   const API_KEY = import.meta.env.VITE_API_MAPS;
   const { userLocation } = useUserLocation();
   const [currentZoom, setCurrentZoom] = useState<number>(15);
-
-  // const pinIcon = new L.Icon({
-  //   iconUrl: pinSvg,
-  //   iconSize: [50, 50],
-  //   iconAnchor: [25, 50],
-  // });
 
   const CursorIcon = new L.DivIcon({
     html: `<img src="${cursorSvg}" style="transform: rotate(${
@@ -83,21 +76,8 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
         </>
       )}
 
-      {!points || points.length === 0
-        ? ""
-        : points.map((point) => (
-            <Marker
-              position={point.coordinates}
-              key={point.type}
-              icon={point.icon}
-            >
-              <Popup>
-                {point.type}
-                <Tooltip>{point.description}</Tooltip>
-                <Tooltip>{point.createdAt.toISOString()}</Tooltip>
-              </Popup>
-            </Marker>
-          ))}
+      <MapPoints points={points}/>
+
       {!areas || areas.length === 0
         ? ""
         : areas.map((area, index) => (

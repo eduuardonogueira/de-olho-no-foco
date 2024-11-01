@@ -1,8 +1,7 @@
-import { Icon, LatLngExpression } from "leaflet";
+import { LatLngExpression } from "leaflet";
 
 export type Point = {
-  type: string;
-  icon: Icon;
+  type: "sanitation" | "courteous" | "trash" | "flood";
   coordinates: LatLngExpression;
   description: string;
   createdAt: Date;
