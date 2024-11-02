@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { HOME_ROUTE, SIGNUP_ROUTE } from "../../constants/routes";
 
 export const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,7 +14,7 @@ export const Login = () => {
     event.preventDefault();
     console.log("Email:", email);
     console.log("Password:", password);
-    navigate(HOME_ROUTE)
+    navigate(HOME_ROUTE);
   };
 
   return (
