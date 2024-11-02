@@ -6,7 +6,7 @@ export const useUserLocation = () => {
 
   useEffect(() => {
     const handleOrientation = (event: DeviceOrientationEvent) => {
-      const { alpha } = event; // `alpha` representa a rotação em torno do eixo Z (em graus)
+      const { alpha } = event;
       if (alpha !== null) {
         setUserLocation((prevLocation) =>
           prevLocation ? { ...prevLocation, rotation: alpha } : null

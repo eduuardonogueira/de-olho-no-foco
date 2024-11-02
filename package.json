@@ -22,6 +22,7 @@
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "^2.0.2",
     "@rollup/plugin-alias": "^5.1.0",
+    "@svgr/rollup": "^8.1.0",
     "@types/leaflet": "^1.9.11",
     "@types/node": "^20.12.2",
     "@types/react": "^18.2.66",

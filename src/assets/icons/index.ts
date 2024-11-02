@@ -1,4 +1,10 @@
-export { default as CutTreeIcon } from "./cut-tree-icon.svg";
+export { default as TrashIcon } from "./trash-icon.svg";
 export { default as SanitationIcon } from "./sanitation-icon.svg";
-export { default as GarbageBagIcon } from "./garbage-bag-icon.svg";
+export { default as CourteusIcon } from "./courteus-icon.svg";
 export { default as FloodIcon } from "./flood-icon.svg";
+export { default as CourteusShortIcon } from "./courteus-short-icon.svg";
+export { default as SanitationShortIcon } from "./sanitation-short-icon.svg";
+export { default as TrashShortIcon } from "./trash-short-icon.svg";
+export { default as FloodShortIcon } from "./flood-short-icon.svg";
+export { default as CursorPointerIcon } from "./cursor-pointer.svg";
+export { default as CursorIcon } from "./cursor.svg";

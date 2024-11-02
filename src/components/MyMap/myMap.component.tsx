@@ -1,20 +1,11 @@
-import styles from "./myMap.module.scss";
-import {
-  Circle,
-  Marker,
-  Polyline,
-  useMapEvents,
-  ZoomControl,
-} from "react-leaflet";
+// import styles from "./myMap.module.scss";
+import { useMapEvents, ZoomControl } from "react-leaflet";
 import { TileLayer } from "react-leaflet/TileLayer";
 // import pinSvg from "@assets/icons/pin.svg";
-import cursorSvg from "@assets/icons/cursor.svg";
-import L from "leaflet";
 import { Area, Point } from "@customtypes/map";
 import useUserLocation from "@hooks/useUserLocation";
-import { useState } from "react";
-import { Centralize } from "@components/Centralize/centralize.component";
-import { MapPoints } from "@components/MapPoints/mapPoints.component";
+import { useEffect, useState } from "react";
+import { MapPoints, MapAreas, Centralize, Cursor } from "@components/index";
 
 interface MapProps {
   className?: string;
@@ -27,9 +18,6 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
     zoomend() {
       setCurrentZoom(map.getZoom());
     },
-    click() {
-      map.locate();
-    },
     locationfound(e) {
       map.flyTo(e.latlng, map.getZoom());
     },
@@ -39,13 +27,9 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
   const { userLocation } = useUserLocation();
   const [currentZoom, setCurrentZoom] = useState<number>(15);
 
-  const CursorIcon = new L.DivIcon({
-    html: `<img src="${cursorSvg}" style="transform: rotate(${
-      userLocation ? -userLocation.rotation : 0
-    }deg); width: 50px; height: 50px;" />`,
-    iconSize: [50, 50],
-    className: styles.cursorIcon,
-  });
+  useEffect(() => {
+    map.locate();
+  }, []);
 
   return (
     <>
@@ -56,37 +40,12 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
         className={className}
       />
 
+      <Cursor zoom={currentZoom} userLocation={userLocation} />
       <Centralize currentPosition={userLocation?.coordinates} />
       <ZoomControl position="bottomleft" />
 
-      {!userLocation ? (
-        ""
-      ) : (
-        <>
-          <Marker position={userLocation.coordinates} icon={CursorIcon} />
-          {currentZoom <= 15 ? (
-            ""
-          ) : (
-            <Circle
-              center={userLocation.coordinates}
-              pathOptions={{ color: "#fff", fillColor: "#0004FF" }}
-              radius={150}
-            />
-          )}
-        </>
-      )}
-
-      <MapPoints points={points}/>
-
-      {!areas || areas.length === 0
-        ? ""
-        : areas.map((area, index) => (
-            <Polyline
-              key={index}
-              positions={area.coordinates}
-              pathOptions={area.pathOptions}
-            />
-          ))}
+      <MapPoints points={points} zoom={currentZoom} />
+      <MapAreas areas={areas} />
     </>
   );
 };
