@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styles from './login.module.scss';
 import icon from '../../assets/icons/image 1.png';
-import googleIcon from '../../assets/icons/googleIcon.png'; // Adicione o caminho do ícone do Google
+import InputField from '../../components/InputField/InputField.components';
+import Button from '../../components/Button/Button.components';
+import SocialLoginButton from '../../components/SocialLoginButton/SocialLoginButton.components';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -22,33 +24,24 @@ const Login: React.FC = () => {
       </div>
       
       <form onSubmit={handleLogin} className={styles.formContainer}>
-        <div className={styles.inputGroup}>
-          <input
-            type="email"
-            placeholder="Digite seu email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        <InputField
+          type="email"
+          placeholder="Digite seu email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         
-        <div className={styles.inputGroup}>
-          <input
-            type="password"
-            placeholder="Digite sua senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <InputField
+          type="password"
+          placeholder="Digite sua senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         
-        <button type="submit" className={styles.btn}>Entrar</button>
+        <Button type="submit">Entrar</Button>
         
         <div className={styles.socialLogin}>
-          <button type="button" className={styles.googleButton}>
-            <img src={googleIcon} alt="Google logo" className={styles.googleIcon} /> {/* Ícone do Google */}
-            Continuar com o Google
-          </button>
+          <SocialLoginButton onClick={() => console.log("Login com Google")} />
         </div>
         
         <div className={styles.footer}>

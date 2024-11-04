@@ -1,0 +1,16 @@
+.inputGroup {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+
+  input {
+    width: calc(100% - 40px); // Ajusta a largura para adicionar margem nas laterais
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 0 20px; // Espaço nas laterais igual ao da imagem de referência
+    box-sizing: border-box;
+  }
+}
