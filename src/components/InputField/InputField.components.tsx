@@ -1,4 +1,4 @@
-// InputField.tsx
+
 import React from 'react';
 import styles from './InputField.module.scss';
 

@@ -1,4 +1,4 @@
-// SocialLoginButton.tsx
+
 import React from 'react';
 import styles from './SocialLoginButton.module.scss';
 import googleIcon from '../../assets/icons/googleIcon.png';
