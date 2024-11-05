@@ -64,7 +64,7 @@ export const useMock = () => {
     },
     {
       type: "flood",
-      coordinates: [-1.3614410821963085, -48.47320288283111],
+      coordinates: [-1.4620713455515495, -48.44910560149467],
       description: "Alagado demais!!",
       createdAt: new Date(),
     },

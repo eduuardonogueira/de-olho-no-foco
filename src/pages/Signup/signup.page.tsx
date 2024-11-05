@@ -10,7 +10,7 @@ export const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
-  console.log(text)
+  console.log(text);
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -38,7 +38,7 @@ export const Signup = () => {
       <main className={styles.signupContainer}>
         <div className={styles.titleWrapper}>
           <Link to={LOGIN_ROUTE}>
-            <ArrowCircleLeft size={32} weight="bold" className={styles.icon}/>
+            <ArrowCircleLeft size={32} weight="bold" className={styles.icon} />
           </Link>
           <h2>Criar conta</h2>
         </div>

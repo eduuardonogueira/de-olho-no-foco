@@ -1,4 +1,10 @@
-import { Menu, MyMap, SearchBar } from "@components/index";
+import {
+  Menu,
+  MyMap,
+  SearchBar,
+  CreateButton,
+  Loader,
+} from "@components/index";
 import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
 import { useEffect, useState } from "react";
@@ -11,8 +17,11 @@ export const Home = () => {
   const { getPoints } = useApi();
   const { userLocation } = useUserLocation();
   const { getLocation } = useLocalStorage();
-  const [center, setCenter] = useState<LatLngExpression | undefined >(undefined);
+  const [openModal, setOpenModal] = useState<boolean>();
+  const [center, setCenter] = useState<LatLngExpression>();
   const [points, setPoints] = useState<Point[]>([]);
+
+  console.log(openModal);
 
   async function fetchPoints() {
     try {
@@ -25,39 +34,38 @@ export const Home = () => {
 
   function getCenterLocation() {
     if (userLocation?.coordinates) {
-      console.log(userLocation.coordinates);
       setCenter(userLocation.coordinates);
     } else {
       const location = getLocation("userLocation");
-      console.log(center);
-      console.log(location);
-      setCenter(location || [0, 0]);
-      console.log(center);
+      setCenter(location);
     }
   }
 
   useEffect(() => {
-    getCenterLocation();
-    fetchPoints();
-  }, [userLocation]);
-
-  if(!center) return (
-    <p>Carregando mapa</p>
-  )
+    setTimeout(() => {
+      getCenterLocation();
+      fetchPoints();
+    }, 1000);
+  }, []);
 
   return (
     <div className={styles.container}>
       <main className={styles.pointsContainer}>
         <SearchBar />
-        <MapContainer
-          id="mapContainer"
-          center={center}
-          zoom={15}
-          className={styles.mapContainer}
-          zoomControl={false}
-        >
-          <MyMap className={styles.map} points={points} />
-        </MapContainer>
+        {center ? (
+          <MapContainer
+            id="mapContainer"
+            center={center}
+            zoom={15}
+            className={styles.mapContainer}
+            zoomControl={false}
+          >
+            <MyMap className={styles.map} points={points} />
+            <CreateButton setOpenModal={setOpenModal} />
+          </MapContainer>
+        ) : (
+          <Loader text={"Carregando Mapa"} />
+        )}
         <Menu />
       </main>
     </div>
