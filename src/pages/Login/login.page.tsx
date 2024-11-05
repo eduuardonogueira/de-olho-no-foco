@@ -18,7 +18,8 @@ export const Login = () => {
   };
 
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
+      <main className={styles.loginWrapper}>
       <img src={LoginBackground} alt="" className={styles.loginBackground} />
 
       <section className={styles.header}>
@@ -70,6 +71,7 @@ export const Login = () => {
         </p>
       </form>
     </main>
+    </div>
   );
 };
 
