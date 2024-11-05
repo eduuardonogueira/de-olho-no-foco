@@ -4,12 +4,14 @@ import { MapContainer } from "react-leaflet";
 import { useEffect, useState } from "react";
 import useUserLocation from "@hooks/useUserLocation";
 import { Point } from "@customtypes/map";
-import { useApi } from "@hooks/index";
+import { useApi, useLocalStorage } from "@hooks/index";
+import { LatLngExpression } from "leaflet";
 
 export const Home = () => {
   const { getPoints } = useApi();
   const { userLocation } = useUserLocation();
-
+  const { getLocation } = useLocalStorage();
+  const [center, setCenter] = useState<LatLngExpression>();
   const [points, setPoints] = useState<Point[]>([]);
 
   async function fetchPoints() {
@@ -21,7 +23,21 @@ export const Home = () => {
     }
   }
 
+  function getCenterLocation() {
+    if (userLocation?.coordinates) {
+      console.log(userLocation.coordinates);
+      setCenter(userLocation.coordinates);
+    } else {
+      const location = getLocation("userLocation");
+      console.log(center);
+      console.log(location);
+      setCenter(location);
+      console.log(center);
+    }
+  }
+
   useEffect(() => {
+    getCenterLocation();
     fetchPoints();
   }, []);
 
@@ -31,11 +47,7 @@ export const Home = () => {
         <SearchBar />
         <MapContainer
           id="mapContainer"
-          center={
-            userLocation?.coordinates || [
-              -1.4548981866300403, -48.44616551421902,
-            ]
-          }
+          center={center}
           zoom={15}
           className={styles.mapContainer}
           zoomControl={false}

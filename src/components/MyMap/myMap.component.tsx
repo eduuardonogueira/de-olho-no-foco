@@ -3,9 +3,9 @@ import { useMapEvents, ZoomControl } from "react-leaflet";
 import { TileLayer } from "react-leaflet/TileLayer";
 // import pinSvg from "@assets/icons/pin.svg";
 import { Area, Point } from "@customtypes/map";
-import useUserLocation from "@hooks/useUserLocation";
 import { useEffect, useState } from "react";
 import { MapPoints, MapAreas, Centralize, Cursor } from "@components/index";
+import { useUserLocation, useLocalStorage } from "@hooks/index";
 
 interface MapProps {
   className?: string;
@@ -14,12 +14,15 @@ interface MapProps {
 }
 
 export const MyMap = ({ className, points, areas }: MapProps) => {
+  const { setLocation } = useLocalStorage();
   const map = useMapEvents({
     zoomend() {
       setCurrentZoom(map.getZoom());
     },
     locationfound(e) {
+      const userLocation = e.latlng;
       map.flyTo(e.latlng, map.getZoom());
+      setLocation("userLocation", userLocation);
     },
   });
 
