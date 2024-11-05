@@ -12,6 +12,16 @@ export const Signup = () => {
     setPassword(value);
     setPasswordStrength(value.length < 8 ? 'Fraca' : 'Forte');
 
+  const handlePhoneChange = (value: string) => {
+  let cleaned = value.replace(/\D/g, '');
+
+  if (cleaned.length > 2) cleaned = +${cleaned.slice(0, 2)} (${cleaned.slice(2, 4)} ;
+  if (cleaned.length > 6) cleaned += ) ${cleaned.slice(4, 8)};
+  if (cleaned.length > 10) cleaned += -${cleaned.slice(8, 11)};
+
+  return cleaned;
+};
+
   }
   return (
 
