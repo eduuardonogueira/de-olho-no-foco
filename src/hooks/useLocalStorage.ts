@@ -7,12 +7,12 @@ export const useLocalStorage = () => {
     return true;
   }
 
-  function getLocation(id: string) {
+  function getLocation(id: string): LatLngExpression {
     const location = localStorage.getItem(id);
 
     if (location) {
       const {lat, lng} = JSON.parse(location);
-      const parseLocation = [lat, lng]
+      const parseLocation: LatLngExpression = [lat, lng]
       console.log("get", parseLocation)
       return parseLocation;
     }

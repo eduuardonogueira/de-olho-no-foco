@@ -11,7 +11,7 @@ export const Home = () => {
   const { getPoints } = useApi();
   const { userLocation } = useUserLocation();
   const { getLocation } = useLocalStorage();
-  const [center, setCenter] = useState<LatLngExpression>();
+  const [center, setCenter] = useState<LatLngExpression | undefined >(undefined);
   const [points, setPoints] = useState<Point[]>([]);
 
   async function fetchPoints() {
@@ -31,7 +31,7 @@ export const Home = () => {
       const location = getLocation("userLocation");
       console.log(center);
       console.log(location);
-      setCenter(location);
+      setCenter(location || [0, 0]);
       console.log(center);
     }
   }
@@ -39,7 +39,11 @@ export const Home = () => {
   useEffect(() => {
     getCenterLocation();
     fetchPoints();
-  }, []);
+  }, [userLocation]);
+
+  if(!center) return (
+    <p>Carregando mapa</p>
+  )
 
   return (
     <div className={styles.container}>
