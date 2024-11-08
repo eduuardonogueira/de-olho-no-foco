@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./signup.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { HOME_ROUTE, LOGIN_ROUTE } from "@constants/routes";
-import { ArrowCircleLeft } from "@phosphor-icons/react";
+import { ArrowCircleLeft, IdentificationBadge } from "@phosphor-icons/react";
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export const Signup = () => {
       <main className={styles.signupContainer}>
         <div className={styles.titleWrapper}>
           <Link to={LOGIN_ROUTE}>
-            <ArrowCircleLeft size={32} weight="bold" className={styles.icon}/>
+            <ArrowCircleLeft size={30}  className={styles.icon}/>
           </Link>
           <h2>Criar conta</h2>
         </div>
@@ -45,17 +45,24 @@ export const Signup = () => {
         <form onSubmit={(e) => handleFormSubmit(e)}>
           <div className={styles.inputGroup}>
             <label>Nome Completo</label>
+
             <input
               type="text"
               placeholder="John Doe"
               onChange={(e) => setName(e.target.value)}
               required
             />
+              <div className={styles.IdentificationBadge}>
+              <IdentificationBadge size={22} className={styles.badge}/>
+              </div>
           </div>
 
           <div className={styles.inputGroup}>
             <label>Telefone</label>
-            <input type="tel" placeholder="+XX (XX) XXXX-XXX" />
+            <input
+              type="tel" 
+              placeholder="+XX (XX) XXXX-XXX" 
+            />
           </div>
 
           <div className={styles.inputGroup}>
@@ -88,7 +95,9 @@ export const Signup = () => {
 
           <div className={styles.inputGroup}>
             <label>Confirme sua senha</label>
-            <input type="password" placeholder="Digite sua senha" />
+            <input 
+              type="password" 
+              placeholder="Digite sua senha" />
           </div>
 
           <button className={styles.submitButton} type="submit">
