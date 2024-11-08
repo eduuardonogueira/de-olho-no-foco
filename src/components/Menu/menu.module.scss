@@ -1,0 +1,36 @@
+.menuContainer {
+  border-top: 1px solid #f5f5f5;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.menuLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #625b71;
+  font-size: 12px;
+  padding-block: 4px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.activeMenuLink {
+  animation: activeLink 1s ease-out forwards;
+  border-radius: 20px;
+}
+
+@keyframes activeLink {
+  to {
+    background: #34c759;
+    color: #fff;
+    padding-inline: 12px;
+  }
+}

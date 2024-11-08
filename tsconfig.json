@@ -30,6 +30,7 @@
     },
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "include": ["src"],
+  "files": ["svg.d.ts"],
+  "include": ["vite.config.cts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.ts",],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,15 +1,22 @@
 import { LatLngExpression } from "leaflet";
 
-export type IHost = {
-    hostname: string;
-    coordinates: LatLngExpression;
-    description: string;
-    connections: {
-      fiberCoordinates: LatLngExpression[];
-      fiberOptions: { color: string };
-    }[];
+export type Point = {
+  type: "sanitation" | "courteous" | "trash" | "flood";
+  coordinates: LatLngExpression;
+  description: string;
+  createdAt: Date;
 };
 
-export type IHostDb = {
-  host: IHost
+export type Area = {
+  type: string;
+  coordinates: LatLngExpression[];
+  pathOptions: {
+    fillColor: string;
+    color: string;
+  };
+};
+
+export interface UserLocation {
+  coordinates: LatLngExpression;
+  rotation: number;
 }

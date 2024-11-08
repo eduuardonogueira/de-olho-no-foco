@@ -1,0 +1,12 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}

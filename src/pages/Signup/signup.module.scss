@@ -1,0 +1,127 @@
+.container {
+  border: 1px solid #c76a34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100dvh;
+}
+
+.signupContainer {
+  width: 320px;
+  height: 515px;
+  margin: 0 auto;
+  padding: 21px;
+  background-color: #faf6f6;
+  border-radius: 8px;
+  border: 1px solid #34c759;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.titleWrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.icon {
+  color: #919191;
+  margin-top: 4px;
+
+  &:hover {
+    color: #34c759;
+  }
+}
+
+h2 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: #000000;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup {
+  margin-bottom: 15px;
+  width: 272px;
+  height: 42px;
+  padding: 12px;
+
+  label {
+    font-size: 13px;
+    color: #000000;
+  }
+
+  input {
+    position: absolute;
+    display: flex;
+    width: 272px;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #E7E0EC;
+    border-radius: 4px;
+    font-size: 12px;
+
+    &:focus {
+      border-color: #34A853;
+      outline: none;
+    }
+
+  }
+
+}
+
+.IdentificationBadge{
+  position: relative;
+  margin-top: 17px;
+  padding-left: 12px;
+  border: 1px solid #8c34c7;
+  width: 20px;
+  height: 20px;
+
+.badge{
+  color: #919191;
+}
+
+}
+
+.passwordStrength {
+  border: 1px solid #1908ff;
+  font-size: 12px;
+  color: #ff4d4f;
+  margin-top: 5px;
+}
+
+.weak {
+  color: #ff4d4f;
+}
+
+.strong {
+  color: #4caf50;
+}
+
+.submitButton {
+  width: 300px;
+  height: 39px;
+  margin-top: 18px;
+  margin-left: 12px;
+  background-color: #34A853;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #34C759;
+  }
+}
