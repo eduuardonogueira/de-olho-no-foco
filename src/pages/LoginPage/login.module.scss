@@ -1,129 +1,129 @@
 // Centralização vertical e horizontal na tela
 body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff; // Cor de fundo da tela
-  }
-  
-  // Contêiner principal
-  .container {
-    width: 100%;
-    max-width: 400px;
-    margin: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  // Cabeçalho
-  .header {
-    background-image: url('../../../public/background-image.png'); // Imagem de fundo
-    background-size: cover;
-    background-position: center;
-    padding: 40px 20px;
-    text-align: center;
-    color: #fff;
-  }
-  
-  .header .logo {
-    width: 80px;
-    margin-bottom: 10px;
-  }
-  
-  .header h1 {
-    font-size: 24px;
-    margin: 10px 0;
-  }
-  
-  .header p {
-    font-size: 14px;
-    color: #e0e0e0;
-  }
-  
-  // Formulário
-  .formContainer {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .inputGroup {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  .inputGroup input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  // Botão de login
-  .btn {
-    width: calc(100% - 20px);;
-    padding: 12px;
-    background-color: #28a745;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .btn:hover {
-    background-color: #218838;
-  }
-  
-  // Login social
-  .socialLogin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 15px;
-  }
-  
-  .googleButton {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    gap: 8px; // Espaço entre ícone e texto
-  }
-  
-  .googleIcon {
-    width: 20px;
-    height: 20px;
-  }
-  
-  // Rodapé
-  .footer {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .footer a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  // Ajuste de espaçamento nos inputs
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff; // Cor de fundo da tela
+}
+
+// Contêiner principal
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// Cabeçalho
+.header {
+  background-image: url('../../../public/background-image.png'); // Imagem de fundo
+  background-size: cover;
+  background-position: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.header .logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.header p {
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
+// Formulário
+.formContainer {
+  padding: 20px;
+  text-align: center;
+}
+
+.inputGroup {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
 .inputGroup input {
-    width: calc(95% - 20px); // Ajusta a largura com margem interna
-    padding: 9px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    margin: 0 10px; // Adiciona espaço nas laterais
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+// Botão de login
+.btn {
+  width: calc(100% - 20px);;
+  padding: 12px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #218838;
+}
+
+// Login social
+.socialLogin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  gap: 8px; // Espaço entre ícone e texto
+}
+
+.googleIcon {
+  width: 20px;
+  height: 20px;
+}
+
+// Rodapé
+.footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+// Ajuste de espaçamento nos inputs
+.inputGroup input {
+  width: calc(95% - 20px); // Ajusta a largura com margem interna
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 0 10px; // Adiciona espaço nas laterais
 }  

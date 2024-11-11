@@ -8,11 +8,22 @@ import SocialLoginButton from '../../components/SocialLoginButton/SocialLoginBut
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
     console.log('Email:', email);
     console.log('Password:', password);
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+
+    // Simulação de atraso para o carregamento
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    setIsLoading(false);
+    alert("Login com sucesso!"); // Exibe o alerta de sucesso
   };
 
   return (
@@ -41,7 +52,7 @@ const Login: React.FC = () => {
         <Button type="submit">Entrar</Button>
         
         <div className={styles.socialLogin}>
-          <SocialLoginButton onClick={() => console.log("Login com Google")} />
+          <SocialLoginButton onClick={handleGoogleLogin} isLoading={isLoading} />
         </div>
         
         <div className={styles.footer}>
