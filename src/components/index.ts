@@ -9,3 +9,5 @@ export * from "./CreateButton/createButton.component";
 export * from "./Loader/loader.component";
 export * from "./Modal/modal.component";
 export * from "./MapPin/mapPin.component";
+export * from "./GoogleLoginButton/googleLoginButton.component";
+export * from "./InputField/inputField.component";
