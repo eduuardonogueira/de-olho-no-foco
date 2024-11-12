@@ -1,9 +1,9 @@
+import { Point } from "@customtypes/map";
 import { LatLngExpression } from "leaflet";
 
 export const useLocalStorage = () => {
   function setLocation(id: string, coord: LatLngExpression): boolean {
     localStorage.setItem(id, JSON.stringify(coord));
-    console.log("set", coord)
     return true;
   }
 
@@ -13,12 +13,39 @@ export const useLocalStorage = () => {
     if (location) {
       const {lat, lng} = JSON.parse(location);
       const parseLocation: LatLngExpression = [lat, lng]
-      console.log("get", parseLocation)
       return parseLocation;
     }
 
     return [-1.4548981866300403, -48.44616551421902];
   }
 
-  return { setLocation, getLocation };
+  function getLocalPoints(id: string) {
+    const points = localStorage.getItem(id)
+
+    if(points) {
+      const parsePoints = JSON.parse(points)
+      return parsePoints
+    }
+    return undefined
+  }
+
+  function setLocalPoints(id: string, points: Point[]) {
+    localStorage.setItem(id, JSON.stringify(points))
+    return true
+  }
+
+  function updateLocalPoints(id: string, point: Point) {
+    const points: Point[] | undefined = getLocalPoints(id)
+    
+    if(points) {
+      points.push(point)
+      setLocalPoints(id, points)
+      console.log("atualizado")
+      return points
+    }
+
+    return undefined
+  }
+
+  return { setLocation, getLocation, getLocalPoints, setLocalPoints, updateLocalPoints };
 };

@@ -11,7 +11,7 @@ import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
 import { FormEvent, useEffect, useState } from "react";
 import useUserLocation from "@hooks/useUserLocation";
-import { CreatePoint, Point, Report } from "@customtypes/map";
+import { Point, Report } from "@customtypes/map";
 import { useApi, useLocalStorage, useReports } from "@hooks/index";
 import { LatLngExpression } from "leaflet";
 import { Modal as AntModal } from "antd";
@@ -19,7 +19,8 @@ import { Modal as AntModal } from "antd";
 export const Home = () => {
   const { getPoints, createPoint } = useApi();
   const { userLocation, getUserLocation } = useUserLocation();
-  const { getLocation } = useLocalStorage();
+  const { getLocation, getLocalPoints, setLocalPoints, updateLocalPoints } =
+    useLocalStorage();
   const { homeReport } = useReports();
   const [openReportsModal, setOpenReportsModal] = useState<boolean>(false);
   const [openLocationModal, setOpenLocationModal] = useState<boolean>(false);
@@ -28,12 +29,19 @@ export const Home = () => {
   const [center, setCenter] = useState<LatLngExpression>();
   const [pinPosition, setPinPosition] = useState<LatLngExpression>();
   const [points, setPoints] = useState<Point[]>([]);
-  const [reportPoint, setReportPoint] = useState<CreatePoint>();
+  const [reportPoint, setReportPoint] = useState<Point>();
 
   async function fetchPoints() {
     try {
-      const data = await getPoints();
-      setPoints(data);
+      const localPoints = getLocalPoints("lastPoints");
+
+      if (!localPoints) {
+        const data = await getPoints();
+        setLocalPoints("lastPoints", data);
+        setPoints(data);
+      }
+
+      setPoints(localPoints);
     } catch (error) {
       console.error(error);
     }
@@ -68,6 +76,7 @@ export const Home = () => {
         type: reportType,
         coordinates: currentLocation,
         description: "",
+        createdAt: new Date(),
       });
     }
   }
@@ -83,18 +92,27 @@ export const Home = () => {
     setPinPosition(undefined);
   }
 
-  async function handleFormSubmit(e: FormEvent) {
-    e.preventDefault();
-    handleModalClose();
+  async function handleFormSubmit(e?: FormEvent) {
+    if (e) e.preventDefault();
+
+    console.log("feito");
     if (reportPoint) {
       try {
+        console.log("criar");
         createPoint(reportPoint);
-        fetchPoints();
+        updateLocalPoints("lastPoints", reportPoint);
+
+        const localPoints = getLocalPoints("lastPoints");
+        setPoints(localPoints);
       } catch (error) {
         console.error(error);
       }
     }
+
+    handleModalClose();
   }
+
+  console.log(points);
 
   useEffect(() => {
     setTimeout(() => {
@@ -149,15 +167,18 @@ export const Home = () => {
         <Modal
           openModal={openLocationModal}
           setOpenModal={setOpenLocationModal}
-          onClose={handleModalClose}
           classNameModalContainer={styles.modalContainer}
           classNameModalContent={styles.modalContent}
         >
-          <form action="POST" onSubmit={(e) => handleFormSubmit(e)} className={styles.form}>
+          <form onSubmit={(e) => handleFormSubmit(e)} className={styles.form}>
             <h2 className={styles.formTitle}>
               Confirme a localização da denúncia
             </h2>
-            <button type="submit" className={styles.formButton}>
+            <button
+              type="button"
+              className={styles.formButton}
+              onClick={handleFormSubmit}
+            >
               Ok
             </button>
           </form>
