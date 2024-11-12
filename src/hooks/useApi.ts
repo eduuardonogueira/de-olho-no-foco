@@ -1,4 +1,4 @@
-import { Point } from "@customtypes/map";
+import { CreatePoint, Point } from "@customtypes/map";
 import { useMock } from "./useMock";
 
 export const useApi = () => {
@@ -8,5 +8,10 @@ export const useApi = () => {
     return points;
   }
 
-  return { getPoints };
+  async function createPoint(point: CreatePoint) {
+    console.log(point);
+    return true;
+  }
+
+  return { getPoints, createPoint };
 };

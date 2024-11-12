@@ -1,10 +1,16 @@
 import { LatLngExpression } from "leaflet";
 
 export type Point = {
-  type: "sanitation" | "courteous" | "trash" | "flood";
+  type: Report;
   coordinates: LatLngExpression;
   description: string;
   createdAt: Date;
+};
+
+export type CreatePoint = {
+  type: Report;
+  coordinates: LatLngExpression;
+  description: string;
 };
 
 export type Area = {
@@ -20,3 +26,11 @@ export interface UserLocation {
   coordinates: LatLngExpression;
   rotation: number;
 }
+
+export interface HomeReport {
+  image: string;
+  type: Report;
+  label: string;
+}
+
+export type Report = "sanitation" | "courteous" | "trash" | "flood";

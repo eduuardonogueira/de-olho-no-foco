@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export const useUserLocation = () => {
   const [userLocation, setUserLocation] = useState<UserLocation | null>();
 
-  useEffect(() => {
+  function getUserLocation() {
     const handleOrientation = (event: DeviceOrientationEvent) => {
       const { alpha } = event;
       if (alpha !== null) {
@@ -36,9 +36,11 @@ export const useUserLocation = () => {
     } else {
       console.error("Geolocalização não é suportada pelo navegador.");
     }
-  }, []);
+  }
 
-  return { userLocation };
+  useEffect(getUserLocation, []);
+
+  return { userLocation, getUserLocation };
 };
 
 export default useUserLocation;

@@ -8,3 +8,4 @@ export { default as TrashShortIcon } from "./trash-short-icon.svg";
 export { default as FloodShortIcon } from "./flood-short-icon.svg";
 export { default as CursorPointerIcon } from "./cursor-pointer.svg";
 export { default as CursorIcon } from "./cursor.svg";
+export { default as MapPinIcon } from "./map-pin.svg";

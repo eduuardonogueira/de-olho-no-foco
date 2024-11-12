@@ -1,11 +1,12 @@
 .modalContainer {
   height: 100dvh;
   width: 100vw;
-  position: relative;
+  position: absolute;
+  top: 0px;
   z-index: 1000;
 }
 
 .modalContent {
   background: #fff;
-  padding: 36px;
+  padding: 12px;
 }

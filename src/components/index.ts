@@ -5,5 +5,7 @@ export * from "./Centralize/centralize.component";
 export * from "./MapPoints/mapPoints.component";
 export * from "./MapAreas/mapAreas.component";
 export * from "./Cursor/cursor.component";
-export * from './CreateButton/createButton.component'
-export * from './Loader/loader.component'
+export * from "./CreateButton/createButton.component";
+export * from "./Loader/loader.component";
+export * from "./Modal/modal.component";
+export * from "./MapPin/mapPin.component";

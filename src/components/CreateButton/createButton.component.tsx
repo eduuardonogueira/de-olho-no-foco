@@ -2,12 +2,12 @@ import styles from "./createButton.module.scss";
 import { Plus } from "@phosphor-icons/react";
 
 export const CreateButton = ({
-  setOpenModal,
+  onClick,
 }: {
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  onClick: () => void;
 }) => {
   return (
-    <button className={styles.createButton} onClick={() => setOpenModal(true)}>
+    <button className={styles.createButton} onClick={onClick}>
       <Plus size={32} weight="bold" />
     </button>
   );
