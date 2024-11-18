@@ -15,15 +15,14 @@ import { useApi, useLocalStorage, useReports } from "@hooks/index";
 import { LatLngExpression } from "leaflet";
 import { Alert, Modal as AntModal } from "antd";
 import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
-import { MapCenterContext } from "@contexts/MapCenterContext";
+import { MapValuesContext } from "@contexts/MapValuesContext";
 
 export const Home = () => {
   const currentLocation = useContext(CurrentLocationContext);
-  const mapCenter = useContext(MapCenterContext);
+  const mapCenter = useContext(MapValuesContext);
 
   const { getPointsNearby, createPoint } = useApi();
-  const { getLocalPoints, updateLocalPoints } =
-    useLocalStorage();
+  const { getLocalPoints, updateLocalPoints } = useLocalStorage();
   const { homeReport } = useReports();
 
   const [openReportsModal, setOpenReportsModal] = useState<boolean>(false);
@@ -58,7 +57,7 @@ export const Home = () => {
     try {
       if (currentLocation) {
         const { lat, lng } = mapCenter;
-        const maxDistance = (20 - currentLocation.zoom) * 1000;
+        const maxDistance = (20 - mapCenter.zoom) * 1000;
         const data = await getPointsNearby(lat, lng, maxDistance);
 
         // console.log("maxDistance: ", maxDistance);
@@ -143,7 +142,7 @@ export const Home = () => {
   useEffect(() => {
     setCenter(currentLocation);
     fetchPoints();
-  }, [currentLocation.zoom, mapCenter]);
+  }, [mapCenter.zoom, mapCenter]);
 
   return (
     <div className={styles.container}>
@@ -195,8 +194,8 @@ export const Home = () => {
           classNameModalContainer={styles.modalContainer}
           classNameModalContent={styles.modalContent}
           onClose={() => {
-            setReportPoint(undefined)
-            setPinPosition(undefined)
+            setReportPoint(undefined);
+            setPinPosition(undefined);
           }}
         >
           <form onSubmit={(e) => handleFormSubmit(e)} className={styles.form}>

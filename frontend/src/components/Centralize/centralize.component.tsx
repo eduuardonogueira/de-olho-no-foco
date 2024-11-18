@@ -3,7 +3,7 @@ import { useMapEvents } from "react-leaflet";
 import { Gps } from "@phosphor-icons/react";
 import { UserLocation } from "@customtypes/map";
 import { useContext } from "react";
-import { MapCenterContext } from "@contexts/MapCenterContext";
+import { MapValuesContext } from "@contexts/MapValuesContext";
 
 export const Centralize = ({
   currentPosition,
@@ -11,12 +11,12 @@ export const Centralize = ({
   currentPosition: UserLocation | undefined;
 }) => {
   const map = useMapEvents({});
-  const {setMapCenter} = useContext(MapCenterContext)
+  const { setMapCenter } = useContext(MapValuesContext);
 
   function handleCentralize() {
     if (currentPosition) {
       map.flyTo(currentPosition, map.getZoom());
-      setMapCenter(currentPosition)
+      setMapCenter(currentPosition);
     }
   }
 

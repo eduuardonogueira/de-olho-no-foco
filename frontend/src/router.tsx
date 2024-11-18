@@ -12,7 +12,7 @@ import { Areas, Notifications, Profile, Signup } from "./pages";
 import { AuthProvider } from "@contexts/AuthProvider";
 import { AuthRequired } from "@components/AuthRequired/authRequired.component";
 import { CurrentLocationProvider } from "@contexts/CurrentLocationProvider";
-import { MapCenterProvider } from "@contexts/MapCenterProvider";
+import { MapValuesProvider } from "@contexts/MapValuesProvider";
 
 export const RouterAllRoutes = () => {
   const Home = lazy(() => import("@pages/Home/home.page"));
@@ -21,7 +21,7 @@ export const RouterAllRoutes = () => {
   return (
     <main>
       <CurrentLocationProvider>
-        <MapCenterProvider>
+        <MapValuesProvider>
           <AuthProvider>
             <Suspense>
               <Routes>
@@ -46,7 +46,7 @@ export const RouterAllRoutes = () => {
               </Routes>
             </Suspense>
           </AuthProvider>
-        </MapCenterProvider>
+        </MapValuesProvider>
       </CurrentLocationProvider>
     </main>
   );

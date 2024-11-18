@@ -15,7 +15,13 @@ export const useApi = () => {
     headers: { Authorization: `Bearer ${accesskey}` },
   };
 
-  async function login(username: string, password: string) {
+  async function login({
+    username,
+    password,
+  }: {
+    username: string;
+    password: string;
+  }) {
     const request = await api.post(`/auth/login`, {
       username: username,
       password: password,

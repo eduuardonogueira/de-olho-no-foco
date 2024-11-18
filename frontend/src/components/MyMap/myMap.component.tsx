@@ -1,7 +1,6 @@
 // import styles from "./myMap.module.scss";
 import { useMapEvents, ZoomControl } from "react-leaflet";
 import { TileLayer } from "react-leaflet/TileLayer";
-// import pinSvg from "@assets/icons/pin.svg";
 import { Area, Point } from "@customtypes/map";
 import { useContext, useEffect } from "react";
 import { MapPoints, MapAreas, Centralize, Cursor } from "@components/index";
@@ -10,7 +9,7 @@ import {
   CURRENT_LOCATION_CONTEXT_INITIAL_STATE,
   CurrentLocationContext,
 } from "@contexts/CurrentLocationContext";
-import { MapCenterContext } from "@contexts/MapCenterContext";
+import { MapValuesContext } from "@contexts/MapValuesContext";
 
 interface MapProps {
   className?: string;
@@ -19,21 +18,18 @@ interface MapProps {
 }
 
 export const MyMap = ({ className, points, areas }: MapProps) => {
-  const { setCurrentLocation, lat, lng, zoom, rotation } = useContext(
-    CurrentLocationContext
-  );
-  const { setMapCenter } = useContext(MapCenterContext)
-
   const { setLocation } = useLocalStorage();
+
+  const { setCurrentLocation, lat, lng } = useContext(CurrentLocationContext);
+  const { setMapCenter, setMapZoom } = useContext(MapValuesContext);
 
   const map = useMapEvents({
     zoomend() {
-      const zoom = map.getZoom();
-      setCurrentLocation({ lat, lng, zoom });
+      setMapZoom(map.getZoom());
     },
     locationfound(e) {
       const userLocation = e.latlng;
-      map.flyTo(e.latlng, zoom);
+      map.flyTo(e.latlng, map.getZoom());
       setLocation("currentLocation", userLocation);
     },
     click(e) {
@@ -41,22 +37,23 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
         lat === CURRENT_LOCATION_CONTEXT_INITIAL_STATE.lat &&
         lng === CURRENT_LOCATION_CONTEXT_INITIAL_STATE.lng
       ) {
-        const location = e.latlng
-        setCurrentLocation({ ...location, zoom });
+        const location = e.latlng;
+        setCurrentLocation(location);
         setLocation("currentLocation", location);
       }
     },
-    drag() {
-      const center = map.getCenter()
-      setMapCenter(center)
-      setLocation("mapCenter", center)
-    }
+    dragend() {
+      const center = map.getCenter();
+      setMapCenter(center);
+      setLocation("mapCenter", center);
+    },
   });
 
   const API_KEY = import.meta.env.VITE_API_MAPS;
 
   useEffect(() => {
     map.locate();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -69,11 +66,11 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
         className={className}
       />
 
-      <Cursor zoom={zoom} userLocation={{ lat, lng, rotation }} />
+      <Cursor zoom={map.getZoom()} />
       <Centralize currentPosition={{ lat, lng }} />
       <ZoomControl position="bottomleft" />
 
-      <MapPoints points={points} zoom={zoom} />
+      <MapPoints points={points} zoom={map.getZoom()} />
       <MapAreas areas={areas} />
     </>
   );

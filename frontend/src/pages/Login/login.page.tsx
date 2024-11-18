@@ -8,8 +8,7 @@ import { Alert } from "antd";
 import { useApi, useBreakpoints } from "@hooks/index";
 import { AuthContext } from "@contexts/AuthContext";
 import { AlertProps } from "@customtypes/index";
-
-
+import { Eye, EyeClosed } from "@phosphor-icons/react";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -18,8 +17,11 @@ export const Login = () => {
   const { isMobile } = useBreakpoints();
   const { setAuth, isLogged } = useContext(AuthContext);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [alert, setAlert] = useState<AlertProps>({
@@ -33,7 +35,7 @@ export const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await login(email, password);
+      const response = await login(user);
 
       if (response.status === 201) {
         setAlert({
@@ -44,7 +46,7 @@ export const Login = () => {
 
         setAuth({ accessKey: response.data, isLogged: true });
         setIsLoading(false);
-        
+
         navigate(HOME_ROUTE);
       }
 
@@ -65,7 +67,7 @@ export const Login = () => {
     }
   }
 
-  const handleGoogleLogin = async () => {
+  async function handleGoogleLogin() {
     setIsGoogleLoading(true);
 
     try {
@@ -89,7 +91,11 @@ export const Login = () => {
         message: "Usuário ou senha incorretos!",
       });
     }
-  };
+  }
+
+  function togglePasswordVisibility() {
+    setPasswordIsVisible((prev) => !prev);
+  }
 
   const renderLoginHeader = () => (
     <section className={styles.header}>
@@ -99,8 +105,20 @@ export const Login = () => {
     </section>
   );
 
-  if(isLogged) {
-    return <Navigate to={HOME_ROUTE} />
+  const renderPasswordVisibilityIcons = () => {
+    return (
+      <>
+        {passwordIsVisible ? (
+          <Eye size={16} onClick={togglePasswordVisibility} />
+        ) : (
+          <EyeClosed size={16} onClick={togglePasswordVisibility} />
+        )}
+      </>
+    );
+  };
+
+  if (isLogged) {
+    return <Navigate to={HOME_ROUTE} />;
   }
 
   return (
@@ -136,8 +154,10 @@ export const Login = () => {
                   id="email"
                   type="email"
                   placeholder="Digite seu email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={user.username}
+                  onChange={(e) =>
+                    setUser((prev) => ({ ...prev, username: e.target.value }))
+                  }
                   required
                 />
               </div>
@@ -146,12 +166,15 @@ export const Login = () => {
                 <label htmlFor="password">Senha</label>
                 <Input
                   id="password"
-                  type="password"
+                  type={passwordIsVisible ? "text" : "password"}
                   placeholder="Digite sua senha"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser((prev) => ({ ...prev, password: e.target.value }))
+                  }
                   required
                 />
+                {renderPasswordVisibilityIcons()}
               </div>
             </div>
 

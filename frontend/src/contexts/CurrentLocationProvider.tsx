@@ -17,7 +17,6 @@ export const CurrentLocationProvider = ({
   const [currentLocation, setCurrentLocation] = useState({
     lat: CURRENT_LOCATION_CONTEXT_INITIAL_STATE.lat,
     lng: CURRENT_LOCATION_CONTEXT_INITIAL_STATE.lng,
-    zoom: CURRENT_LOCATION_CONTEXT_INITIAL_STATE.zoom,
   });
 
   useEffect(() => {

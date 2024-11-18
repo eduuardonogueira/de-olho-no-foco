@@ -1,28 +1,25 @@
 import styles from "./areas.module.scss";
 import { Menu, MyMap, SearchBar } from "@components/index";
 import { MapContainer } from "react-leaflet";
-import { useEffect, useRef } from "react";
-import {  Map as TypeMap } from "leaflet";
-import useUserLocation from "@hooks/useUserLocation";
+import { useContext, useEffect, useRef, useState } from "react";
+import { LatLngExpression, Map as TypeMap } from "leaflet";
+import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
 
 export const Areas = () => {
   const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);
   // const map = document.getElementById("mapContainer");
 
-  const { userLocation } = useUserLocation();
+  const [center, setCenter] = useState<LatLngExpression>();
+  const currentLocation = useContext(CurrentLocationContext);
 
   useEffect(() => {
-    if (mapRef.current && userLocation) {
-      mapRef.current.flyTo(userLocation, 15);
-    }
-  }, [mapRef.current]);
-   
+    setCenter(currentLocation)
+  }, []);
 
   // const [drawCoordinates, setDrawCoordinates] = useState<LatLngExpression[]>(
   //   []
   // );
   // const [lineColor, setLineColor] = useState({ color: "blue" });
-
 
   // function DrawFunction() {
   //   useMapEvents({
@@ -66,16 +63,20 @@ export const Areas = () => {
     <div className={styles.container}>
       <main className={styles.areasContainer}>
         <SearchBar />
-        <MapContainer
-          ref={mapRef}
-          id="mapContainer"
-          center={userLocation}
-          zoom={15}
-          className={styles.mapContainer}
-          zoomControl={false}
-        >
-          <MyMap className={styles.map} />
-        </MapContainer>
+        {center ? (
+          <MapContainer
+            ref={mapRef}
+            id="mapContainer"
+            center={center}
+            zoom={15}
+            className={styles.mapContainer}
+            zoomControl={false}
+          >
+            <MyMap className={styles.map} />
+          </MapContainer>
+        ) : (
+          ""
+        )}
         <Menu />
       </main>
     </div>

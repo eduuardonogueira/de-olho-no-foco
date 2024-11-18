@@ -4,16 +4,12 @@ import { createContext } from "react";
 export type SetCurrentLocationType = ({
   lat,
   lng,
-  zoom,
 }: {
   lat: number;
   lng: number;
-  zoom: number;
 }) => void;
 
-export interface ICurrentLocationContextProps extends Coordinates {
-  zoom: number;
-}
+export interface ICurrentLocationContextProps extends Coordinates {}
 
 export interface ICurrentLocationContextState
   extends ICurrentLocationContextProps {
@@ -26,7 +22,6 @@ export const CURRENT_LOCATION_CONTEXT_INITIAL_STATE: ICurrentLocationContextStat
     setCurrentLocation: () => {},
     lat: -1.4184647000387454,
     lng: -48.462753295898445,
-    zoom: 10,
   };
 
 export const CurrentLocationContext = createContext(
