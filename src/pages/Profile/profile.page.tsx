@@ -9,9 +9,8 @@ import {
   IconConquistas,
   IconAjuda,
   IconSair
-} from '../../assets/index.ts' ;
-
-
+} from '../../assets/index.ts';
+import Perfil from "../../assets/Perfil/Perfil.png"
 
 const menuItems = [
   { label: 'Meus dados', route: '/profile/data', icon: IconMeusDados },
@@ -19,13 +18,17 @@ const menuItems = [
   { label: 'Configurações', route: '/profile/settings', icon: IconConfiguracoes },
   { label: 'Conquistas', route: '/profile/achievements', icon: IconConquistas },
   { label: 'Ajuda', route: '/profile/help', icon: IconAjuda },
+  { label: 'Sair', route: LOGIN_ROUTE, icon: IconSair, isLogout: true }
 ];
 
 export const Profile = () => {
   return (
     <main className={styles.profileContainer}>
       <section className={styles.profile}>
-        <h1>Perfil</h1>
+        <div className={styles.header}>
+          <h1>Perfil</h1>
+          <img src={Perfil} alt="Foto de perfil" className={styles.profileImage} />
+        </div>
         <ul className={styles.menu}>
           {menuItems.map((item, index) => (
             <li key={index} className={styles.menuItem}>
@@ -35,12 +38,9 @@ export const Profile = () => {
               </Link>
             </li>
           ))}
+          <li className={styles.menuItem}>
+          </li>
         </ul>
-        <div className={styles.bottomMenu}>
-          <Link 
-          to={LOGIN_ROUTE}> <img src={IconSair} alt="Ícone de Sair" className={styles.icon} /> Sair
-          </Link>
-        </div>
       </section>
       <Menu />
     </main>
