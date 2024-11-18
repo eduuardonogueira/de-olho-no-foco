@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { CreatePoint, Point } from "@customtypes/map";
+import { Point } from "@customtypes/map";
 import { ICreateUser } from "../types/index";
 import Cookies from "js-cookie";
 
@@ -8,10 +8,9 @@ export const useApi = () => {
   const api = axios.create({ baseURL: import.meta.env.VITE_BACKEND_URL });
 
   const storedAuth = Cookies.get("auth");
-  const parsedAuth = JSON.parse(storedAuth || "")
+  const parsedAuth = JSON.parse(storedAuth || "");
   const accesskey = parsedAuth ? parsedAuth.accessKey : "";
-  
-  
+
   const authorizationHeader = {
     headers: { Authorization: `Bearer ${accesskey}` },
   };
@@ -74,7 +73,7 @@ export const useApi = () => {
     return request.data;
   }
 
-  async function createPoint(point: CreatePoint) {
+  async function createPoint(point: Point) {
     try {
       return await api.post(`/points/create`, point, authorizationHeader);
     } catch (error: any) {
@@ -83,5 +82,13 @@ export const useApi = () => {
     }
   }
 
-  return { login, createUser, getPoint, getPointsNearby, createPoint };
+  return {
+    login,
+    createUser,
+    createPrivilegedUser,
+    getPoint,
+    getPointsNearby,
+    createPoint,
+    getAllPoints,
+  };
 };
