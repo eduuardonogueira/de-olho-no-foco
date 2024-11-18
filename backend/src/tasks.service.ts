@@ -11,5 +11,6 @@ export class TasksService {
       res.text(),
     );
     console.log(response);
+    return response;
   }
 }

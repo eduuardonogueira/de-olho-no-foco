@@ -1,37 +1,46 @@
+import { Transform } from 'class-transformer';
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
   IsString,
-  Max,
+  MaxLength,
 } from 'class-validator';
 
+export enum UserRole {
+  ADVENTURE = 'adventure',
+  ORGANIZATION = 'organization',
+  ADMIN = 'admin',
+}
 export class CreateUserDto {
-  @Max(50)
+  @MaxLength(50)
   @IsNotEmpty()
   @IsString()
   firstName: string;
 
-  @Max(50)
+  @MaxLength(50)
   @IsNotEmpty()
   @IsString()
   lastName: string;
 
-  @Max(50)
+  @MaxLength(50)
   @IsNotEmpty()
   @IsString()
   @IsEmail()
   email: string;
 
-  @Max(100)
+  @MaxLength(100)
   @IsNotEmpty()
   @IsString()
   password: string;
 
-  @Max(20)
+  @MaxLength(20)
   @IsNotEmpty()
   @IsString()
+  @Transform(({ value }) => ('' + value).toLowerCase())
+  @IsEnum(UserRole)
   role: 'adventure' | 'organization' | 'admin';
 
   @IsOptional()
