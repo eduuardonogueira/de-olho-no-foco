@@ -44,9 +44,6 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "Point_coordinates_id_key" ON "Point"("coordinates_id");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Point_user_id_key" ON "Point"("user_id");
-
 -- AddForeignKey
 ALTER TABLE "Point" ADD CONSTRAINT "Point_coordinates_id_fkey" FOREIGN KEY ("coordinates_id") REFERENCES "Coordinates"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
