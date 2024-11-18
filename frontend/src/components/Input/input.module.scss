@@ -1,0 +1,30 @@
+.input {
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #e7e0ec;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: #625b71;
+
+  &:focus {
+    border-color: #4caf50;
+    outline: none;
+  }
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+
+  .input {
+    padding: 12px 12px 12px 36px;
+  }
+
+  > svg {
+    position: absolute;
+    top: 12.5px;
+    left: 12px;
+    color: #625b71;
+  }
+}

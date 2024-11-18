@@ -1,0 +1,145 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100dvh;
+  box-sizing: border-box;
+}
+
+.loginWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100dvh;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.loginBackground {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  object-fit: cover;
+  width: 100vw;
+  height: 100dvh;
+}
+
+.alert {
+  position: absolute;
+  z-index: 10;
+  right: 12px;
+  top: 5%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40%;
+  color: #fff;
+  z-index: 2;
+  text-align: center;
+}
+
+.logo {
+  width: 120px;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.header p {
+  max-width: 80%;
+  font-size: 0.875rem;
+  color: #e0e0e0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 60%;
+  padding: 20px;
+  border-radius: 20px 20px 0px 0px;
+  background: #fff;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  > label {
+    font-size: 0.875rem;
+  }
+}
+
+.loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block: 18px 8px;
+}
+
+.signup {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.signup a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.formFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+@media screen and (min-width: 580px) {
+  .loginWrapper {
+    justify-content: center;
+    padding: 36px;
+  }
+
+  .form {
+    height: 70%;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    justify-content: space-around;
+  }
+
+  .header {
+    height: unset;
+    > h1 {
+      color: black;
+    }
+    > p {
+      color: #4a4459;
+    }
+  }
+}

@@ -1,0 +1,127 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100dvh;
+}
+
+.signupContainer {
+  min-width: 300px;
+  height: min-content;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #faf6f6;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.titleWrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.icon {
+  color: #000000;
+
+  &:hover {
+    color: #34c759;
+  }
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+  color: #000000;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+}
+
+.alert {
+  position: absolute;
+  z-index: 10;
+  right: 12px;
+  top: 5%;
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+
+  > label {
+    font-size: 12px;
+    color: #000;
+  }
+
+  > svg {
+    position: absolute;
+    right: 12px;
+    top: calc(12px + 8px + 12.5px);
+    color: #625b71;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.passwordStrengthWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-block: 6px;
+}
+
+.passwordStrengthLineBackground {
+  height: 3px;
+  border-radius: 4px;
+  width: 100%;
+  background: #d9d9d9;
+}
+
+.passwordStrengthLine {
+  display: flex;
+  height: 3px;
+}
+
+.passwordStrengthText {
+  font-size: 12px;
+  margin-left: 24px;
+}
+
+.passwordIsEqualsText {
+  font-size: 12px;
+  color: #eb4335;
+}
+
+.submitButton {
+  width: 100%;
+  height: 42px;
+  margin-top: 12px;
+  background-color: #4ec552;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #3a8d3e;
+  }
+}
