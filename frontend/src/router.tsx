@@ -53,11 +53,12 @@ export const RouterAllRoutes = () => {
                   />
                   <Route element={<Profile />} path={PROFILE_ROUTE} />
                 </Route>
+                
+                <Route element={<NotFound />} path={NOT_FOUND_ROUTE} />
+                <Route element={<Navigate to={NOT_FOUND_ROUTE} />} path={"*"} />
               </Routes>
             </Suspense>
           </AuthProvider>
-          <Route element={<NotFound />} path={NOT_FOUND_ROUTE} />
-          <Route element={<Navigate to={NOT_FOUND_ROUTE} />} path={"*"} />
         </MapValuesProvider>
       </CurrentLocationProvider>
     </main>
