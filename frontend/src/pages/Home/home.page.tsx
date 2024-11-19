@@ -10,7 +10,7 @@ import {
 import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { Point, Report, AlertProps } from "@customtypes/index";
+import { Point, Report, AlertProps, CreatePoint } from "@customtypes/index";
 import { useApi, useLocalStorage, useReports } from "@hooks/index";
 import { LatLngExpression } from "leaflet";
 import { Alert, Modal as AntModal } from "antd";
@@ -32,7 +32,7 @@ export const Home = () => {
   const [center, setCenter] = useState<LatLngExpression>();
   const [pinPosition, setPinPosition] = useState<LatLngExpression>();
   const [points, setPoints] = useState<Point[]>([]);
-  const [reportPoint, setReportPoint] = useState<Point>();
+  const [reportPoint, setReportPoint] = useState<CreatePoint>();
   const [alert, setAlert] = useState<AlertProps>({
     isOpen: false,
     type: undefined,
@@ -94,7 +94,6 @@ export const Home = () => {
         coordinates: { lat, lng },
         position: "left",
         description: "Sem Descrição",
-        createdAt: new Date(),
       });
     }
   }
@@ -117,7 +116,7 @@ export const Home = () => {
         const response = await createPoint(reportPoint);
 
         if (response.status === 201) {
-          updateLocalPoints("lastPoints", reportPoint);
+          updateLocalPoints("lastPoints", response.data);
           fetchPoints();
           setAlert({
             isOpen: true,
@@ -142,6 +141,7 @@ export const Home = () => {
   useEffect(() => {
     setCenter(currentLocation);
     fetchPoints();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapCenter.zoom, mapCenter]);
 
   return (

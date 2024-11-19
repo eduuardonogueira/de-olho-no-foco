@@ -1,5 +1,12 @@
 import { LatLngExpression } from "leaflet";
 
+export interface CreatePoint {
+  type: Report;
+  position: "left" | "right";
+  coordinates: Coordinates;
+  description: string;
+}
+
 export interface Point {
   id?: string;
   type: Report;

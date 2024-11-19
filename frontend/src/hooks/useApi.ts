@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { Point } from "@customtypes/map";
+import { CreatePoint, Point } from "@customtypes/map";
 import { ICreateUser } from "../types/index";
 import Cookies from "js-cookie";
 
@@ -79,7 +79,10 @@ export const useApi = () => {
     return request.data;
   }
 
-  async function createPoint(point: Point) {
+  async function createPoint(point: CreatePoint): Promise<{
+    status: number;
+    data: Point;
+  }> {
     try {
       return await api.post(`/points/create`, point, authorizationHeader);
     } catch (error: any) {
