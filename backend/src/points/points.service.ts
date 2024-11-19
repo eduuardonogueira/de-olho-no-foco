@@ -41,7 +41,7 @@ export class PointsService {
     ].map((string) => parseFloat(string));
     const pointsNearby = await this.prismaService.$queryRaw`
     SELECT 
-    p.id, 
+      p.id, 
       p.type, 
       p.description, 
       p.position, 
@@ -54,6 +54,11 @@ export class PointsService {
         'alt', c.alt,
         'rotation', c.rotation
       ) AS coordinates, 
+      jsonb_build_object(
+        'id', u.id,
+        'firstName', u.first_name,
+        'lastName', u.last_name
+      ) AS user,
       (6371000 * acos(
         cos(radians(${latNumber})) * 
         cos(radians(c.lat)) * 
@@ -63,6 +68,8 @@ export class PointsService {
       )) AS distance
     FROM 
       "Point" p
+    INNER JOIN 
+      "User" u ON p.user_id = u.id
     INNER JOIN 
       "Coordinates" c ON p.coordinates_id = c.id
     WHERE 

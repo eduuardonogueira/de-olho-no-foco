@@ -23,7 +23,6 @@ export const Profile = () => {
               </Link>
             </li>
           ))}
-          <li className={styles.menuItem}></li>
         </ul>
       </section>
       <Menu />

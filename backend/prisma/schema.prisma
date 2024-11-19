@@ -1,46 +1,72 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql" 
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        String  @id @default(uuid())
-  firstName String  @map("first_name") @db.VarChar(50)
-  lastName  String  @map("last_name") @db.VarChar(50)
-  email     String  @unique @db.VarChar(50)
-  password  String  @db.VarChar(100)
-  role      String  @db.VarChar(20)
-  phone     String? @db.VarChar(20)
+  id            String                   @id @default(uuid())
+  firstName     String                   @map("first_name") @db.VarChar(50)
+  lastName      String                   @map("last_name") @db.VarChar(50)
+  email         String                   @unique @db.VarChar(50)
+  password      String                   @db.VarChar(100)
+  role          String                   @db.VarChar(20)
+  phone         String?                  @db.VarChar(20)
+  createdAt     DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime                 @updatedAt @map("updated_at") @db.Timestamp(6)
+  profileImage  String?                  @map("profile_image")
+  points        Point[]
+  notifications UserNotificationStatus[]
+}
 
-  points Point[]
+model UserNotificationStatus {
+  id             String             @id @default(uuid())
+  isRead         Boolean            @default(false)
+  isDeleted      Boolean            @default(false)
+  userId         String
+  notificationId String
+  notification   GlobalNotification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  user           User               @relation(fields: [userId], references: [id])
 
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp()
+  @@unique([userId, notificationId])
+}
+
+model GlobalNotification {
+  id         String                   @id @default(uuid())
+  title      String                   @db.VarChar(50)
+  message    String                   @db.VarChar(200)
+  typeId     String                   @unique
+  expiresAt  DateTime?                @map("expires_at") @db.Timestamp(6)
+  createdAt  DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt  DateTime                 @updatedAt @map("updated_at") @db.Timestamp(6)
+  type       NotificationType         @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  userStatus UserNotificationStatus[]
+}
+
+model NotificationType {
+  id           String              @id @default(uuid())
+  name         String              @db.VarChar(50)
+  imageUrl     String              @map("image_url")
+  createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime            @updatedAt @map("updated_at") @db.Timestamp(6)
+  notification GlobalNotification?
 }
 
 model Point {
-  id          String  @id @default(uuid())
-  type        String  @db.VarChar(50)
-  description String? @db.VarChar(200)
-  position    String? @db.VarChar(10)
-
+  id            String      @id @default(uuid())
+  type          String      @db.VarChar(50)
+  description   String?     @db.VarChar(200)
+  position      String?     @db.VarChar(10)
   coordinatesId String      @unique @map("coordinates_id")
   userId        String      @map("user_id")
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime    @updatedAt @map("updated_at") @db.Timestamp(6)
   coordinates   Coordinates @relation(fields: [coordinatesId], references: [id])
   user          User        @relation(fields: [userId], references: [id])
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp()
 }
 
 model Coordinates {
@@ -49,6 +75,5 @@ model Coordinates {
   lng      Float
   alt      Float?
   rotation Float?
-
-  point Point? @relation
+  point    Point?
 }

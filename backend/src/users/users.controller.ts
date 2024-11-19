@@ -49,4 +49,9 @@ export class UsersController {
   removeUser(@Param('id') id: string) {
     return this.usersService.delete(id);
   }
+
+  @Get('/status')
+  getUserStatus(@Req() req: Request) {
+    return this.usersService.getStatus(req);
+  }
 }

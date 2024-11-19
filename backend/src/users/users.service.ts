@@ -68,4 +68,12 @@ export class UsersService {
 
     return null;
   }
+
+  async getStatus(req: any) {
+    const { user } = req;
+
+    if (user) {
+      console.log(user);
+    }
+  }
 }
