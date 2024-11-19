@@ -12,7 +12,7 @@ import {
   SanitationIcon,
   SanitationShortIcon,
 } from "@assets/icons";
-import { useDateFormartter } from "@hooks/useDateFormatter";
+import { useDateFormatter } from "@hooks/useDateFormatter";
 
 const pointType = {
   sanitation: "Saneamento",
@@ -42,6 +42,8 @@ export const MapPoints = ({
   points?: Point[];
   zoom: number;
 }) => {
+  const { dateFormatter } = useDateFormatter();
+
   if (points && points.length > 0) {
     return (
       <>
@@ -58,7 +60,7 @@ export const MapPoints = ({
             iconAnchor: [10, 20],
           });
 
-          const createdAt = useDateFormartter(point.createdAt);
+          const createdAt = dateFormatter(point.createdAt);
           function translateType(type: Report): string {
             return pointType[type];
           }
@@ -67,7 +69,7 @@ export const MapPoints = ({
             <Marker
               position={point.coordinates}
               key={point.id}
-              icon={zoom <= 14 ? pinShortIcon : pinIcon}
+              icon={zoom <= 13 ? pinShortIcon : pinIcon}
             >
               <Tooltip>{translateType(point.type)}</Tooltip>
               <Popup>
