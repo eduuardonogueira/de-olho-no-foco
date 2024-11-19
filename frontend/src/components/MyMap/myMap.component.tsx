@@ -29,7 +29,7 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
     },
     locationfound(e) {
       const userLocation = e.latlng;
-      map.flyTo(e.latlng, map.getZoom());
+      map.flyTo(userLocation, map.getZoom());
       setLocation("currentLocation", userLocation);
     },
     click(e) {
@@ -46,14 +46,13 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
       const center = map.getCenter();
       setMapCenter(center);
       setLocation("mapCenter", center);
-    },
+    }
   });
 
   const API_KEY = import.meta.env.VITE_API_MAPS;
 
   useEffect(() => {
     map.locate();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

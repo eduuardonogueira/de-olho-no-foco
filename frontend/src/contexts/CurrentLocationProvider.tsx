@@ -27,8 +27,10 @@ export const CurrentLocationProvider = ({
       const location = getLocation("currentLocation");
       location ? setCurrentLocation((prev) => ({ ...prev, ...location })) : "";
     }
+
+    console.log(currentLocation)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userLocation]);
 
   return (
     <CurrentLocationContext.Provider

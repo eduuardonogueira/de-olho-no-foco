@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 export const useUserLocation = () => {
   const [userLocation, setUserLocation] = useState<UserLocation | undefined>();
 
+  console.log(userLocation?.rotation);
+
   function getUserLocation() {
     const handleOrientation = (event: DeviceOrientationEvent) => {
       const { alpha } = event;
       if (alpha !== null) {
-        setUserLocation((prevLocation) => 
-          (prevLocation ? { ...prevLocation, rotation: alpha } : undefined)
+        setUserLocation((prevLocation) =>
+          prevLocation ? { ...prevLocation, rotation: alpha } : undefined
         );
       }
     };
