@@ -1,19 +1,24 @@
 import { LatLngExpression } from "leaflet";
 
 export interface Point {
-  id?: string
+  id?: string;
   type: Report;
   position?: "left" | "right";
   coordinates: Coordinates;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
   description: string;
   createdAt: Date;
 }
 
 export interface Coordinates {
-  lat: number,
-  lng: number,
-  alt?: number,
-  rotation?: number,
+  lat: number;
+  lng: number;
+  alt?: number;
+  rotation?: number;
 }
 
 export interface Area {

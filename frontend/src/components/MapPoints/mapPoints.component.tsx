@@ -65,6 +65,9 @@ export const MapPoints = ({
             return pointType[type];
           }
 
+          const { firstName, lastName } = point.user;
+          const username = `${firstName} ${lastName}`;
+
           return (
             <Marker
               position={point.coordinates}
@@ -82,6 +85,7 @@ export const MapPoints = ({
                   ""
                 )}
                 <p>{`Criado em: ${createdAt}`}</p>
+                <p>{`por: ${username}`}</p>
               </Popup>
             </Marker>
           );
