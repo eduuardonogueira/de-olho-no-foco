@@ -8,7 +8,6 @@ import {
   Query,
   Req,
   UseGuards,
-  ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -38,9 +37,7 @@ export class UsersController {
 
   @Serialize(UserDto)
   @Get()
-  findUser(
-    @Query(new ValidationPipe({ transform: true })) userParams: UserParamsDto,
-  ) {
+  findUser(@Query() userParams: UserParamsDto) {
     const { id, email } = userParams;
     return this.usersService.findOne({ id, email });
   }

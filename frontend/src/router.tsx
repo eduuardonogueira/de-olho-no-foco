@@ -3,13 +3,21 @@ import {
   HOME_ROUTE,
   LOGIN_ROUTE,
   LOGOUT_ROUTE,
+  NOT_FOUND_ROUTE,
   NOTIFICATIONS_ROUTE,
   PROFILE_ROUTE,
   SIGNUP_ROUTE,
 } from "@constants/routes";
 import { lazy, Suspense } from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
-import { Areas, Logout, Notifications, Profile, Signup } from "./pages";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import {
+  Areas,
+  Logout,
+  Notifications,
+  Profile,
+  Signup,
+  NotFound,
+} from "./pages";
 import { AuthProvider } from "@contexts/AuthProvider";
 import { AuthRequired } from "@components/AuthRequired/authRequired.component";
 import { CurrentLocationProvider } from "@contexts/CurrentLocationProvider";
@@ -48,6 +56,8 @@ export const RouterAllRoutes = () => {
               </Routes>
             </Suspense>
           </AuthProvider>
+          <Route element={<NotFound />} path={NOT_FOUND_ROUTE} />
+          <Route element={<Navigate to={NOT_FOUND_ROUTE} />} path={"*"} />
         </MapValuesProvider>
       </CurrentLocationProvider>
     </main>

@@ -10,3 +10,4 @@ export const PROFILE_HISTORY_ROUTE = "/profile/history";
 export const PROFILE_SETTINGS_ROUTE = "/profile/settings";
 export const PROFILE_ACHIEVEMENTS_ROUTE = "/profile/achievements";
 export const PROFILE_HELP_ROUTE = "/profile/help";
+export const NOT_FOUND_ROUTE = "/404";

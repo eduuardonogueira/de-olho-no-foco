@@ -13,7 +13,7 @@ import { PointsService } from './points.service';
 import { CreatePointDto } from './dtos/create-points.dto';
 import { GetPointsNearbyDto } from './dtos/get-points-nearby.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { UserEntity } from 'src/users/entities/user-entity';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 interface Request {
   user: UserEntity;

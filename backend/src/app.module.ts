@@ -11,6 +11,9 @@ import { UsersService } from './users/users.service';
 import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './tasks.service';
+import { NotificationsModule } from './notifications/notifications.module';
+import { UsersController } from './users/users.controller';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -19,8 +22,14 @@ import { TasksService } from './tasks.service';
     PointsModule,
     UsersModule,
     AuthModule,
+    NotificationsModule,
   ],
-  controllers: [AppController, PointsController],
+  controllers: [
+    AppController,
+    PointsController,
+    UsersController,
+    AuthController,
+  ],
   providers: [
     AppService,
     PointsService,
