@@ -1,8 +1,8 @@
 export { default as TrashIcon } from "./trash-icon.svg";
 export { default as SanitationIcon } from "./sanitation-icon.svg";
-export { default as CourteusIcon } from "./courteus-icon.svg";
+export { default as CourteousIcon } from "./courteous-icon.svg";
 export { default as FloodIcon } from "./flood-icon.svg";
-export { default as CourteusShortIcon } from "./courteus-short-icon.svg";
+export { default as CourteousShortIcon } from "./courteous-short-icon.svg";
 export { default as SanitationShortIcon } from "./sanitation-short-icon.svg";
 export { default as TrashShortIcon } from "./trash-short-icon.svg";
 export { default as FloodShortIcon } from "./flood-short-icon.svg";

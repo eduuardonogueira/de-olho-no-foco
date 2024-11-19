@@ -1,10 +1,10 @@
 import styles from "./mapPoints.module.scss";
-import { Point } from "@customtypes/map";
+import { Point, Report } from "@customtypes/map";
 import { Marker, Popup, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import {
-  CourteusIcon,
-  CourteusShortIcon,
+  CourteousIcon,
+  CourteousShortIcon,
   FloodIcon,
   FloodShortIcon,
   TrashIcon,
@@ -12,17 +12,25 @@ import {
   SanitationIcon,
   SanitationShortIcon,
 } from "@assets/icons";
+import { useDateFormartter } from "@hooks/useDateFormatter";
+
+const pointType = {
+  sanitation: "Saneamento",
+  courteous: "Desmatamento",
+  trash: "Lixo",
+  flood: "Alagamento",
+} as const;
 
 const PointIcons: Record<string, string> = {
   sanitation: SanitationIcon,
-  courteous: CourteusIcon,
+  courteous: CourteousIcon,
   trash: TrashIcon,
   flood: FloodIcon,
 };
 
 const PointShortIcons: Record<string, string> = {
   sanitation: SanitationShortIcon,
-  courteous: CourteusShortIcon,
+  courteous: CourteousShortIcon,
   trash: TrashShortIcon,
   flood: FloodShortIcon,
 };
@@ -50,14 +58,10 @@ export const MapPoints = ({
             iconAnchor: [10, 20],
           });
 
-          const createdAt = point.createdAt.toLocaleString("pt-BR", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          });
+          const createdAt = useDateFormartter(point.createdAt);
+          function translateType(type: Report): string {
+            return pointType[type];
+          }
 
           return (
             <Marker
@@ -65,11 +69,17 @@ export const MapPoints = ({
               key={point.id}
               icon={zoom <= 14 ? pinShortIcon : pinIcon}
             >
-              <Tooltip>{point.type}</Tooltip>
+              <Tooltip>{translateType(point.type)}</Tooltip>
               <Popup>
-                <h1 className={styles.pointTitle}>{point.type}</h1>
-                <p>{`descrição: ${point.description}`}</p>
-                <p>{`criado em: ${createdAt}`}</p>
+                <h1 className={styles.pointTitle}>
+                  {translateType(point.type)}
+                </h1>
+                {point.description ? (
+                  <p>{`Descrição: ${point.description}`}</p>
+                ) : (
+                  ""
+                )}
+                <p>{`Criado em: ${createdAt}`}</p>
               </Popup>
             </Marker>
           );

@@ -11,6 +11,10 @@ import {
 } from "@contexts/CurrentLocationContext";
 import { MapValuesContext } from "@contexts/MapValuesContext";
 
+// import "leaflet.locatecontrol";
+// import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
+// import { LocateControl } from "leaflet.locatecontrol";
+
 interface MapProps {
   className?: string;
   points?: Point[];
@@ -46,13 +50,14 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
       const center = map.getCenter();
       setMapCenter(center);
       setLocation("mapCenter", center);
-    }
+    },
   });
 
   const API_KEY = import.meta.env.VITE_API_MAPS;
 
   useEffect(() => {
     map.locate();
+    // new LocateControl().addTo(map);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

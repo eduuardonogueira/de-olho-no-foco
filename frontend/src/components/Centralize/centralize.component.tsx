@@ -15,7 +15,7 @@ export const Centralize = ({
 
   function handleCentralize() {
     if (currentPosition) {
-      map.flyTo(currentPosition, map.getZoom());
+      map.flyTo(currentPosition, 17);
       setMapCenter(currentPosition);
     }
   }

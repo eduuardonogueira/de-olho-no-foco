@@ -7,13 +7,19 @@ import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
 
 export const Cursor = ({ zoom }: { zoom: number }) => {
   const currentLocation = useContext(CurrentLocationContext);
-  const iconSize = zoom <= 14 ? 25 : 50;
-  const iconRotation =
-    currentLocation && currentLocation.rotation ? -currentLocation.rotation : 0;
-  const iconSrc = zoom <= 14 ? CursorIcon : CursorPointerIcon;
+
+  const { rotation } = currentLocation;
+  function getIconSize() {
+    if (!rotation) return 35;
+    if (zoom <= 14) return 25;
+    return 50;
+  }
+  const iconSize = getIconSize();
+  const iconRotation = currentLocation && rotation ? -rotation : 0;
+  const iconSrc = zoom <= 14 || !rotation ? CursorIcon : CursorPointerIcon;
 
   const cursorIcon = new L.DivIcon({
-    html: `<img src="${iconSrc}" style="transform: rotate(${iconRotation}deg); width: ${iconSize}px; height: ${iconSize}px;" />`,
+    html: `<img src="${iconSrc}" class style="transform: rotate(${iconRotation}deg); width: ${iconSize}px; height: ${iconSize}px;" />`,
     iconSize: [iconSize, iconSize],
     className: styles.cursorIcon,
   });

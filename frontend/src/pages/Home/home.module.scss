@@ -34,6 +34,10 @@
 }
 
 .modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: #fff;
   padding: 36px;
   border-top: 1px solid #d1d1d1;
@@ -43,6 +47,7 @@
 .reportWrapper {
   margin-top: 32px;
   display: flex;
+  max-width: 400px;
   flex-wrap: wrap;
   justify-content: space-around;
 }
@@ -61,6 +66,7 @@
 
 .report img {
   width: 100%;
+  max-width: 100px;
 }
 
 .report:hover {
