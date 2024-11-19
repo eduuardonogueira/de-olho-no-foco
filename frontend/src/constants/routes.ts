@@ -1,6 +1,12 @@
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "/login";
 export const SIGNUP_ROUTE = "/signup";
+export const LOGOUT_ROUTE = "/logout";
 export const AREAS_ROUTE = "/areas";
 export const NOTIFICATIONS_ROUTE = "/notifications";
 export const PROFILE_ROUTE = "/profile";
+export const PROFILE_USER_DATA_ROUTE = "/profile/user-data";
+export const PROFILE_HISTORY_ROUTE = "/profile/history";
+export const PROFILE_SETTINGS_ROUTE = "/profile/settings";
+export const PROFILE_ACHIEVEMENTS_ROUTE = "/profile/achievements";
+export const PROFILE_HELP_ROUTE = "/profile/help";

@@ -4,3 +4,4 @@ export * from "./Areas/areas.page";
 export * from "./Notifications/notifications.page";
 export * from "./Profile/profile.page";
 export * from "./Signup/signup.page";
+export * from "./Logout/logout.page";

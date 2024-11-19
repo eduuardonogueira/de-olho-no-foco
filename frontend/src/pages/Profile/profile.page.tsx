@@ -1,30 +1,33 @@
 import styles from "./profile.module.scss";
 import { Menu } from "@components/index";
-import { LOGIN_ROUTE } from "@constants/routes";
 import { Link } from "react-router-dom";
-import { AUTH_CONTEXT_INITIAL_STATE, AuthContext } from "@contexts/AuthContext";
-import { useContext } from "react";
+import { useLinks } from "@hooks/useLinks";
+import { UserCirclePlus } from "@phosphor-icons/react";
 
 export const Profile = () => {
-  const { setAuth } = useContext(AuthContext);
-
-  function handleLogout() {
-    setAuth({
-      accessKey: AUTH_CONTEXT_INITIAL_STATE.accessKey,
-      isLogged: AUTH_CONTEXT_INITIAL_STATE.isLogged,
-    });
-  }
+  const { profileLinks } = useLinks();
 
   return (
-    <main className={styles.profileContainer}>
+    <div className={styles.profileContainer}>
       <section className={styles.profile}>
-        <h1>Profile Page</h1>
-        <Link to={LOGIN_ROUTE} onClick={handleLogout}>
-          Sair
-        </Link>
+        <div className={styles.header}>
+          <h1>Perfil</h1>
+          <UserCirclePlus className={styles.profileImage} size={40} />
+        </div>
+        <ul className={styles.menu}>
+          {profileLinks.map((link, index) => (
+            <li key={index} className={styles.menuItem}>
+              <Link to={link.route}>
+                {<link.icon className={styles.icon} size={30} />}
+                {link.label}
+              </Link>
+            </li>
+          ))}
+          <li className={styles.menuItem}></li>
+        </ul>
       </section>
       <Menu />
-    </main>
+    </div>
   );
 };
 

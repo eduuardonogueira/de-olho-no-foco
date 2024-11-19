@@ -2,13 +2,14 @@ import {
   AREAS_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
+  LOGOUT_ROUTE,
   NOTIFICATIONS_ROUTE,
   PROFILE_ROUTE,
   SIGNUP_ROUTE,
 } from "@constants/routes";
 import { lazy, Suspense } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { Areas, Notifications, Profile, Signup } from "./pages";
+import { Areas, Logout, Notifications, Profile, Signup } from "./pages";
 import { AuthProvider } from "@contexts/AuthProvider";
 import { AuthRequired } from "@components/AuthRequired/authRequired.component";
 import { CurrentLocationProvider } from "@contexts/CurrentLocationProvider";
@@ -26,6 +27,7 @@ export const RouterAllRoutes = () => {
             <Suspense>
               <Routes>
                 <Route element={<Login />} path={LOGIN_ROUTE} />
+                <Route element={<Logout />} path={LOGOUT_ROUTE} />
                 <Route element={<Signup />} path={SIGNUP_ROUTE} />
 
                 <Route
