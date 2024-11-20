@@ -87,7 +87,7 @@ export const Notifications = () => {
     <main className={styles.container}>
       <section className={styles.wrapper}>
         <hgroup className={styles.titleWrapper}>
-          <h1>Notifications</h1>
+          <h1>Notificações</h1>
           <MagnifyingGlass className={styles.notificationSearch} size={30} />
         </hgroup>
 
