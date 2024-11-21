@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { CreatePoint, Point } from "@customtypes/map";
-import { ICreateUser } from "../types/index";
+import {
+  CreatePoint,
+  Point,
+  INotification,
+  ICreateUser,
+} from "@customtypes/index";
 import Cookies from "js-cookie";
 
 export const useApi = () => {
@@ -27,6 +31,11 @@ export const useApi = () => {
       password: password,
     });
     return request;
+  }
+
+  async function getProfile() {
+    const request = await api.get(`/auth/profile`, authorizationHeader);
+    return request.data;
   }
 
   async function createUser(user: ICreateUser) {
@@ -91,13 +100,41 @@ export const useApi = () => {
     }
   }
 
+  async function getUserNotification({
+    isRead,
+    isDeleted,
+    type,
+    expiresAt,
+  }: {
+    isRead: boolean;
+    isDeleted: boolean;
+    type?: string;
+    expiresAt?: Date;
+  }): Promise<{
+    notifications: INotification[];
+    total: number;
+  }> {
+    const response = await api.get("notifications/global/all/filter", {
+      params: {
+        isRead,
+        isDeleted,
+        type,
+        expiresAt,
+      },
+      ...authorizationHeader,
+    });
+    return response.data;
+  }
+
   return {
     login,
+    getProfile,
     createUser,
     createPrivilegedUser,
     getPoint,
     getPointsNearby,
     createPoint,
     getAllPoints,
+    getUserNotification,
   };
 };

@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
 import {
+  IsBase64,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -48,4 +49,10 @@ export class CreateUserDto {
   @IsString()
   @IsPhoneNumber()
   phone: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @IsBase64()
+  profileImage: string;
 }

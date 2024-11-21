@@ -198,7 +198,31 @@ export const Home = () => {
             setPinPosition(undefined);
           }}
         >
-          <form onSubmit={(e) => handleFormSubmit(e)} className={styles.form}>
+          <form className={styles.form}>
+            <h2 className={styles.formTitle}>
+              Confirme a localização da denúncia
+            </h2>
+            <button
+              type="button"
+              className={styles.formButton}
+              onClick={handleFormSubmit}
+            >
+              Ok
+            </button>
+          </form>
+        </Modal>
+
+        <Modal
+          openModal={openLocationModal}
+          setOpenModal={setOpenLocationModal}
+          classNameModalContainer={styles.modalContainer}
+          classNameModalContent={styles.modalContent}
+          onClose={() => {
+            setReportPoint(undefined);
+            setPinPosition(undefined);
+          }}
+        >
+          <form className={styles.form}>
             <h2 className={styles.formTitle}>
               Confirme a localização da denúncia
             </h2>

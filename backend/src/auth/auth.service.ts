@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthPayloadDto } from './dto/auth.dto';
 import { UsersService } from '../users/users.service';
@@ -11,16 +12,27 @@ export class AuthService {
   ) {}
 
   async validateUser(authpayload: AuthPayloadDto) {
+    console.log('validando o usuário');
     const { username, password } = authpayload;
-    const findUser = await this.usersService.findOne({ email: username });
+    const findUser = await this.usersService.findOne({
+      email: username.toLowerCase(),
+    });
 
     if (!findUser)
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
-    if (password === findUser.password) {
+    const isMatch = await bcrypt.compare(password, findUser.password);
+
+    if (isMatch) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...user } = findUser;
-      return this.jwtService.sign(user);
+      return user;
     }
+    return null;
+  }
+
+  async login(user: any) {
+    const key = process.env.JWT_SECRET;
+    return this.jwtService.sign(user, { secret: key });
   }
 }

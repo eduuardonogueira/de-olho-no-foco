@@ -1,74 +1,97 @@
-import {
-  Fire,
-  Gear,
-  GlobeHemisphereEast,
-  Icon,
-  MagnifyingGlass,
-  TrashSimple,
-  Tree,
-} from "@phosphor-icons/react";
+import { MagnifyingGlass, TrashSimple } from "@phosphor-icons/react";
 import styles from "./notifications.module.scss";
-import { Menu } from "@components/index";
+import { Menu, Loader } from "@components/index";
+import { useApi, useDateFormatter } from "@hooks/index";
+import { useEffect, useState } from "react";
+import { INotification } from "@customtypes/index";
 
-const notifications = [
-  {
-    title: "Incêndios próximos à sua localização!",
-    message:
-      "⚠️ Fique atento(a), Mantenha-se informado(a) através dos canais de emergência!",
-    icon: Fire,
-    isRead: false,
-    date: "32m",
-  },
-  {
-    title: "Manutenção Programada",
-    message:
-      "O sistema estará em manutenção em [data] das [horário]. Algumas funcionalidades podem ficar indisponíveis.",
-    icon: Gear,
-    isRead: false,
-    date: "6h",
-  },
-  {
-    title: "Dica do Dia!",
-    message:
-      "Plante uma árvore e ajude o meio ambiente! Além de purificar o ar, você contribui para um planeta mais verde e sustentável! 🌍🌿",
-    icon: Tree,
-    isRead: true,
-    date: "1d",
-  },
-  {
-    title: "Dica do dia",
-    message:
-      "Recicle hoje para um amanhã melhor! 🌍Separe seus resíduos e contribua para a redução de lixo no planeta. Cada atitude conta! 💚",
-    icon: GlobeHemisphereEast,
-    isRead: true,
-    date: "2d",
-  },
-];
+interface NotificationData {
+  notifications: INotification[];
+  total: number;
+}
 
 export const Notifications = () => {
-  const readedNotifications = notifications.filter(
-    (notification) => notification.isRead === true
-  );
+  const { getUserNotification } = useApi();
+  const { getRelativeTime } = useDateFormatter();
 
-  const newNotifications = notifications.filter(
-    (notification) => notification.isRead === false
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [newNotifications, setNewNotifications] = useState<NotificationData>();
+  const [readedNotifications, setReadedNotifications] =
+    useState<NotificationData>();
 
-  const renderNotifications = (notification: {
-    title: string;
-    message: string;
-    icon: Icon;
-    isRead: boolean;
-    date: string;
-  }) => (
+  async function fetchNotifications() {
+    setIsLoading(true);
+    const isNewNotificationData = await getUserNotification({
+      isRead: false,
+      isDeleted: false,
+    });
+
+    const isReadedNotificationData = await getUserNotification({
+      isRead: true,
+      isDeleted: false,
+    });
+
+    if (isNewNotificationData && isReadedNotificationData) {
+      setNewNotifications(isNewNotificationData);
+      setReadedNotifications(isReadedNotificationData);
+    }
+
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    fetchNotifications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const mapNotifications = (
+    notifications: NotificationData | undefined,
+    title: string
+  ) => {
+    if (isLoading)
+      return (
+        <>
+          <hgroup className={styles.contentTitle}>
+            <h2>{title}</h2>
+            <h5>{notifications?.total}</h5>
+          </hgroup>
+          <Loader text="Carregando..." className={styles.loader} />
+        </>
+      );
+
+    return (
+      <>
+        <hgroup className={styles.contentTitle}>
+          <h2>{title}</h2>
+          <h5>{notifications?.total || 0}</h5>
+        </hgroup>
+
+        {notifications && notifications?.total > 0 ? (
+          <>
+            <ul className={styles.notificationContent}>
+              {notifications.notifications.map((notification) =>
+                renderNotifications(notification)
+              )}
+            </ul>
+          </>
+        ) : (
+          <p>Sem notificações</p>
+        )}
+      </>
+    );
+  };
+
+  const renderNotifications = (notification: INotification) => (
     <li
+      key={notification.id}
       className={styles.notification}
-      style={{ background: notification.isRead ? "#F5F5F5" : "#E1FFE9" }}
+      style={{
+        background: notification.userStatus[0].isRead ? "#F5F5F5" : "#E1FFE9",
+      }}
     >
       {
-        <notification.icon
-          weight="fill"
-          size={30}
+        <img
+          src={notification.type.imageUrl}
           className={styles.notificationIcon}
         />
       }
@@ -77,8 +100,14 @@ export const Notifications = () => {
         <p className={styles.notificationMessage}>{notification.message}</p>
       </div>
       <div className={styles.notificationWrapper}>
-        <TrashSimple weight="fill" size={14} className={styles.notificationDelete} />
-        <p className={styles.notificationDate}>{notification.date}</p>
+        <TrashSimple
+          weight="fill"
+          size={14}
+          className={styles.notificationDelete}
+        />
+        <p className={styles.notificationDate}>
+          {getRelativeTime(notification.createdAt)}
+        </p>
       </div>
     </li>
   );
@@ -92,26 +121,8 @@ export const Notifications = () => {
         </hgroup>
 
         <section className={styles.content}>
-          {notifications ? (
-            <>
-              <h2 className={styles.contentTitle}>Novas</h2>
-              {newNotifications.map((notification) =>
-                renderNotifications(notification)
-              )}
-              {readedNotifications ? (
-                <>
-                  <h2 className={styles.contentTitle}>Lidas</h2>
-                  {readedNotifications.map((notification) =>
-                    renderNotifications(notification)
-                  )}
-                </>
-              ) : (
-                ""
-              )}
-            </>
-          ) : (
-            <p>Sem notificações</p>
-          )}
+          {mapNotifications(newNotifications, "Novas")}
+          {mapNotifications(readedNotifications, "Lidas")}
         </section>
       </section>
       <Menu />

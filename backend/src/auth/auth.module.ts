@@ -7,10 +7,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ImgurService } from 'src/providers/imgur.service';
 
 @Module({
   imports: [
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '24h' },
@@ -23,6 +24,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     PrismaService,
     LocalStrategy,
     JwtStrategy,
+    ImgurService,
   ],
 })
 export class AuthModule {}

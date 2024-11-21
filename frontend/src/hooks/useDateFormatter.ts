@@ -1,3 +1,7 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/pt-br";
+
 export const useDateFormatter = () => {
   function dateFormatter(date: string | Date) {
     const entryDate = new Date(date);
@@ -13,5 +17,24 @@ export const useDateFormatter = () => {
     return formattedDate;
   }
 
-  return { dateFormatter };
+  function getRelativeTime(date: string | Date) {
+    dayjs.extend(relativeTime);
+    dayjs.locale("pt-br");
+
+    const diffInMinutes = dayjs().diff(dayjs(date), "minute");
+
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}m`;
+    }
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours}h`;
+    }
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays}d`;
+  }
+
+  return { dateFormatter, getRelativeTime };
 };

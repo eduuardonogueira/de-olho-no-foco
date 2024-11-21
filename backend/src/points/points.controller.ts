@@ -59,7 +59,7 @@ export class PointsController {
   // }
 
   @Delete('/delete/:id')
-  async removeProduct(@Param('id') id: string) {
-    return await this.pointsService.remove(id);
+  removePoint(@Param('id') id: string) {
+    return this.pointsService.remove(id);
   }
 }

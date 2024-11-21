@@ -32,6 +32,12 @@
   }
 }
 
+.headerProfile {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .profileImage {
   width: 48px;
   height: 48px;

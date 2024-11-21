@@ -3,15 +3,15 @@ import { NotificationsController } from './notifications.controller';
 import { NotificationsService } from './notifications.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { NotificationsTypeService } from './notificationsType.service';
-import { UserNotificationsService } from './userNotifications.service';
+import { ImgurService } from 'src/providers/imgur.service';
 
 @Module({
   controllers: [NotificationsController],
   providers: [
     NotificationsService,
-    PrismaService,
     NotificationsTypeService,
-    UserNotificationsService,
+    PrismaService,
+    ImgurService,
   ],
   exports: [NotificationsService],
 })

@@ -39,7 +39,7 @@ model GlobalNotification {
   id         String                   @id @default(uuid())
   title      String                   @db.VarChar(50)
   message    String                   @db.VarChar(200)
-  typeId     String                   @unique
+  typeId     String                   
   expiresAt  DateTime?                @map("expires_at") @db.Timestamp(6)
   createdAt  DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt  DateTime                 @updatedAt @map("updated_at") @db.Timestamp(6)
@@ -49,11 +49,11 @@ model GlobalNotification {
 
 model NotificationType {
   id           String              @id @default(uuid())
-  name         String              @db.VarChar(50)
+  name         String              @unique @db.VarChar(50)
   imageUrl     String              @map("image_url")
   createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt    DateTime            @updatedAt @map("updated_at") @db.Timestamp(6)
-  notification GlobalNotification?
+  notification GlobalNotification[]
 }
 
 model Point {

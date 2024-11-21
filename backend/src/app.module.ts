@@ -14,6 +14,9 @@ import { TasksService } from './tasks.service';
 import { NotificationsModule } from './notifications/notifications.module';
 import { UsersController } from './users/users.controller';
 import { AuthController } from './auth/auth.controller';
+import { ImgurService } from './providers/imgur.service';
+import { AuthService } from './auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -36,6 +39,9 @@ import { AuthController } from './auth/auth.controller';
     PrismaService,
     UsersService,
     TasksService,
+    ImgurService,
+    AuthService,
+    JwtService,
   ],
 })
 export class AppModule {}
