@@ -3,18 +3,24 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100dvh;
+  width: 100%;
+  height: 100%;
+  padding: 36px;
+  box-sizing: border-box;
 }
 
 .signupContainer {
   min-width: 300px;
-  height: min-content;
+  max-width: 500px;
+  max-height: max-content;
+  height: 100%;
+  width: 90%;
   margin: 0 auto;
   padding: 20px;
   background-color: #faf6f6;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-sizing: border-box;
 }
 
 .titleWrapper {

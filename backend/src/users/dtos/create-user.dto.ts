@@ -47,7 +47,6 @@ export class CreateUserDto {
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  @IsPhoneNumber()
   phone: string;
 
   @IsOptional()
