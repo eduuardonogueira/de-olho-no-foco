@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -17,6 +18,8 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateNotificationsDto } from './dtos/create-notifications.dto';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
 import { NotificationParamsDto } from './dtos/notification-params.dto';
+import { UserNotificationsStatusService } from './userNotificationsStatus.service';
+import { UpdateUserNotificationsStatusDto } from './dtos/update-user-notification-status.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('notifications')
@@ -24,6 +27,7 @@ export class NotificationsController {
   constructor(
     private readonly notificationsService: NotificationsService,
     private readonly notificationsTypeService: NotificationsTypeService,
+    private readonly userNotificationsStatusService: UserNotificationsStatusService,
   ) {}
 
   @Get('/global/all')
@@ -77,5 +81,15 @@ export class NotificationsController {
   ) {
     const { id, name } = notificationTypeParamsDto;
     return this.notificationsTypeService.findOne({ id, name });
+  }
+
+  @Patch('/status')
+  updateUserStatus(
+    @Body()
+    updateUserNotificationsStatusPayload: UpdateUserNotificationsStatusDto,
+  ) {
+    return this.userNotificationsStatusService.update(
+      updateUserNotificationsStatusPayload,
+    );
   }
 }
