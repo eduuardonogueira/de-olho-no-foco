@@ -43,8 +43,6 @@ export class UsersService {
   async create(userPayload: CreateUserDto, currentUser?: any) {
     const { email, role } = userPayload;
 
-    console.log(currentUser);
-
     if (role !== 'adventure') {
       if (!currentUser || currentUser?.role !== 'admin') {
         throw new HttpException('Unauthorized action', HttpStatus.UNAUTHORIZED);

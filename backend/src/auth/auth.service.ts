@@ -12,7 +12,6 @@ export class AuthService {
   ) {}
 
   async validateUser(authpayload: AuthPayloadDto) {
-    console.log('validando o usuário');
     const { username, password } = authpayload;
     const findUser = await this.usersService.findOne({
       email: username.toLowerCase(),

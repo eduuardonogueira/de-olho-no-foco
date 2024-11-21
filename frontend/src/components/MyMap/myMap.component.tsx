@@ -81,13 +81,11 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
   const RoutingMachineRef = useRef<L.Routing.Control | null>(null);
 
   useEffect(() => {
-    console.log(end);
     setStart(new L.LatLng(lat, lng));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [end]);
 
   useEffect(() => {
-    console.log(start);
     if (!mapInstance) return;
     if (mapInstance) {
       RoutingMachineRef.current = L.Routing.control({
