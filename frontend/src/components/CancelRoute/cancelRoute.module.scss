@@ -1,0 +1,19 @@
+.button {
+  position: absolute;
+  z-index: 999;
+  top: 108px;
+  right: 2.5%;
+  margin-right: 10px;
+  padding: 2px;
+  box-sizing: content-box;
+  border: 1px solid #cfcfcf;
+  background: #fff;
+}
+
+@media screen and (min-width: 640px) {
+  .button {
+    top: 68px;
+    padding: 8px;
+    border-radius: 8px;
+  }
+}

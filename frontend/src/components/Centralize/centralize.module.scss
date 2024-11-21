@@ -1,11 +1,22 @@
 .centralize {
   position: absolute;
   z-index: 1000;
-  height: 40px;
-  width: 40px;
-  bottom: 0px;
-  margin: 0px 0px 85px 10px;
+  height: 24px;
+  width: 24px;
+  box-sizing: content-box;
+  padding: 8px;
+  left: 10px;
+  bottom: 125px;
   background: #fff;
   border-radius: 5px;
-  border: 1px solid rgb(204, 204, 204);
+  border: 1px solid #cfcfcf;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+
+@media screen and (min-width: 480px) {
+  .centralize {
+    bottom: 110px;
+  }
 }

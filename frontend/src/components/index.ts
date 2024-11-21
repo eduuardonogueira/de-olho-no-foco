@@ -13,3 +13,4 @@ export * from "./GoogleLoginButton/googleLoginButton.component";
 export * from "./Input/input.component";
 export * from "./Button/button.component";
 export * from "./Alert/alert.component";
+export * from "./CancelRoute/cancelRoute.component";

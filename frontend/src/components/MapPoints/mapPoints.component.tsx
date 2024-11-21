@@ -13,6 +13,8 @@ import {
   SanitationShortIcon,
 } from "@assets/icons";
 import { useDateFormatter } from "@hooks/useDateFormatter";
+import { useContext, useState } from "react";
+import { RoutingContext } from "@contexts/RoutingContext";
 
 const pointType = {
   sanitation: "Saneamento",
@@ -43,6 +45,17 @@ export const MapPoints = ({
   zoom: number;
 }) => {
   const { dateFormatter } = useDateFormatter();
+  const { setEnd } = useContext(RoutingContext);
+
+  const [isOpen, setIsOpen] = useState(true);
+
+  function handleRouteToPoint({ lat, lng }: { lat: number; lng: number }) {
+    setEnd(new L.LatLng(lat, lng));
+    setIsOpen(false);
+    setTimeout(() => {
+      setIsOpen(true);
+    }, 1000);
+  }
 
   if (points && points.length > 0) {
     return (
@@ -75,18 +88,29 @@ export const MapPoints = ({
               icon={zoom <= 13 ? pinShortIcon : pinIcon}
             >
               <Tooltip>{translateType(point.type)}</Tooltip>
-              <Popup>
-                <h1 className={styles.pointTitle}>
-                  {translateType(point.type)}
-                </h1>
-                {point.description ? (
-                  <p>{`Descrição: ${point.description}`}</p>
-                ) : (
-                  ""
-                )}
-                <p>{`Criado em: ${createdAt}`}</p>
-                <p>{`por: ${username}`}</p>
-              </Popup>
+              {isOpen ? (
+                <Popup>
+                  <h1 className={styles.pointTitle}>
+                    {translateType(point.type)}
+                  </h1>
+                  {point.description ? (
+                    <p>{`Descrição: ${point.description}`}</p>
+                  ) : (
+                    ""
+                  )}
+                  <p>{`Criado em: ${createdAt}`}</p>
+                  <p>{`por: ${username}`}</p>
+
+                  <button
+                    className={styles.popupButton}
+                    onClick={() => handleRouteToPoint(point.coordinates)}
+                  >
+                    Criar rota
+                  </button>
+                </Popup>
+              ) : (
+                ""
+              )}
             </Marker>
           );
         })}

@@ -10,21 +10,25 @@ import {
 } from "@components/index";
 import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { Point, Report, AlertProps, CreatePoint } from "@customtypes/index";
 import { useApi, useLocalStorage, useReports } from "@hooks/index";
-import { LatLngExpression } from "leaflet";
+import { LatLngExpression, Map } from "leaflet";
 import { Modal as AntModal } from "antd";
 import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
 import { MapValuesContext } from "@contexts/MapValuesContext";
+import { RoutingContext } from "@contexts/RoutingContext";
 
 export const Home = () => {
   const currentLocation = useContext(CurrentLocationContext);
   const mapCenter = useContext(MapValuesContext);
+  const { setMapInstance } = useContext(RoutingContext);
 
   const { getPointsNearby, createPoint } = useApi();
   const { getLocalPoints, updateLocalPoints } = useLocalStorage();
   const { homeReport } = useReports();
+
+  const mapRef = useRef<Map | null>(null);
 
   const [openReportsModal, setOpenReportsModal] = useState<boolean>(false);
   const [openLocationModal, setOpenLocationModal] = useState<boolean>(false);
@@ -129,7 +133,7 @@ export const Home = () => {
       message: "Carregando",
       description: "Estamos carregando os pontos...",
       isOpen: true,
-      duration: 2
+      duration: 2,
     });
   }, []);
 
@@ -158,6 +162,16 @@ export const Home = () => {
             zoom={15}
             className={styles.mapContainer}
             zoomControl={false}
+            ref={(el) => {
+              if (el && !mapRef.current) {
+                mapRef.current = el;
+              }
+            }}
+            whenReady={() => {
+              setTimeout(() => {
+                setMapInstance(mapRef.current);
+              }, 2000);
+            }}
           >
             <MyMap className={styles.map} points={points} />
             <CreateButton onClick={handleCreateButtonClick} />
