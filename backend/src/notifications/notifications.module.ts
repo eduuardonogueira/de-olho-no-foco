@@ -4,6 +4,7 @@ import { NotificationsService } from './notifications.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { NotificationsTypeService } from './notificationsType.service';
 import { ImgurService } from 'src/providers/imgur.service';
+import { UserNotificationsStatusService } from './userNotificationsStatus.service';
 
 @Module({
   controllers: [NotificationsController],
@@ -12,6 +13,7 @@ import { ImgurService } from 'src/providers/imgur.service';
     NotificationsTypeService,
     PrismaService,
     ImgurService,
+    UserNotificationsStatusService,
   ],
   exports: [NotificationsService],
 })
