@@ -10,5 +10,6 @@ export * from "./Loader/loader.component";
 export * from "./Modal/modal.component";
 export * from "./MapPin/mapPin.component";
 export * from "./GoogleLoginButton/googleLoginButton.component";
-export * from './Input/input.component'
-export * from './Button/button.component'
+export * from "./Input/input.component";
+export * from "./Button/button.component";
+export * from "./Alert/alert.component";

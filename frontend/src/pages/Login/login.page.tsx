@@ -3,18 +3,34 @@ import styles from "./login.module.scss";
 import { LoginBackground, Logo } from "@assets/img";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { HOME_ROUTE, SIGNUP_ROUTE } from "@constants/routes";
-import { GoogleLoginButton, Button, Input } from "@components/index";
-import { Alert } from "antd";
+import {
+  GoogleLoginButton,
+  Button,
+  Input,
+  Alert,
+} from "@components/index";
 import { useApi, useBreakpoints } from "@hooks/index";
 import { AuthContext } from "@contexts/AuthContext";
 import { AlertProps } from "@customtypes/index";
 import { Eye, EyeClosed } from "@phosphor-icons/react";
 
 export const Login = () => {
-  const navigate = useNavigate();
+  const alertSuccess = {
+    message: "Sucesso!",
+    description: "Login realizado com sucesso.",
+    isOpen: true,
+  };
 
+  const alertError = {
+    message: "Error!",
+    description: "Usuário ou senha incorretos.",
+    isOpen: true,
+  };
+
+  const navigate = useNavigate();
   const { login } = useApi();
   const { isMobile } = useBreakpoints();
+
   const { setAuth, isLogged } = useContext(AuthContext);
 
   const [user, setUser] = useState({
@@ -25,9 +41,9 @@ export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [alert, setAlert] = useState<AlertProps>({
-    isOpen: false,
-    type: undefined,
     message: "",
+    description: "",
+    isOpen: false,
   });
 
   async function handleLogin(event: React.FormEvent) {
@@ -38,11 +54,7 @@ export const Login = () => {
       const response = await login(user);
 
       if (response.status === 201) {
-        setAlert({
-          isOpen: true,
-          type: "success",
-          message: "Login realizado com sucesso!",
-        });
+        setAlert(alertSuccess);
 
         setAuth({ accessKey: response.data, isLogged: true });
         setIsLoading(false);
@@ -50,18 +62,10 @@ export const Login = () => {
         navigate(HOME_ROUTE);
       }
 
-      setAlert({
-        isOpen: true,
-        type: "error",
-        message: "Usuário ou senha incorretos!",
-      });
+      setAlert(alertError);
       setIsLoading(false);
     } catch (err) {
-      setAlert({
-        isOpen: true,
-        type: "error",
-        message: "Usuário ou senha incorretos!",
-      });
+      setAlert(alertError);
       setIsLoading(false);
       console.error(err);
     }
@@ -74,24 +78,18 @@ export const Login = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       setIsGoogleLoading(false);
-      setAlert({
-        isOpen: true,
-        type: "success",
-        message: "Login realizado com sucesso!",
-      });
+      setAlert(alertSuccess);
 
       navigate(HOME_ROUTE);
     } catch (error) {
       console.error(error);
-
       setIsGoogleLoading(false);
-      setAlert({
-        isOpen: true,
-        type: "error",
-        message: "Usuário ou senha incorretos!",
-      });
+      setAlert(alertError);
     }
   }
+
+  const setIsOpen = (isOpen: boolean) =>
+    setAlert((prev) => ({ ...prev, isOpen }));
 
   function togglePasswordVisibility() {
     setPasswordIsVisible((prev) => !prev);
@@ -129,18 +127,15 @@ export const Login = () => {
           alt="floresta bem verde"
           className={styles.loginBackground}
         />
-        {alert.isOpen ? (
-          <Alert
-            message={alert.message}
-            type={alert.type}
-            showIcon
-            closable
-            className={styles.alert}
-            onClose={() => setAlert((prev) => ({ ...prev, isOpen: false }))}
-          />
-        ) : (
-          ""
-        )}
+
+        <Alert
+          message={alert.message}
+          description={alert.description}
+          isOpen={alert.isOpen}
+          setIsOpen={setIsOpen}
+          className={styles.alert}
+          duration={alert.duration}
+        />
 
         {isMobile ? renderLoginHeader() : ""}
 

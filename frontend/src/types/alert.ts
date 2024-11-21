@@ -1,5 +1,6 @@
 export interface AlertProps {
-  isOpen: boolean;
-  type: "success" | "info" | "warning" | "error" | undefined;
   message: string;
+  description: string;
+  isOpen: boolean;
+  duration?: number | null | undefined;
 }

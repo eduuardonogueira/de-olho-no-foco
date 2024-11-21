@@ -6,6 +6,7 @@ import {
   Loader,
   Modal,
   MapPin,
+  Alert,
 } from "@components/index";
 import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
@@ -13,7 +14,7 @@ import { FormEvent, useContext, useEffect, useState } from "react";
 import { Point, Report, AlertProps, CreatePoint } from "@customtypes/index";
 import { useApi, useLocalStorage, useReports } from "@hooks/index";
 import { LatLngExpression } from "leaflet";
-import { Alert, Modal as AntModal } from "antd";
+import { Modal as AntModal } from "antd";
 import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
 import { MapValuesContext } from "@contexts/MapValuesContext";
 
@@ -35,23 +36,12 @@ export const Home = () => {
   const [reportPoint, setReportPoint] = useState<CreatePoint>();
   const [alert, setAlert] = useState<AlertProps>({
     isOpen: false,
-    type: undefined,
     message: "",
+    description: "",
   });
 
-  const renderAlert = () => {
-    if (alert.isOpen)
-      return (
-        <Alert
-          message={alert.message}
-          type={alert.type}
-          showIcon
-          closable
-          className={styles.alert}
-          onClose={() => setAlert((prev) => ({ ...prev, isOpen: false }))}
-        />
-      );
-  };
+  const setIsOpen = (isOpen: boolean) =>
+    setAlert((prev) => ({ ...prev, isOpen }));
 
   async function fetchPoints() {
     try {
@@ -59,10 +49,6 @@ export const Home = () => {
         const { lat, lng } = mapCenter;
         const maxDistance = (20 - mapCenter.zoom) * 1000;
         const data = await getPointsNearby(lat, lng, maxDistance);
-
-        // console.log("maxDistance: ", maxDistance);
-        // console.log("zoom: ", currentLocation.zoom);
-        // console.log(currentLocation);
 
         updateLocalPoints("lastPoints", data);
         setPoints(data);
@@ -119,15 +105,15 @@ export const Home = () => {
           updateLocalPoints("lastPoints", response.data);
           fetchPoints();
           setAlert({
+            message: "Sucesso!",
+            description: "Denúncia criada com sucesso!",
             isOpen: true,
-            type: "success",
-            message: "Denúncia criada com sucesso!",
           });
         } else {
           setAlert({
+            message: "Erro!",
+            description: "Erro ao criar denúncia!",
             isOpen: true,
-            type: "error",
-            message: "Erro ao criar denúncia!",
           });
         }
       } catch (error) {
@@ -139,15 +125,31 @@ export const Home = () => {
   }
 
   useEffect(() => {
+    setAlert({
+      message: "Carregando",
+      description: "Estamos carregando os pontos...",
+      isOpen: true,
+      duration: 2
+    });
+  }, []);
+
+  useEffect(() => {
     setCenter(currentLocation);
     fetchPoints();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapCenter.zoom, mapCenter]);
 
   return (
     <div className={styles.container}>
       <main className={styles.pointsContainer}>
-        {renderAlert()}
+        <Alert
+          message={alert.message}
+          description={alert.description}
+          isOpen={alert.isOpen}
+          setIsOpen={setIsOpen}
+          className={styles.alert}
+          duration={alert.duration}
+        />
         <SearchBar />
         {center ? (
           <MapContainer
