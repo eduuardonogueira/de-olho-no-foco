@@ -1,16 +1,31 @@
-🌍 De Olho no Foco
-De Olho no Foco é um projeto para mapear problemas ambientais em tempo real. Os usuários podem criar denúncias geolocalizadas e compartilhá-las com a comunidade, promovendo a conscientização e a resolução de questões ambientais.
+# 🌍 De Olho no Foco
 
-🚀 Tecnologias Utilizadas
-Frontend: Vite.js
-Backend: NestJS
-Banco de Dados: PostgreSQL (Neon Serverless)
-ORM: Prisma
-Mapa Interativo: Leaflet.js
-Linguagem: TypeScript
-🌐 Infraestrutura
-Frontend hospedado na Vercel
-Backend hospedado no Render
-Banco de dados Neon Serverless
-🎯 Objetivo
-Facilitar a denúncia de problemas ambientais e permitir que a sociedade acompanhe ocorrências próximas, incentivando ações para a preservação do meio ambiente.
+**De Olho no Foco** é um projeto pessoal para mapear problemas ambientais em um mapa em tempo real. Os usuários podem criar denúncias em sua localização e compartilhá-las com outros usuários, ajudando a conscientizar e combater problemas ambientais.
+
+Acesse: [Site da aplicação](https://de-olho-no-foco.vercel.app)
+
+## 🚀 Tecnologias Utilizadas
+
+- **Frontend:** [Vite.js](https://vitejs.dev/)  
+- **Backend:** [NestJS](https://nestjs.com/)  
+- **Banco de Dados:** [PostgreSQL (Neon Serverless)](https://neon.tech/)  
+- **ORM:** [Prisma](https://www.prisma.io/)  
+- **Mapa Interativo:** [Leaflet.js](https://leafletjs.com/)  
+- **Linguagem:** TypeScript  
+
+## 🌐 Infraestrutura
+
+- 🚀 **Frontend hospedado na Vercel** → [Vercel](https://vercel.com/)  
+- ⚡ **Backend hospedado no Render** → [Render](https://render.com/)  
+- 🗄️ **Banco de dados no Neon Serverless** → [Neon](https://neon.tech/)  
+
+## 🎯 Objetivo
+
+O projeto visa facilitar a denúncia e o acompanhamento de problemas ambientais através de um mapa interativo. Qualquer usuário pode reportar incidentes ambientais na sua região, promovendo ações de preservação e conscientização.
+
+## 📸 Capturas de Tela
+
+![image](https://github.com/user-attachments/assets/b980baf6-9752-4c2f-98f3-89abf0546619)
+![image](https://github.com/user-attachments/assets/305f6c65-4a9d-438f-8737-cc78893c9844)
+![image](https://github.com/user-attachments/assets/78f21362-28f5-4ff6-902a-a87181dc371a)
+
