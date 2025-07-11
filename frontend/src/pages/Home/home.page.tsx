@@ -144,130 +144,127 @@ export const Home = () => {
   }, [mapCenter.zoom, mapCenter]);
 
   return (
-    <div className={styles.container}>
-      <main className={styles.pointsContainer}>
-        <Alert
-          message={alert.message}
-          description={alert.description}
-          isOpen={alert.isOpen}
-          setIsOpen={setIsOpen}
-          className={styles.alert}
-          duration={alert.duration}
-        />
-        <SearchBar />
-        {center ? (
-          <MapContainer
-            id="mapContainer"
-            center={center}
-            zoom={15}
-            className={styles.mapContainer}
-            zoomControl={false}
-            ref={(el) => {
-              if (el && !mapRef.current) {
-                mapRef.current = el;
-              }
-            }}
-            whenReady={() => {
-              setTimeout(() => {
-                setMapInstance(mapRef.current);
-              }, 2000);
-            }}
+    <main className={styles.pointsContainer}>
+      <Alert
+        message={alert.message}
+        description={alert.description}
+        isOpen={alert.isOpen}
+        setIsOpen={setIsOpen}
+        className={styles.alert}
+        duration={alert.duration}
+      />
+      <SearchBar />
+      {center ? (
+        <MapContainer
+          id="mapContainer"
+          center={center}
+          zoom={15}
+          className={styles.mapContainer}
+          zoomControl={false}
+          ref={(el) => {
+            if (el && !mapRef.current) {
+              mapRef.current = el;
+            }
+          }}
+          whenReady={() => {
+            setTimeout(() => {
+              setMapInstance(mapRef.current);
+            }, 2000);
+          }}
+        >
+          <MyMap className={styles.map} points={points} />
+          <CreateButton onClick={handleCreateButtonClick} />
+          {pinPosition ? <MapPin position={pinPosition} /> : ""}
+        </MapContainer>
+      ) : (
+        <Loader text={"Carregando Mapa"} />
+      )}
+
+      <Modal
+        openModal={openReportsModal}
+        setOpenModal={setOpenReportsModal}
+        classNameModalContainer={styles.modalContainer}
+        classNameModalContent={styles.modalContent}
+      >
+        <h2 className={styles.modalTitle}>Qual é a sua denúncia?</h2>
+
+        <section className={styles.reportWrapper}>
+          {homeReport.map((report) => (
+            <div
+              className={styles.report}
+              key={report.label}
+              onClick={() => handleReportClick(report.type)}
+            >
+              <img src={report.image} alt={report.label} />
+              <h3>{report.label}</h3>
+            </div>
+          ))}
+        </section>
+      </Modal>
+
+      <Modal
+        openModal={openLocationModal}
+        setOpenModal={setOpenLocationModal}
+        classNameModalContainer={styles.modalContainer}
+        classNameModalContent={styles.modalContent}
+        onClose={() => {
+          setReportPoint(undefined);
+          setPinPosition(undefined);
+        }}
+      >
+        <form className={styles.form}>
+          <h2 className={styles.formTitle}>
+            Confirme a localização da denúncia
+          </h2>
+          <button
+            type="button"
+            className={styles.formButton}
+            onClick={handleFormSubmit}
           >
-            <MyMap className={styles.map} points={points} />
-            <CreateButton onClick={handleCreateButtonClick} />
-            {pinPosition ? <MapPin position={pinPosition} /> : ""}
-          </MapContainer>
-        ) : (
-          <Loader text={"Carregando Mapa"} />
-        )}
-        <Menu />
+            Ok
+          </button>
+        </form>
+      </Modal>
 
-        <Modal
-          openModal={openReportsModal}
-          setOpenModal={setOpenReportsModal}
-          classNameModalContainer={styles.modalContainer}
-          classNameModalContent={styles.modalContent}
-        >
-          <h2 className={styles.modalTitle}>Qual é a sua denúncia?</h2>
+      <Modal
+        openModal={openLocationModal}
+        setOpenModal={setOpenLocationModal}
+        classNameModalContainer={styles.modalContainer}
+        classNameModalContent={styles.modalContent}
+        onClose={() => {
+          setReportPoint(undefined);
+          setPinPosition(undefined);
+        }}
+      >
+        <form className={styles.form}>
+          <h2 className={styles.formTitle}>
+            Confirme a localização da denúncia
+          </h2>
+          <button
+            type="button"
+            className={styles.formButton}
+            onClick={handleFormSubmit}
+          >
+            Ok
+          </button>
+        </form>
+      </Modal>
 
-          <section className={styles.reportWrapper}>
-            {homeReport.map((report) => (
-              <div
-                className={styles.report}
-                key={report.label}
-                onClick={() => handleReportClick(report.type)}
-              >
-                <img src={report.image} alt={report.label} />
-                <h3>{report.label}</h3>
-              </div>
-            ))}
-          </section>
-        </Modal>
-
-        <Modal
-          openModal={openLocationModal}
-          setOpenModal={setOpenLocationModal}
-          classNameModalContainer={styles.modalContainer}
-          classNameModalContent={styles.modalContent}
-          onClose={() => {
-            setReportPoint(undefined);
-            setPinPosition(undefined);
-          }}
-        >
-          <form className={styles.form}>
-            <h2 className={styles.formTitle}>
-              Confirme a localização da denúncia
-            </h2>
-            <button
-              type="button"
-              className={styles.formButton}
-              onClick={handleFormSubmit}
-            >
-              Ok
-            </button>
-          </form>
-        </Modal>
-
-        <Modal
-          openModal={openLocationModal}
-          setOpenModal={setOpenLocationModal}
-          classNameModalContainer={styles.modalContainer}
-          classNameModalContent={styles.modalContent}
-          onClose={() => {
-            setReportPoint(undefined);
-            setPinPosition(undefined);
-          }}
-        >
-          <form className={styles.form}>
-            <h2 className={styles.formTitle}>
-              Confirme a localização da denúncia
-            </h2>
-            <button
-              type="button"
-              className={styles.formButton}
-              onClick={handleFormSubmit}
-            >
-              Ok
-            </button>
-          </form>
-        </Modal>
-
-        <AntModal
-          title="Localização não encontrada!"
-          open={openGetLocationModal}
-          onOk={handleGetLocationModalClick}
-          onCancel={() => setOpenGetLocationModal(false)}
-          cancelText="Cancelar"
-          okText="Obter Localização"
-          centered={true}
-        >
-          <p>
-            Você deve habilitar a sua localização para que possamos ter acesso
-            ao local da sua denúncia.
-          </p>
-        </AntModal>
-      </main>
-    </div>
+      <AntModal
+        title="Localização não encontrada!"
+        open={openGetLocationModal}
+        onOk={handleGetLocationModalClick}
+        onCancel={() => setOpenGetLocationModal(false)}
+        cancelText="Cancelar"
+        okText="Obter Localização"
+        centered={true}
+      >
+        <p>
+          Você deve habilitar a sua localização para que possamos ter acesso ao
+          local da sua denúncia.
+        </p>
+      </AntModal>
+    </main>
   );
 };
 

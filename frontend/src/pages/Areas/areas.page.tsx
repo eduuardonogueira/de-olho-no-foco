@@ -1,5 +1,5 @@
 import styles from "./areas.module.scss";
-import { Menu, MyMap, SearchBar } from "@components/index";
+import { MyMap, SearchBar } from "@components/index";
 import { MapContainer } from "react-leaflet";
 import { useContext, useEffect, useRef, useState } from "react";
 import { LatLngExpression, Map as TypeMap } from "leaflet";
@@ -13,7 +13,7 @@ export const Areas = () => {
   const currentLocation = useContext(CurrentLocationContext);
 
   useEffect(() => {
-    setCenter(currentLocation)
+    setCenter(currentLocation);
   }, []);
 
   // const [drawCoordinates, setDrawCoordinates] = useState<LatLngExpression[]>(
@@ -60,26 +60,23 @@ export const Areas = () => {
   // }
 
   return (
-    <div className={styles.container}>
-      <main className={styles.areasContainer}>
-        <SearchBar />
-        {center ? (
-          <MapContainer
-            ref={mapRef}
-            id="mapContainer"
-            center={center}
-            zoom={15}
-            className={styles.mapContainer}
-            zoomControl={false}
-          >
-            <MyMap className={styles.map} />
-          </MapContainer>
-        ) : (
-          ""
-        )}
-        <Menu />
-      </main>
-    </div>
+    <main className={styles.areasContainer}>
+      <SearchBar />
+      {center ? (
+        <MapContainer
+          ref={mapRef}
+          id="mapContainer"
+          center={center}
+          zoom={15}
+          className={styles.mapContainer}
+          zoomControl={false}
+        >
+          <MyMap className={styles.map} />
+        </MapContainer>
+      ) : (
+        ""
+      )}
+    </main>
   );
 };
 

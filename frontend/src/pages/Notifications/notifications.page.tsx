@@ -1,6 +1,6 @@
 import { MagnifyingGlass, TrashSimple } from "@phosphor-icons/react";
 import styles from "./notifications.module.scss";
-import { Menu, Loader } from "@components/index";
+import { Loader } from "@components/index";
 import { useApi, useDateFormatter } from "@hooks/index";
 import { useEffect, useState } from "react";
 import { INotification } from "@customtypes/index";
@@ -125,7 +125,6 @@ export const Notifications = () => {
           {mapNotifications(readedNotifications, "Lidas")}
         </section>
       </section>
-      <Menu />
     </main>
   );
 };

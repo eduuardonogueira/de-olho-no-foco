@@ -9,7 +9,7 @@ import {
   SIGNUP_ROUTE,
 } from "@constants/routes";
 import { lazy, Suspense } from "react";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import {
   Areas,
   Logout,
@@ -18,6 +18,7 @@ import {
   Signup,
   NotFound,
 } from "./pages";
+import MenuLayout from "./layouts/MenuLayout/menuLayout.layout";
 import { AuthProvider } from "@contexts/AuthProvider";
 import { AuthRequired } from "@components/AuthRequired/authRequired.component";
 import { CurrentLocationProvider } from "@contexts/CurrentLocationProvider";
@@ -43,7 +44,7 @@ export const RouterAllRoutes = () => {
                   <Route
                     element={
                       <AuthRequired>
-                        <Outlet />
+                        <MenuLayout />
                       </AuthRequired>
                     }
                   >

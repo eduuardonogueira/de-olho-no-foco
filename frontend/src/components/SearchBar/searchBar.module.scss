@@ -24,3 +24,9 @@
   right: 12px;
   color: #625b71;
 }
+
+@media screen and (min-width: 760px) {
+  .searchBar {
+    top: 20px;
+  }
+}

@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100dvh;
+}
+
+@media screen and (min-width: 760px) {
+  .container {
+    flex-direction: row-reverse;
+  }
+}

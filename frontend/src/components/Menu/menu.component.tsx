@@ -17,7 +17,7 @@ export const Menu = () => {
               cn(styles.menuLink, { [styles.activeMenuLink]: isActive })
             }
           >
-            {<link.icon size={40} />}
+            {<link.icon size={40} weight="fill"/>}
             {link.label}
           </NavLink>
         ))}

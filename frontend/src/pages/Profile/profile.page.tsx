@@ -1,5 +1,4 @@
 import styles from "./profile.module.scss";
-import { Menu } from "@components/index";
 import { Link } from "react-router-dom";
 import { useLinks, useApi } from "@hooks/index";
 import { UserCirclePlus } from "@phosphor-icons/react";
@@ -45,7 +44,6 @@ export const Profile = () => {
           ))}
         </ul>
       </section>
-      <Menu />
     </div>
   );
 };
