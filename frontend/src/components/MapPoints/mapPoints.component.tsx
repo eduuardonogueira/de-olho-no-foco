@@ -78,7 +78,7 @@ export const MapPoints = ({
               html: `<img class="${cn({
                 [styles.pointImage]: point.animate,
               })}" src="${iconUrl}" width="${size}" height="${size}" />`,
-              iconAnchor: [zoom <= 13 ? size / 2 : -20, size / 2],
+              iconAnchor: [zoom <= 13 ? size / 2 : 0, size],
             });
           };
 
@@ -96,7 +96,7 @@ export const MapPoints = ({
                 click: () => handleOpenMapDetailsModal(point.id),
               }}
             >
-              <Tooltip>{translateType(point.type)}</Tooltip>
+              <Tooltip direction="left">{translateType(point.type)}</Tooltip>
             </Marker>
           );
         })}
