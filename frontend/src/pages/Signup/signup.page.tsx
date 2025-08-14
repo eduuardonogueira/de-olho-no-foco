@@ -53,7 +53,7 @@ export const Signup = () => {
     phone: "",
     email: "",
     password: "",
-    role: "adventure",
+    role: "ADVENTURE",
   });
   const [passwordOptions, setPasswordOptions] = useState<PasswordOptions>({
     passwordCompared: "",

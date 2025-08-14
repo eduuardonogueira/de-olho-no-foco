@@ -1,5 +1,5 @@
 import { ICurrentLocationContextProps } from "@contexts/CurrentLocation/CurrentLocationContext";
-import { Coordinates, Point } from "@customtypes/map";
+import { ICoordinates, IMapPoint } from "@customtypes/map";
 
 export const useLocalStorage = () => {
   function setLocation(
@@ -10,7 +10,7 @@ export const useLocalStorage = () => {
     return true;
   }
 
-  function getLocation(id: string): Coordinates | null {
+  function getLocation(id: string): ICoordinates | null {
     const location = localStorage.getItem(id);
 
     if (location) {
@@ -31,13 +31,13 @@ export const useLocalStorage = () => {
     return undefined;
   }
 
-  function setLocalPoints(id: string, points: Point[]) {
+  function setLocalPoints(id: string, points: IMapPoint[]) {
     localStorage.setItem(id, JSON.stringify(points));
     return true;
   }
 
-  function updateLocalPoints(id: string, newPoints: Point | Point[]) {
-    const localPoints: Point[] | undefined = getLocalPoints(id);
+  function updateLocalPoints(id: string, newPoints: IMapPoint | IMapPoint[]) {
+    const localPoints: IMapPoint[] | undefined = getLocalPoints(id);
 
     if (localPoints) {
       if (Array.isArray(newPoints)) {

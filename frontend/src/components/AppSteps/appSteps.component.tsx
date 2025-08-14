@@ -34,8 +34,6 @@ export const AppSteps = ({ steps, handleStepFinished }: IAppStepsProps) => {
   const finished = () => {
     const { isValid, validMessage } = stepIsValid();
 
-    console.log(isValid, validMessage);
-
     if (isValid) {
       handleStepFinished();
     } else {

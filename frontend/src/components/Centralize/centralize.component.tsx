@@ -1,14 +1,14 @@
 import styles from "./centralize.module.scss";
 import { useMapEvents } from "react-leaflet";
 import { Gps } from "@phosphor-icons/react";
-import { UserLocation } from "@customtypes/map";
+import { IUserLocation } from "@customtypes/map";
 import { useContext } from "react";
 import { MapValuesContext } from "@contexts/MapValues/MapValuesContext";
 
 export const Centralize = ({
   currentPosition,
 }: {
-  currentPosition: UserLocation | undefined;
+  currentPosition: IUserLocation | undefined;
 }) => {
   const map = useMapEvents({});
   const { setMapCenter } = useContext(MapValuesContext);

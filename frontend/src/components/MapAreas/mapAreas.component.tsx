@@ -1,7 +1,7 @@
-import { Area } from "@customtypes/map";
+import { IArea } from "@customtypes/map";
 import { Polyline } from "react-leaflet";
 
-export const MapAreas = ({ areas }: { areas?: Area[] }) => {
+export const MapAreas = ({ areas }: { areas?: IArea[] }) => {
   if (areas && areas.length > 0) {
     return (
       <>

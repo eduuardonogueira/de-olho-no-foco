@@ -1,12 +1,13 @@
 import styles from "./reportImage.module.scss";
 import { File } from "@components/index";
-import { CreatePoint } from "@customtypes/map";
+import { ICreatePoint } from "@customtypes/map";
 import { UploadProps } from "antd";
+import { RcFile } from "antd/es/upload";
 
 interface IReportImageProps {
   handleAddReportImage: (file: File) => void;
   handleRemoveReportImage: (files: File[]) => void;
-  newReportPoint: CreatePoint;
+  newReportPoint: ICreatePoint;
 }
 
 export const ReportImage = ({
@@ -17,7 +18,7 @@ export const ReportImage = ({
   const fileProps: UploadProps = {
     onRemove(file) {
       const prevImages = newReportPoint.images?.filter(
-        (img) => img.uid !== file.uid
+        (img: RcFile) => img.uid !== file.uid
       );
 
       if (prevImages) handleRemoveReportImage(prevImages);

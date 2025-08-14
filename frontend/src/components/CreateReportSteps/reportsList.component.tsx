@@ -1,11 +1,11 @@
 import { useReports } from "@hooks/useReports";
 import styles from "./reportsList.module.scss";
 import cn from "classnames";
-import { CreatePoint, IListReport, Report } from "@customtypes/map";
+import { ICreatePoint, IListReport, Report } from "@customtypes/map";
 import { useState } from "react";
 
 interface IReportsListProps {
-  newReportPoint: CreatePoint | undefined;
+  newReportPoint: ICreatePoint | undefined;
   handleSelectReportType: (reportType: Report) => void;
 }
 

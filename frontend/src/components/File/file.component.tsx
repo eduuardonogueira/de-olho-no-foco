@@ -34,9 +34,6 @@ export const File = ({ fileProps }: IFileProps) => {
     name: "file",
     multiple: true,
     accept: "image/*",
-    onDrop(e) {
-      console.log("Arquivos soltos:", e.dataTransfer.files);
-    },
     onPreview: async (file: UploadFile) => {
       if (!file.url && !file.preview) {
         file.preview = await getBase64(file.originFileObj as FileType);

@@ -1,4 +1,4 @@
-import { CreatePoint } from "@customtypes/map";
+import { ICreatePoint } from "@customtypes/map";
 import styles from "./reportDetails.module.scss";
 import { Checkbox, Form, Input, Tag } from "antd";
 
@@ -21,7 +21,7 @@ const customizeRequiredMark = (
 interface IReportDetailsProps {
   handleInputChange: (obj: string, value: string) => void;
   handleCheckboxChange: (value: boolean) => void;
-  newReportPoint: CreatePoint;
+  newReportPoint: ICreatePoint;
 }
 
 export const ReportDetails = ({

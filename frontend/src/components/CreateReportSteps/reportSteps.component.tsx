@@ -4,8 +4,8 @@ import {
   ReportImage,
   ReportDetails,
 } from "@components/index";
-import { CreatePoint, ISteps, Report } from "@customtypes/index";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { ICreatePoint, ISteps, Report } from "@customtypes/index";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { AlertContext, CurrentLocationContext } from "@contexts/index";
 import { useLocalStorage, useApi } from "@hooks/index";
 import { RcFile } from "antd/es/upload";
@@ -21,7 +21,7 @@ export const ReportSteps = ({ closeModal }: IReportStepsProps) => {
   const { lat, lng } = useContext(CurrentLocationContext);
   const { setAlert } = useContext(AlertContext);
 
-  const [newReportPoint, setNewReportPoint] = useState<CreatePoint>();
+  const [newReportPoint, setNewReportPoint] = useState<ICreatePoint>();
 
   const handleSelectReportType = useCallback(
     (reportType: Report) => {
@@ -38,7 +38,7 @@ export const ReportSteps = ({ closeModal }: IReportStepsProps) => {
 
   const handleAddReportImage = useCallback(
     (file: RcFile) =>
-      setNewReportPoint((prev) =>
+      setNewReportPoint((prev: ICreatePoint | undefined) =>
         prev ? { ...prev, images: [...(prev.images || []), file] } : prev
       ),
     [setNewReportPoint]
@@ -46,19 +46,23 @@ export const ReportSteps = ({ closeModal }: IReportStepsProps) => {
 
   const handleRemoveReportImage = useCallback(
     (files: RcFile[]) =>
-      setNewReportPoint((prev) => (prev ? { ...prev, images: files } : prev)),
+      setNewReportPoint((prev: ICreatePoint | undefined) =>
+        prev ? { ...prev, images: files } : prev
+      ),
     [setNewReportPoint]
   );
 
   const handleInputChange = useCallback(
     (obj: string, value: string) =>
-      setNewReportPoint((prev) => (prev ? { ...prev, [obj]: value } : prev)),
+      setNewReportPoint((prev: ICreatePoint | undefined) =>
+        prev ? { ...prev, [obj]: value } : prev
+      ),
     [setNewReportPoint]
   );
 
   const handleCheckboxChange = useCallback(
     (value: boolean) => {
-      setNewReportPoint((prev) =>
+      setNewReportPoint((prev: ICreatePoint | undefined) =>
         prev ? { ...prev, isAnonymous: value } : prev
       );
     },
@@ -131,10 +135,6 @@ export const ReportSteps = ({ closeModal }: IReportStepsProps) => {
 
     closeModal();
   }
-
-  useEffect(() => {
-    console.log("newReportPoint mudou:", newReportPoint);
-  }, [newReportPoint]);
 
   return <AppSteps steps={steps} handleStepFinished={handleFormSubmit} />;
 };
