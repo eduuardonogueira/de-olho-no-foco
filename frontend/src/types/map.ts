@@ -22,7 +22,7 @@ export interface ICreatePoint {
 }
 
 export interface IPoint {
-  id?: string;
+  id: string;
   type: Report;
   position?: PointPosition;
   images?: string[];
@@ -42,7 +42,7 @@ export interface IPoint {
 }
 
 export interface IMapPoint {
-  id?: string;
+  id: string;
   type: Report;
   position?: "left" | "right";
   coordinates: ICoordinates;

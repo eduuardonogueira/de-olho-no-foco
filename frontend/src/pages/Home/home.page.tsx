@@ -12,7 +12,7 @@ import { useContext, useEffect, useRef, useState, useCallback } from "react";
 import { IMapPoint } from "@customtypes/index";
 import { useApi, useLocalStorage } from "@hooks/index";
 import { LatLngExpression, Map } from "leaflet";
-import { Modal as AntModal, Button, Divider } from "antd";
+import { Modal, Button, Divider } from "antd";
 import {
   AlertContext,
   CurrentLocationContext,
@@ -140,7 +140,7 @@ export const Home = () => {
         <Loader text={"Carregando Mapa"} />
       )}
 
-      <AntModal
+      <Modal
         open={openReportsModal}
         onCancel={handleCloseReportsModal}
         cancelText="Cancelar"
@@ -152,9 +152,9 @@ export const Home = () => {
       >
         <ReportSteps closeModal={handleCloseReportsModal} />
         <Divider />
-      </AntModal>
+      </Modal>
 
-      <AntModal
+      <Modal
         title="Localização não encontrada!"
         open={openGetLocationModal}
         onOk={handleGetLocationModalClick}
@@ -167,7 +167,7 @@ export const Home = () => {
           Você deve habilitar a sua localização para que possamos ter acesso ao
           local da sua denúncia.
         </p>
-      </AntModal>
+      </Modal>
     </main>
   );
 };

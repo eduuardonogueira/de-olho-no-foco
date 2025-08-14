@@ -22,6 +22,7 @@ export const ReportSteps = ({ closeModal }: IReportStepsProps) => {
   const { setAlert } = useContext(AlertContext);
 
   const [newReportPoint, setNewReportPoint] = useState<ICreatePoint>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSelectReportType = useCallback(
     (reportType: Report) => {
@@ -69,6 +70,48 @@ export const ReportSteps = ({ closeModal }: IReportStepsProps) => {
     [setNewReportPoint]
   );
 
+  async function handleFormSubmit() {
+    if (!newReportPoint) {
+      setAlert({
+        message: "Erro!",
+        description: "Dados da denúncia não foram preenchidos.",
+        isOpen: true,
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await createPoint(newReportPoint);
+
+      if (response.status === 201) {
+        updateLocalPoints("lastPoints", response.data);
+        setAlert({
+          message: "Sucesso!",
+          description: "Denúncia criada com sucesso!",
+          isOpen: true,
+        });
+        closeModal();
+      } else {
+        setAlert({
+          message: "Erro!",
+          description: `Erro ao criar denúncia! (código ${response.status})`,
+          isOpen: true,
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao enviar denúncia: ", error);
+      setAlert({
+        message: "Erro!",
+        description: "Ocorreu um erro inesperado ao criar a denúncia.",
+        isOpen: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   const steps = useMemo<ISteps[]>(
     () => [
       {
@@ -109,34 +152,13 @@ export const ReportSteps = ({ closeModal }: IReportStepsProps) => {
     ]
   );
 
-  async function handleFormSubmit() {
-    if (newReportPoint) {
-      try {
-        const response = await createPoint(newReportPoint);
-
-        if (response.status === 201) {
-          updateLocalPoints("lastPoints", response.data);
-          setAlert({
-            message: "Sucesso!",
-            description: "Denúncia criada com sucesso!",
-            isOpen: true,
-          });
-        } else {
-          setAlert({
-            message: "Erro!",
-            description: "Erro ao criar denúncia!",
-            isOpen: true,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    closeModal();
-  }
-
-  return <AppSteps steps={steps} handleStepFinished={handleFormSubmit} />;
+  return (
+    <AppSteps
+      steps={steps}
+      handleStepFinished={handleFormSubmit}
+      isLoading={isLoading}
+    />
+  );
 };
 
 export default ReportSteps;

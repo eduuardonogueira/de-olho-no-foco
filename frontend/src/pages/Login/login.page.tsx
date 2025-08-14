@@ -43,6 +43,8 @@ export const Login = () => {
     try {
       const response = await login(user);
 
+      console.log(response)
+
       if (response.status === 201) {
         setAlert(alertSuccess);
 
@@ -50,6 +52,7 @@ export const Login = () => {
         setIsLoading(false);
 
         navigate(HOME_ROUTE);
+        return;
       }
 
       setAlert(alertError);

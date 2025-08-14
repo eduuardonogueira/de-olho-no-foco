@@ -5,9 +5,14 @@ import { ISteps } from "@customtypes/index";
 interface IAppStepsProps {
   steps: ISteps[];
   handleStepFinished: () => void;
+  isLoading?: boolean;
 }
 
-export const AppSteps = ({ steps, handleStepFinished }: IAppStepsProps) => {
+export const AppSteps = ({
+  steps,
+  handleStepFinished,
+  isLoading = false,
+}: IAppStepsProps) => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
 
@@ -64,8 +69,13 @@ export const AppSteps = ({ steps, handleStepFinished }: IAppStepsProps) => {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <Button type="primary" onClick={finished}>
-            Concluir
+          <Button
+            type="primary"
+            onClick={finished}
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            {isLoading ? "Carregando" : "Concluir"}
           </Button>
         )}
         {current > 0 && (

@@ -7,6 +7,24 @@
   gap: 20px;
 }
 
+.spinWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+}
+
+.spinIcon {
+  animation: load-animation 1s ease infinite;
+}
+
+@keyframes load-animation {
+  to {
+    rotate: 360deg;
+  }
+}
+
 .pointDetailsWrapper p {
   margin: 0px;
 }
@@ -106,13 +124,15 @@
 }
 
 .pointDescription > p,
-.pointLocation {
+.pointLocation,
+.pointAdminWrapper {
   padding: 12px;
   border: 1px solid var(--color-gray-300);
   border-radius: 8px;
 }
 
-.pointLocation {
+.pointLocation,
+.pointAdminWrapper {
   > div {
     display: flex;
     align-items: center;

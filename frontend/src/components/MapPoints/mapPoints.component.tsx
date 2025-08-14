@@ -1,7 +1,7 @@
 import cn from "classnames";
 import styles from "./mapPoints.module.scss";
 import { IMapPoint, Report } from "@customtypes/index";
-import { Marker, Popup, Tooltip } from "react-leaflet";
+import { Marker, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import {
   CourteousIcon,
@@ -16,6 +16,7 @@ import {
 import { useRef, useState } from "react";
 import { useReports } from "@hooks/index";
 import MapDetails from "./mapDetails.component";
+import { Modal } from "antd";
 
 const PointIcons: Record<string, string> = {
   sanitation: SanitationIcon,
@@ -46,9 +47,16 @@ export const MapPoints = ({
 
   const { translateType } = useReports();
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [mapDetailsModalIsOpen, setMapDetailsModalIsOpen] = useState(false);
+  const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
 
   const markerRefs = useRef<Record<string, L.Marker>>({});
+
+  const handleCloseMapDetailsModal = () => setMapDetailsModalIsOpen(false);
+  const handleOpenMapDetailsModal = (pointId: string) => {
+    setMapDetailsModalIsOpen(true);
+    setSelectedPointId(pointId);
+  };
 
   if (points && points.length > 0) {
     return (
@@ -84,21 +92,30 @@ export const MapPoints = ({
                   markerRefs.current[point.id] = ref;
                 }
               }}
+              eventHandlers={{
+                click: () => handleOpenMapDetailsModal(point.id),
+              }}
             >
               <Tooltip>{translateType(point.type)}</Tooltip>
-              {isOpen && (
-                <Popup
-                  maxWidth={500}
-                  maxHeight={400}
-                  autoPan={false}
-                  className={styles.popupModal}
-                >
-                  <MapDetails pointId={point.id ?? ""} setIsOpen={setIsOpen} />
-                </Popup>
-              )}
             </Marker>
           );
         })}
+
+        <Modal
+          open={mapDetailsModalIsOpen}
+          onCancel={handleCloseMapDetailsModal}
+          className={styles.mapDetailsModal}
+          style={{ top: 20 }}
+          footer={false}
+          destroyOnClose
+        >
+          {selectedPointId && (
+            <MapDetails
+              pointId={selectedPointId}
+              setIsOpen={setMapDetailsModalIsOpen}
+            />
+          )}
+        </Modal>
       </>
     );
   }

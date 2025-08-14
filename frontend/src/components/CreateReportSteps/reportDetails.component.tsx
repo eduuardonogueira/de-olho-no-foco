@@ -29,15 +29,13 @@ export const ReportDetails = ({
   handleCheckboxChange,
   newReportPoint,
 }: IReportDetailsProps) => {
-  const requiredMark = "customize";
-
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Detalhes</h2>
       <Form
         className={styles.formDetails}
         layout="vertical"
-        initialValues={{ requiredMarkValue: requiredMark }}
+        initialValues={{ requiredMarkValue: "customize" }}
         requiredMark={customizeRequiredMark}
       >
         <Form.Item layout="vertical" label="Título:" name="title" required>

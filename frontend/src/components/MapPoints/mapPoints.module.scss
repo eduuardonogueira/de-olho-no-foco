@@ -1,70 +1,10 @@
-.popupModal div div {
-  margin: 0px;
-}
+// .popupModal div div {
+//   margin: 0px;
+// }
 
-.pointTitle {
-  font-size: 20px;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
-.popupButton {
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  background: var(--color-green-600);
-  color: white;
-  padding: 12px;
-  box-sizing: border-box;
-
-  &:hover {
-    transition: 0.2s ease-in;
-    cursor: pointer;
-    background: var(--color-green-800);
-  }
-}
-
-.deleteButton {
-  background: var(--color-red-600);
-  color: white;
-  &:hover {
-    transition: 0.2s ease-in;
-    cursor: pointer;
-    background: var(--color-red-800);
-  }
-}
-
-.pointModalContent {
-  display: flex;
-  width: 100%;
-  margin-block: 12px;
-  gap: 6px;
-
-  p {
-    margin: unset;
-    font-weight: bold;
-  }
-}
-
-.pointMarker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.pointImage {
-  display: block;
-  opacity: 0;
-  animation: bounce 0.6s ease-in-out forwards;
-}
-
-.pointModalImageWrapper {
-  display: flex;
-  flex-wrap: wrap;
-
-  > img {
-    width: 50%;
-  }
+.mapDetailsModal > div > div {
+  overflow-y: scroll;
+  max-height: 600px;
 }
 
 @keyframes bounce {
