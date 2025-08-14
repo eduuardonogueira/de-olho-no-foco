@@ -36,7 +36,7 @@ export class CreateUserDto {
   @MaxLength(20)
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }) => ('' + value).toLowerCase())
+  @Transform(({ value }) => value.toUpperCase())
   @IsEnum(EnumUserRoles)
   role: UserRoles;
 

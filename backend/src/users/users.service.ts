@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -12,6 +12,8 @@ export class UsersService {
     private readonly prismaService: PrismaService,
     private readonly imgurService: ImgurService,
   ) {}
+
+  private readonly logger = new Logger(UsersService.name);
 
   async findOne({ id, email }: { id?: string; email?: string }) {
     const findUser = await this.prismaService.user.findUnique({
@@ -88,6 +90,8 @@ export class UsersService {
         );
       }
 
+      this.logger.warn('User was created sucessfully');
+
       return createdUser;
     } catch (error) {
       throw new HttpException(
@@ -103,6 +107,8 @@ export class UsersService {
     if (!findUser) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
+
+    this.logger.warn('User was deleted sucessfully');
 
     return this.prismaService.user.delete({ where: { id } });
   }

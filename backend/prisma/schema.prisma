@@ -30,7 +30,7 @@ model UserNotificationStatus {
   userId         String
   notificationId String
   notification   GlobalNotification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
-  user           User               @relation(fields: [userId], references: [id])
+  user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, notificationId])
 }
@@ -62,7 +62,7 @@ model Point {
   description   String?     @db.VarChar(200)
   position      String?     @db.VarChar(10)
   coordinatesId String      @unique @map("coordinates_id")
-  userId        String      @map("user_id")
+  userId        String      @default("deleted_user") @map("user_id")
   createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime    @updatedAt @map("updated_at") @db.Timestamp(6)
   images        String[]
@@ -71,7 +71,7 @@ model Point {
   isActive      Boolean     @default(true) @map("is_active")
   status        PointStatus @default(PENDING)
   coordinates   Coordinates @relation(fields: [coordinatesId], references: [id])
-  user          User        @relation(fields: [userId], references: [id])
+  user          User        @relation(fields: [userId], references: [id], onDelete: SetDefault)
 }
 
 model Coordinates {
