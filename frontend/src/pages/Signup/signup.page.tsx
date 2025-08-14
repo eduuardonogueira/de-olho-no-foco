@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { AsYouType } from "libphonenumber-js";
+import cn from "classnames";
 import styles from "./signup.module.scss";
+import { useContext, useState } from "react";
+import { AsYouType } from "libphonenumber-js";
 import { Link, useNavigate } from "react-router-dom";
 import { HOME_ROUTE, LOGIN_ROUTE } from "@constants/routes";
 import {
@@ -12,11 +13,11 @@ import {
   LockSimple,
   Phone,
 } from "@phosphor-icons/react";
-import { Button, Input } from "@components/index";
-import cn from "classnames";
+import { Alert, Button, Input } from "@components/index";
 import { useApi } from "@hooks/useApi";
 import { ICreateUser } from "@customtypes/user";
-import { Alert } from "antd";
+import { LoginBackground } from "@assets/img";
+import { AlertContext } from "@contexts/index";
 
 interface PasswordOptions {
   passwordCompared: string;
@@ -30,21 +31,12 @@ interface PasswordOptions {
   passwordVisibility: boolean;
 }
 
-interface AlertProps {
-  isOpen: boolean;
-  type: "success" | "info" | "warning" | "error" | undefined;
-  message: string;
-}
-
 export const Signup = () => {
   const navigate = useNavigate();
   const { createUser } = useApi();
 
-  const [alert, setAlert] = useState<AlertProps>({
-    isOpen: false,
-    type: undefined,
-    message: "",
-  });
+  const { setAlert } = useContext(AlertContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [formattedPhone, setformattedPhone] = useState("");
   const [user, setUser] = useState<ICreateUser>({
@@ -141,34 +133,37 @@ export const Signup = () => {
     } else {
       setPasswordOptions((prev) => ({ ...prev, passwordIsConfirmed: true }));
     }
+    console.log(user);
 
-    const response = await createUser(user);
-    setIsLoading(false);
+    try {
+      const response = await createUser(user);
 
-    if (response.status === 201) {
+      if (response.status === 201) {
+        setAlert({
+          message: "Sucesso!",
+          isOpen: true,
+          description: "Cadastro realizado com sucesso!",
+        });
+
+        setTimeout(() => {
+          navigate(HOME_ROUTE);
+        }, 2000);
+        return;
+      }
+
       setAlert({
         isOpen: true,
-        type: "success",
-        message: "Login realizado com sucesso!",
+        message: "Erro ao realizar cadastro!",
+        description: `${response.data.message}`,
       });
-
-      setTimeout(() => {
-        navigate(HOME_ROUTE);
-      }, 2000);
-    }
-
-    if (response.status === 409) {
+    } catch (error) {
       setAlert({
         isOpen: true,
-        type: "error",
-        message: response.data.message,
+        message: "Erro ao realizar cadastro!",
+        description: `Erro: ${error}`,
       });
-    } else {
-      setAlert({
-        isOpen: true,
-        type: "error",
-        message: "Erro ao realizar cadastro",
-      });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -222,18 +217,13 @@ export const Signup = () => {
 
   return (
     <div className={styles.container}>
-      {alert.isOpen ? (
-        <Alert
-          type={alert.type}
-          message={alert.message}
-          className={styles.alert}
-          closable
-          showIcon
-          onClose={() => setAlert((prev) => ({ ...prev, isOpen: false }))}
-        />
-      ) : (
-        ""
-      )}
+      <Alert />
+      <img
+        src={LoginBackground}
+        alt="floresta bem verde"
+        className={styles.singUpBackground}
+      />
+
       <main className={styles.signupContainer}>
         <section className={styles.titleWrapper}>
           <Link to={LOGIN_ROUTE}>

@@ -105,14 +105,14 @@ export const MapPoints = ({
           open={mapDetailsModalIsOpen}
           onCancel={handleCloseMapDetailsModal}
           className={styles.mapDetailsModal}
-          style={{ top: 20 }}
           footer={false}
           destroyOnClose
+          centered
         >
           {selectedPointId && (
             <MapDetails
               pointId={selectedPointId}
-              setIsOpen={setMapDetailsModalIsOpen}
+              setModalIsOpen={setMapDetailsModalIsOpen}
             />
           )}
         </Modal>

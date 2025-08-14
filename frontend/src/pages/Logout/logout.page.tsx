@@ -16,5 +16,5 @@ export const Logout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <Loader text="Saindo..." />;
+  return <Loader text="Até breve!" />;
 };

@@ -58,9 +58,9 @@ export const Login = () => {
       setAlert(alertError);
       setIsLoading(false);
     } catch (err) {
+      console.error(err);
       setAlert(alertError);
       setIsLoading(false);
-      console.error(err);
     }
   }
 

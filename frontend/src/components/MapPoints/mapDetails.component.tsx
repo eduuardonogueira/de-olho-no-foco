@@ -23,10 +23,10 @@ import {
 
 interface IMapDetailsProps {
   pointId: string;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MapDetails = ({ pointId, setIsOpen }: IMapDetailsProps) => {
+export const MapDetails = ({ pointId, setModalIsOpen }: IMapDetailsProps) => {
   const { dateFormatter } = useDateFormatter();
   const { getUsername } = useUserFormatter();
   const { translateType, translateStatus } = useReports();
@@ -48,7 +48,6 @@ export const MapDetails = ({ pointId, setIsOpen }: IMapDetailsProps) => {
       const data = await getProfile();
       setUser(data);
     }
-    console.log("chamou");
     fetchPointDetails();
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,10 +55,7 @@ export const MapDetails = ({ pointId, setIsOpen }: IMapDetailsProps) => {
 
   function handleRouteToPoint({ lat, lng }: { lat: number; lng: number }) {
     setEnd(new L.LatLng(lat, lng));
-    setIsOpen(false);
-    setTimeout(() => {
-      setIsOpen(true);
-    }, 1000);
+    setModalIsOpen(false);
   }
 
   async function handleDeletePoint(pointId: string) {
