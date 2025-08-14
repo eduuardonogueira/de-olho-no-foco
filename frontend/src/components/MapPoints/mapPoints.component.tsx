@@ -1,5 +1,6 @@
+import cn from "classnames";
 import styles from "./mapPoints.module.scss";
-import { Point, Report } from "@customtypes/map";
+import { IMapPoint, Report } from "@customtypes/index";
 import { Marker, Popup, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import {
@@ -12,16 +13,9 @@ import {
   SanitationIcon,
   SanitationShortIcon,
 } from "@assets/icons";
-import { useDateFormatter } from "@hooks/useDateFormatter";
-import { useContext, useState } from "react";
-import { RoutingContext } from "@contexts/RoutingContext";
-
-const pointType = {
-  sanitation: "Saneamento",
-  courteous: "Desmatamento",
-  trash: "Lixo",
-  flood: "Alagamento",
-} as const;
+import { useRef, useState } from "react";
+import { useReports } from "@hooks/index";
+import MapDetails from "./mapDetails.component";
 
 const PointIcons: Record<string, string> = {
   sanitation: SanitationIcon,
@@ -37,79 +31,70 @@ const PointShortIcons: Record<string, string> = {
   flood: FloodShortIcon,
 };
 
+type AnimatablePoint = IMapPoint & { animate?: boolean };
+
 export const MapPoints = ({
   points,
   zoom,
 }: {
-  points?: Point[];
+  points?: AnimatablePoint[];
   zoom: number;
 }) => {
-  const { dateFormatter } = useDateFormatter();
-  const { setEnd } = useContext(RoutingContext);
+  const [renderedPointIds, setRenderedPointIds] = useState<Set<string>>(
+    new Set()
+  );
+
+  const { translateType } = useReports();
 
   const [isOpen, setIsOpen] = useState(true);
 
-  function handleRouteToPoint({ lat, lng }: { lat: number; lng: number }) {
-    setEnd(new L.LatLng(lat, lng));
-    setIsOpen(false);
-    setTimeout(() => {
-      setIsOpen(true);
-    }, 1000);
-  }
+  const markerRefs = useRef<Record<string, L.Marker>>({});
 
   if (points && points.length > 0) {
     return (
       <>
         {points.map((point) => {
-          const pinIcon = new L.Icon({
-            iconUrl: PointIcons[point.type],
-            iconAnchor: [0, 40],
-            iconSize: [40, 40],
-          });
+          const isNewPoint = !renderedPointIds.has(point.id ?? "");
 
-          const pinShortIcon = new L.Icon({
-            iconUrl: PointShortIcons[point.type],
-            iconSize: [20, 20],
-            iconAnchor: [10, 20],
-          });
-
-          const createdAt = dateFormatter(point.createdAt);
-          function translateType(type: Report): string {
-            return pointType[type];
+          if (isNewPoint) {
+            setRenderedPointIds((prev) => new Set(prev).add(point.id ?? ""));
           }
 
-          const { firstName, lastName } = point.user;
-          const username = `${firstName} ${lastName}`;
+          const divIcon = (type: Report, zoom: number) => {
+            const iconUrl =
+              zoom <= 13 ? PointShortIcons[type] : PointIcons[type];
+            const size = zoom <= 13 ? 20 : 40;
+
+            return new L.DivIcon({
+              className: styles.pointMarker,
+              html: `<img class="${cn({
+                [styles.pointImage]: point.animate,
+              })}" src="${iconUrl}" width="${size}" height="${size}" />`,
+              iconAnchor: [zoom <= 13 ? size / 2 : -20, size / 2],
+            });
+          };
 
           return (
             <Marker
-              position={point.coordinates}
               key={point.id}
-              icon={zoom <= 13 ? pinShortIcon : pinIcon}
+              position={point.coordinates}
+              icon={divIcon(point.type, zoom)}
+              ref={(ref) => {
+                if (ref && point.id) {
+                  markerRefs.current[point.id] = ref;
+                }
+              }}
             >
               <Tooltip>{translateType(point.type)}</Tooltip>
-              {isOpen ? (
-                <Popup>
-                  <h1 className={styles.pointTitle}>
-                    {translateType(point.type)}
-                  </h1>
-                  {point.description ? (
-                    <p>{`Descrição: ${point.description}`}</p>
-                  ) : (
-                    ""
-                  )}
-                  <p>{`Criado em: ${createdAt}`}</p>
-                  <p>{`por: ${username}`}</p>
-
-                  <button
-                    className={styles.popupButton}
-                    onClick={() => handleRouteToPoint(point.coordinates)}
-                  >
-                    Criar rota
-                  </button>
+              {isOpen && (
+                <Popup
+                  maxWidth={500}
+                  maxHeight={400}
+                  autoPan={false}
+                  className={styles.popupModal}
+                >
+                  <MapDetails pointId={point.id ?? ""} setIsOpen={setIsOpen} />
                 </Popup>
-              ) : (
-                ""
               )}
             </Marker>
           );

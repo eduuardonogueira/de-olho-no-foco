@@ -14,7 +14,7 @@ export const Menu = () => {
             key={link.label}
             to={link.route}
             className={({ isActive }) =>
-              cn(styles.menuLink, { [styles.activeMenuLink]: isActive })
+              cn(styles.menuLink, styles.menuLinkColor, { [styles.activeMenuLink]: isActive })
             }
           >
             {<link.icon size={40} weight="fill"/>}

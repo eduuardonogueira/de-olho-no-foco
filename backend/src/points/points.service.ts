@@ -5,8 +5,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreatePointDto } from './dtos/create-points.dto';
 import { UsersService } from 'src/users/users.service';
+import { CreatePointDto } from './dtos/create-points.dto';
+import { INearbyPoints } from 'src/types/points';
 
 @Injectable()
 export class PointsService {
@@ -16,7 +17,10 @@ export class PointsService {
   ) {}
 
   async findOne(id: string) {
-    const findPoint = this.prismaService.point.findUnique({ where: { id } });
+    const findPoint = this.prismaService.point.findUnique({
+      where: { id },
+      include: { coordinates: true, user: true },
+    });
 
     if (!findPoint) throw new NotFoundException();
 
@@ -33,20 +37,21 @@ export class PointsService {
     return points;
   }
 
-  async findPointsNearby(lat: string, lng: string, maxDistance: string) {
+  async findPointsNearby(
+    lat: string,
+    lng: string,
+    maxDistance: string,
+  ): Promise<INearbyPoints> {
     const [latNumber, lngNumber, maxDistanceNumber] = [
       lat,
       lng,
       maxDistance,
     ].map((string) => parseFloat(string));
-    const pointsNearby = await this.prismaService.$queryRaw`
+    const pointsNearby: INearbyPoints = await this.prismaService.$queryRaw`
     SELECT 
       p.id, 
       p.type, 
-      p.description, 
       p.position, 
-      p.created_at AS "createdAt",
-      p.updated_at AS "updatedAt",
       jsonb_build_object(
         'id', c.id,
         'lat', c.lat,
@@ -54,11 +59,6 @@ export class PointsService {
         'alt', c.alt,
         'rotation', c.rotation
       ) AS coordinates, 
-      jsonb_build_object(
-        'id', u.id,
-        'firstName', u.first_name,
-        'lastName', u.last_name
-      ) AS user,
       (6371000 * acos(
         cos(radians(${latNumber})) * 
         cos(radians(c.lat)) * 

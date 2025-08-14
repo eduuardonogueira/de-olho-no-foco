@@ -3,7 +3,7 @@ import { MyMap, SearchBar } from "@components/index";
 import { MapContainer } from "react-leaflet";
 import { useContext, useEffect, useRef, useState } from "react";
 import { LatLngExpression, Map as TypeMap } from "leaflet";
-import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
+import { CurrentLocationContext } from "@contexts/CurrentLocation/CurrentLocationContext";
 
 export const Areas = () => {
   const mapRef: React.LegacyRef<TypeMap> | undefined = useRef(null);

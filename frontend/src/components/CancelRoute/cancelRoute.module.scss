@@ -8,6 +8,13 @@
   box-sizing: content-box;
   border: 1px solid #cfcfcf;
   background: #fff;
+  border-radius: 4px;
+  height: 26px;
+
+  &:hover {
+    background: var(--color-green-400);
+    cursor: pointer;
+  }
 }
 
 @media screen and (min-width: 640px) {

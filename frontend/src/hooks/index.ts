@@ -5,3 +5,5 @@ export * from "./useLocalStorage";
 export * from "./useReports";
 export * from "./useBreakpoints";
 export * from "./useDateFormatter";
+export * from "./useFiles";
+export * from "./useUserFormatter";

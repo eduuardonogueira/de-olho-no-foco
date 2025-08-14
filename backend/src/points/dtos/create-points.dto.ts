@@ -1,4 +1,6 @@
 import {
+  IsArray,
+  IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -7,36 +9,38 @@ import {
 } from 'class-validator';
 import { CoordinatesDto } from './coordinates.dto';
 import { Transform } from 'class-transformer';
-
-export enum PointType {
-  SANITATION = 'sanitation',
-  COURTEOUS = 'courteous',
-  TRASH = 'trash',
-  FLOOD = 'flood',
-}
-
-export enum PointPosition {
-  LEFT = 'left',
-  RIGHT = 'right',
-}
+import { EnumPointPosition, EnumPointType, PointType } from 'src/types/points';
 
 export class CreatePointDto {
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }) => ('' + value).toLowerCase())
-  @IsEnum(PointType)
-  type: 'sanitation' | 'courteous' | 'trash' | 'flood';
+  @IsEnum(EnumPointType)
+  type: PointType;
+
+  @MaxLength(100)
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  title: string;
 
   @MaxLength(200)
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   description: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isAnonymous: boolean;
+
+  @IsOptional()
+  @IsArray()
+  images?: string[];
 
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }) => ('' + value).toLowerCase())
-  @IsEnum(PointPosition)
+  @IsEnum(EnumPointPosition)
   position: 'left' | 'right';
 
   @IsNotEmpty()

@@ -1,8 +1,8 @@
 import { Courteus, Flood, Sanitation, Trash } from "@assets/img";
-import { HomeReport } from "@customtypes/map";
+import { EnumPointStatus, IListReport, Report } from "@customtypes/index";
 
 export const useReports = () => {
-  const homeReport: HomeReport[] = [
+  const reports: IListReport[] = [
     {
       image: Sanitation,
       type: "sanitation",
@@ -25,5 +25,29 @@ export const useReports = () => {
     },
   ];
 
-  return { homeReport };
+  const pointType = {
+    sanitation: "saneamento",
+    courteous: "desmatamento",
+    trash: "lixo",
+    flood: "alagamento",
+  } as const;
+
+  const pointStatus = {
+    PENDING: "pendente",
+    APPROVED: "aprovado",
+    IN_PROGRESS: "em progresso",
+    RESOLVED: "resolvido",
+    REJECTED: "rejeitado",
+  } as const;
+
+  function translateType(type: Report): string {
+    return pointType[type];
+  }
+
+  function translateStatus(status: EnumPointStatus): string {
+    const statusKey = EnumPointStatus[status] as keyof typeof pointStatus;
+    return pointStatus[statusKey];
+  }
+
+  return { reports, translateType, translateStatus };
 };

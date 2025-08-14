@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import {
-  CreatePoint,
-  Point,
+  ICreatePoint,
+  IPoint,
   INotification,
   ICreateUser,
+  IMapPoint,
 } from "@customtypes/index";
 import Cookies from "js-cookie";
+import { useFiles } from "./useFiles";
 
 export const useApi = () => {
+  const { fileToBase64 } = useFiles();
+
   const api = axios.create({ baseURL: import.meta.env.VITE_BACKEND_URL });
 
   const storedAuth = Cookies.get("auth");
@@ -56,8 +60,8 @@ export const useApi = () => {
     }
   }
 
-  async function getPoint(id: string): Promise<Point> {
-    const request = await api.get(`/point/${id}`, authorizationHeader);
+  async function getPoint(id: string): Promise<IPoint> {
+    const request = await api.get(`/points/${id}`, authorizationHeader);
     return request.data;
   }
 
@@ -65,7 +69,7 @@ export const useApi = () => {
     lat: number,
     lng: number,
     maxDistance: number
-  ): Promise<Point[]> {
+  ): Promise<IMapPoint[]> {
     const params = {
       lat,
       lng,
@@ -83,17 +87,35 @@ export const useApi = () => {
     }
   }
 
-  async function getAllPoints(): Promise<Point[]> {
+  async function getAllPoints(): Promise<IPoint[]> {
     const request = await api.get(`/points`, authorizationHeader);
     return request.data;
   }
 
-  async function createPoint(point: CreatePoint): Promise<{
-    status: number;
-    data: Point;
-  }> {
+  async function deletePoint(pointId: string) {
     try {
-      return await api.post(`/points/create`, point, authorizationHeader);
+      return await api.delete(`/points/delete/${pointId}`, authorizationHeader);
+    } catch (error: any) {
+      if (error.response) return error.response;
+      throw error;
+    }
+  }
+
+  async function createPoint(point: ICreatePoint): Promise<{
+    status: number;
+    data: IPoint;
+  }> {
+    const base64Images = point.images
+      ? await Promise.all(point.images.map(fileToBase64))
+      : "";
+
+    const body = {
+      ...point,
+      images: base64Images,
+    };
+
+    try {
+      return await api.post(`/points/create`, body, authorizationHeader);
     } catch (error: any) {
       if (error.response) return error.response;
       throw error;
@@ -134,6 +156,7 @@ export const useApi = () => {
     getPoint,
     getPointsNearby,
     createPoint,
+    deletePoint,
     getAllPoints,
     getUserNotification,
   };

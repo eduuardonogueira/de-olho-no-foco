@@ -1,4 +1,4 @@
-import { Coordinates } from "@customtypes/map";
+import { ICoordinates } from "@customtypes/map";
 import { createContext } from "react";
 
 export type SetCurrentLocationType = ({
@@ -9,7 +9,7 @@ export type SetCurrentLocationType = ({
   lng: number;
 }) => void;
 
-export interface ICurrentLocationContextProps extends Coordinates {}
+export interface ICurrentLocationContextProps extends ICoordinates {}
 
 export interface ICurrentLocationContextState
   extends ICurrentLocationContextProps {

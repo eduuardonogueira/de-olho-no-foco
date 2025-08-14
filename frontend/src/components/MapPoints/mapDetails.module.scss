@@ -1,0 +1,173 @@
+.pointDetailsWrapper {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 300px;
+  padding: 12px 24px;
+  gap: 20px;
+}
+
+.pointDetailsWrapper p {
+  margin: 0px;
+}
+
+.titleWrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: repeat(5, auto);
+  grid-template-areas:
+    "details status"
+    "title title"
+    "type type"
+    "date date"
+    "creator creator";
+  column-gap: 8px;
+  row-gap: 8px;
+}
+
+.pointDetails {
+  grid-area: details;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  > span {
+    color: var(--color-black-800);
+    font-weight: 600;
+  }
+  > svg {
+    color: var(--color-green-500);
+  }
+}
+
+.pointStatus {
+  grid-area: status;
+  align-self: center;
+  justify-self: end;
+}
+
+.pointTitle {
+  grid-area: title;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 8px;
+  color: var(--color-black);
+  text-transform: capitalize;
+}
+
+.pointType {
+  grid-area: type;
+  font-size: 16px;
+  color: var(--color-gray-700);
+  text-transform: capitalize;
+  margin-bottom: 8px;
+}
+
+.pointDate {
+  grid-area: date;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-gray-700);
+}
+
+.pointCreator {
+  grid-area: creator;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-gray-700);
+}
+
+.pointDetailsContentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pointDescription,
+.pointImages,
+.pointLocation,
+.pointAdminWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--color-black);
+  }
+
+  p {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0px;
+  }
+}
+
+.pointDescription > p,
+.pointLocation {
+  padding: 12px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 8px;
+}
+
+.pointLocation {
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.pointCoordinates {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 4px;
+  color: var(--color-gray-700);
+}
+
+.locationButton {
+  margin-top: 8px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-green-600);
+  color: white;
+  padding: 12px;
+  box-sizing: border-box;
+
+  &:hover {
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    background: var(--color-green-800);
+  }
+}
+
+.deleteButton {
+  background: var(--color-red-500);
+  &:hover {
+    background: var(--color-red-800);
+  }
+}
+
+@media screen and (min-width: 728px) {
+  .pointDetailsWrapper {
+    width: calc(500px - 24px);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .titleWrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(4, auto);
+    grid-template-areas:
+      "details status"
+      "title title"
+      "type type"
+      "date creator";
+    column-gap: 8px;
+  }
+}

@@ -1,34 +1,61 @@
+import { RcFile } from "antd/es/upload";
 import { LatLngExpression } from "leaflet";
 
-export interface CreatePoint {
-  type: Report;
-  position: "left" | "right";
-  coordinates: Coordinates;
-  description: string;
+export enum EnumPointStatus {
+  PENDING,
+  APPROVED,
+  IN_PROGRESS,
+  RESOLVED,
+  REJECTED,
 }
 
-export interface Point {
+export type PointPosition = "left" | "right";
+
+export interface ICreatePoint {
+  type: Report;
+  position: PointPosition;
+  coordinates: ICoordinates;
+  title: string;
+  description?: string;
+  isAnonymous?: boolean;
+  images?: RcFile[];
+}
+
+export interface IPoint {
   id?: string;
   type: Report;
-  position?: "left" | "right";
-  coordinates: Coordinates;
+  position?: PointPosition;
+  images?: string[];
+  title: string;
+  status: EnumPointStatus;
+  description: string;
+  isActive: boolean;
+  isAnonymous: boolean;
+  coordinates: ICoordinates;
   user: {
     id: string;
     firstName: string;
     lastName: string;
   };
-  description: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Coordinates {
+export interface IMapPoint {
+  id?: string;
+  type: Report;
+  position?: "left" | "right";
+  coordinates: ICoordinates;
+}
+
+export interface ICoordinates {
   lat: number;
   lng: number;
   alt?: number;
   rotation?: number;
 }
 
-export interface Area {
+export interface IArea {
   type: string;
   coordinates: LatLngExpression[];
   pathOptions: {
@@ -37,9 +64,9 @@ export interface Area {
   };
 }
 
-export interface UserLocation extends Coordinates {}
+export interface IUserLocation extends ICoordinates {}
 
-export interface HomeReport {
+export interface IListReport {
   image: string;
   type: Report;
   label: string;

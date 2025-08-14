@@ -1,18 +1,12 @@
-import React, { useContext, useState } from "react";
 import styles from "./login.module.scss";
+import React, { useContext, useState } from "react";
 import { LoginBackground, Logo } from "@assets/img";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { HOME_ROUTE, SIGNUP_ROUTE } from "@constants/routes";
-import {
-  GoogleLoginButton,
-  Button,
-  Input,
-  Alert,
-} from "@components/index";
 import { useApi, useBreakpoints } from "@hooks/index";
-import { AuthContext } from "@contexts/AuthContext";
-import { AlertProps } from "@customtypes/index";
 import { Eye, EyeClosed } from "@phosphor-icons/react";
+import { AlertContext, AuthContext } from "@contexts/index";
+import { HOME_ROUTE, SIGNUP_ROUTE } from "@constants/routes";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { GoogleLoginButton, Button, Input, Alert } from "@components/index";
 
 export const Login = () => {
   const alertSuccess = {
@@ -32,6 +26,7 @@ export const Login = () => {
   const { isMobile } = useBreakpoints();
 
   const { setAuth, isLogged } = useContext(AuthContext);
+  const { setAlert } = useContext(AlertContext);
 
   const [user, setUser] = useState({
     username: "",
@@ -40,11 +35,6 @@ export const Login = () => {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [alert, setAlert] = useState<AlertProps>({
-    message: "",
-    description: "",
-    isOpen: false,
-  });
 
   async function handleLogin(event: React.FormEvent) {
     event.preventDefault();
@@ -88,9 +78,6 @@ export const Login = () => {
     }
   }
 
-  const setIsOpen = (isOpen: boolean) =>
-    setAlert((prev) => ({ ...prev, isOpen }));
-
   function togglePasswordVisibility() {
     setPasswordIsVisible((prev) => !prev);
   }
@@ -121,20 +108,12 @@ export const Login = () => {
 
   return (
     <div className={styles.container}>
+      <Alert />
       <main className={styles.loginWrapper}>
         <img
           src={LoginBackground}
           alt="floresta bem verde"
           className={styles.loginBackground}
-        />
-
-        <Alert
-          message={alert.message}
-          description={alert.description}
-          isOpen={alert.isOpen}
-          setIsOpen={setIsOpen}
-          className={styles.alert}
-          duration={alert.duration}
         />
 
         {isMobile ? renderLoginHeader() : ""}

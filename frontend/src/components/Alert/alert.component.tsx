@@ -1,47 +1,37 @@
+import { useContext, useEffect, useRef } from "react";
 import { notification } from "antd";
-import { CSSProperties, useState } from "react";
+import { AlertContext } from "@contexts/Alert/AlertContext";
 
-interface INotificationProps {
-  message: string;
-  description: string;
-  isOpen: boolean;
-  className?: string;
-  setIsOpen: (isOpen: boolean) => void;
-  duration?: number | null | undefined
-  style?: CSSProperties
-}
-
-export const Alert = ({
-  message,
-  description,
-  isOpen,
-  setIsOpen,
-  className,
-  duration,
-  style
-}: INotificationProps) => {
+export const Alert = () => {
+  const { message, description, isOpen, className, duration, style } =
+    useContext(AlertContext);
   const [api, contextHolder] = notification.useNotification();
 
-  const [isRenderized, setIsRenderized] = useState(false);
+  const wasOpen = useRef(false);
 
-  if (!isOpen && isRenderized) {
-    setIsRenderized(false);
-  }
+  useEffect(() => {
+    if (isOpen && !wasOpen.current) {
+      api.open({
+        key: "global-alert",
+        style,
+        message,
+        description,
+        className,
+        duration,
+        showProgress: true,
+        pauseOnHover: false,
+        onClose: () => {
+          wasOpen.current = false;
+        },
+      });
+      wasOpen.current = true;
+    }
 
-  if (isOpen && !isRenderized) {
-    api.open({
-      style,
-      message,
-      description,
-      showProgress: true,
-      pauseOnHover: false,
-      duration,
-      className,
-      
-      onClose: () => setIsOpen(false),
-    });
-    setIsRenderized(true);
-  }
+    if (!isOpen && wasOpen.current) {
+      api.destroy("global-alert");
+      wasOpen.current = false;
+    }
+  }, [isOpen, message, description, className, duration, style, api]);
 
   return <>{contextHolder}</>;
 };

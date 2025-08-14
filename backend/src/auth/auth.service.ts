@@ -3,6 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthPayloadDto } from './dto/auth.dto';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import configuration from 'src/config/configuration';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +32,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const key = process.env.JWT_SECRET;
+    const key = configuration().jwtSecret;
     return this.jwtService.sign(user, { secret: key });
   }
 }

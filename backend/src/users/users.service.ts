@@ -4,6 +4,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { ImgurService } from 'src/providers/imgur.service';
+import { EnumUserRoles } from 'src/types/user';
 
 @Injectable()
 export class UsersService {
@@ -27,7 +28,7 @@ export class UsersService {
   async getAll(req: any) {
     const { role } = req.user;
 
-    if (role !== 'admin') {
+    if (role !== EnumUserRoles.ADMIN) {
       throw new HttpException('Unauthorized action', HttpStatus.UNAUTHORIZED);
     }
 
@@ -43,7 +44,7 @@ export class UsersService {
   async create(userPayload: CreateUserDto, currentUser?: any) {
     const { email, role } = userPayload;
 
-    if (role !== 'adventure') {
+    if (role !== EnumUserRoles.ADVENTURE) {
       if (!currentUser || currentUser?.role !== 'admin') {
         throw new HttpException('Unauthorized action', HttpStatus.UNAUTHORIZED);
       }
@@ -113,7 +114,7 @@ export class UsersService {
     const findUser = await this.findOne({ id });
 
     if (findUser) {
-      if (role !== 'admin' && id !== findUser.id) {
+      if (role !== EnumUserRoles.ADMIN && id !== findUser.id) {
         throw new HttpException(
           'Operation not allowed',
           HttpStatus.METHOD_NOT_ALLOWED,

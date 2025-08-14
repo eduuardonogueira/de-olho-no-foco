@@ -8,12 +8,13 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ImgurService } from 'src/providers/imgur.service';
+import configuration from 'src/config/configuration';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: configuration().jwtSecret,
       signOptions: { expiresIn: '24h' },
     }),
   ],

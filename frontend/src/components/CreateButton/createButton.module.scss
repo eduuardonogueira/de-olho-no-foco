@@ -19,3 +19,10 @@
     bottom: 22px;
   }
 }
+
+@media screen and (min-width: 760px) {
+  .createButton {
+    bottom: 50px;
+    right: 50px;
+  }
+}

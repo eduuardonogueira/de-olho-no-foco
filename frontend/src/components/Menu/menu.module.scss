@@ -1,5 +1,5 @@
 .menuContainer {
-  border-top: 1px solid #f5f5f5;
+  border-top: 1px solid var(--color-gray-300);
   padding: 8px;
   box-sizing: border-box;
 }
@@ -15,27 +15,35 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  color: #625b71;
+  color: var(--color-gray-600);
   font-size: 12px;
   padding-block: 4px;
   font-weight: bold;
   text-decoration: none;
 }
 
+.menuLinkColor {
+  transition: 0.2s ease-in;
+
+  &:hover {
+    color: var(--color-green-600);
+  }
+}
+
 .activeMenuLink {
-  animation: activeLink 1s ease-out forwards;
+  animation: activeLink 0.5s ease-out forwards;
   border-radius: 20px;
 }
 
 @keyframes activeLink {
   to {
-    color: #34c759;
+    color: var(--color-green-600);
   }
 }
 
 @media screen and (min-width: 760px) {
   .menuContainer {
-    border-right: 2px solid #f5f5f5;
+    border-right: 2px solid var(--color-gray-300);
   }
 
   .menu {

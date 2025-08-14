@@ -1,5 +1,5 @@
 import { LOGIN_ROUTE } from "@constants/routes";
-import { AuthContext } from "@contexts/AuthContext";
+import { AuthContext } from "@contexts/Auth/AuthContext";
 import { ReactNode, useContext } from "react";
 import { Navigate } from "react-router-dom";
 

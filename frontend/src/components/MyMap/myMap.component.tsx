@@ -2,7 +2,7 @@
 import "@assets/css/map.css";
 import { useMapEvents, ZoomControl } from "react-leaflet";
 import { TileLayer } from "react-leaflet/TileLayer";
-import { Area, Point } from "@customtypes/map";
+import { IArea, IMapPoint } from "@customtypes/map";
 import { useContext, useEffect, useRef } from "react";
 import {
   MapPoints,
@@ -15,22 +15,18 @@ import { useLocalStorage } from "@hooks/index";
 import {
   CURRENT_LOCATION_CONTEXT_INITIAL_STATE,
   CurrentLocationContext,
-} from "@contexts/CurrentLocationContext";
+} from "@contexts/CurrentLocation/CurrentLocationContext";
 
-import { MapValuesContext } from "@contexts/MapValuesContext";
+import { MapValuesContext } from "@contexts/MapValues/MapValuesContext";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import { RoutingContext } from "@contexts/RoutingContext";
-
-// import "leaflet.locatecontrol";
-// import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
-// import { LocateControl } from "leaflet.locatecontrol";
+import { RoutingContext } from "@contexts/Routing/RoutingContext";
 
 interface MapProps {
   className?: string;
-  points?: Point[];
-  areas?: Area[];
+  points?: IMapPoint[];
+  areas?: IArea[];
 }
 
 export const MyMap = ({ className, points, areas }: MapProps) => {
@@ -75,9 +71,6 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
 
   const API_KEY = import.meta.env.VITE_API_MAPS;
 
-  // Save routing machine instance to state here:
-
-  // Routing machine ref
   const RoutingMachineRef = useRef<L.Routing.Control | null>(null);
 
   useEffect(() => {
@@ -92,7 +85,7 @@ export const MyMap = ({ className, points, areas }: MapProps) => {
         lineOptions: {
           styles: [
             {
-              color: "#34c759",
+              color: "var(--color-blue-400)",
               stroke: true,
               weight: 4,
             },

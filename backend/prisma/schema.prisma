@@ -8,13 +8,29 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// TODO: Add comments into points table
+
+enum Role {
+  ADVENTURE
+  ORGANIZATION
+  ADMIN
+}
+
+enum PointStatus {
+  PENDING
+  APPROVED
+  IN_PROGRESS
+  RESOLVED
+  REJECTED
+}
+
 model User {
   id            String                   @id @default(uuid())
   firstName     String                   @map("first_name") @db.VarChar(50)
   lastName      String                   @map("last_name") @db.VarChar(50)
   email         String                   @unique @db.VarChar(50)
   password      String                   @db.VarChar(100)
-  role          String                   @db.VarChar(20)
+  role          Role                     @default(ADVENTURE)
   phone         String?                  @db.VarChar(20)
   createdAt     DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime                 @updatedAt @map("updated_at") @db.Timestamp(6)
@@ -39,7 +55,7 @@ model GlobalNotification {
   id         String                   @id @default(uuid())
   title      String                   @db.VarChar(50)
   message    String                   @db.VarChar(200)
-  typeId     String                   
+  typeId     String
   expiresAt  DateTime?                @map("expires_at") @db.Timestamp(6)
   createdAt  DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt  DateTime                 @updatedAt @map("updated_at") @db.Timestamp(6)
@@ -48,19 +64,24 @@ model GlobalNotification {
 }
 
 model NotificationType {
-  id           String              @id @default(uuid())
-  name         String              @unique @db.VarChar(50)
-  imageUrl     String              @map("image_url")
-  createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt    DateTime            @updatedAt @map("updated_at") @db.Timestamp(6)
+  id           String               @id @default(uuid())
+  name         String               @unique @db.VarChar(50)
+  imageUrl     String               @map("image_url")
+  createdAt    DateTime             @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime             @updatedAt @map("updated_at") @db.Timestamp(6)
   notification GlobalNotification[]
 }
 
 model Point {
   id            String      @id @default(uuid())
   type          String      @db.VarChar(50)
+  title         String      @db.VarChar(100)
   description   String?     @db.VarChar(200)
   position      String?     @db.VarChar(10)
+  images        String[]
+  status        PointStatus @default(PENDING)
+  isActive      Boolean     @default(true) @map("is_active")
+  isAnonymous   Boolean     @default(false) @map("is_anonymous")
   coordinatesId String      @unique @map("coordinates_id")
   userId        String      @map("user_id")
   createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
@@ -76,10 +97,4 @@ model Coordinates {
   alt      Float?
   rotation Float?
   point    Point?
-}
-
-model playing_with_neon {
-  id    Int    @id @default(autoincrement())
-  name  String
-  value Float? @db.Real
 }

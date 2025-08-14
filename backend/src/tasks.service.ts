@@ -1,16 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import configuration from './config/configuration';
 
 @Injectable()
 export class TasksService {
+  private readonly logger = new Logger('TaskService');
+
   @Cron(CronExpression.EVERY_5_MINUTES)
   async handleCron() {
-    const baseUrl = process.env.BACKEND_URL;
-    console.log(baseUrl);
+    const baseUrl = configuration().backendUrl;
     const response = await fetch(`${baseUrl}/api/hello`).then((res) =>
       res.text(),
     );
-    console.log(response);
+
+    this.logger.log(response);
     return response;
   }
 }

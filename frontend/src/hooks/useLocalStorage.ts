@@ -1,8 +1,11 @@
-import { ICurrentLocationContextProps } from "@contexts/CurrentLocationContext";
+import { ICurrentLocationContextProps } from "@contexts/CurrentLocation/CurrentLocationContext";
 import { Coordinates, Point } from "@customtypes/map";
 
 export const useLocalStorage = () => {
-  function setLocation(id: string, coord: Partial<ICurrentLocationContextProps>): boolean {
+  function setLocation(
+    id: string,
+    coord: Partial<ICurrentLocationContextProps>
+  ): boolean {
     localStorage.setItem(id, JSON.stringify(coord));
     return true;
   }
@@ -19,49 +22,55 @@ export const useLocalStorage = () => {
   }
 
   function getLocalPoints(id: string) {
-    const points = localStorage.getItem(id)
+    const points = localStorage.getItem(id);
 
-    if(points) {
-      const parsePoints = JSON.parse(points)
-      return parsePoints
+    if (points) {
+      const parsePoints = JSON.parse(points);
+      return parsePoints;
     }
-    return undefined
+    return undefined;
   }
 
   function setLocalPoints(id: string, points: Point[]) {
-    localStorage.setItem(id, JSON.stringify(points))
-    return true
+    localStorage.setItem(id, JSON.stringify(points));
+    return true;
   }
 
   function updateLocalPoints(id: string, newPoints: Point | Point[]) {
-    const localPoints: Point[] | undefined = getLocalPoints(id)
-    
-    if(localPoints) {
-      if(Array.isArray(newPoints)) {
+    const localPoints: Point[] | undefined = getLocalPoints(id);
+
+    if (localPoints) {
+      if (Array.isArray(newPoints)) {
         newPoints.map((newPoint) => {
-          const findedPoint = localPoints.find((localPoint) => (
-            newPoint.id === localPoint.id
-          ))
+          const findedPoint = localPoints.find(
+            (localPoint) => newPoint.id === localPoint.id
+          );
 
-          !findedPoint ? localPoints.push(newPoint) : ""
-        })
+          !findedPoint ? localPoints.push(newPoint) : "";
+        });
       } else {
-        const findedPoint = localPoints.find((localPoint) => (
-          newPoints.id === localPoint.id
-        ))
+        const findedPoint = localPoints.find(
+          (localPoint) => newPoints.id === localPoint.id
+        );
 
-        !findedPoint ? localPoints.push(newPoints) : ""
+        !findedPoint ? localPoints.push(newPoints) : "";
       }
 
-      setLocalPoints(id, localPoints)
-      return localPoints
+      setLocalPoints(id, localPoints);
+      return localPoints;
     }
 
-    const ArrayPoint = Array.isArray(newPoints) ? newPoints : [newPoints]
-    setLocalPoints(id, ArrayPoint)
+    const ArrayPoint = Array.isArray(newPoints) ? newPoints : [newPoints];
+    setLocalPoints(id, ArrayPoint);
 
-    return ArrayPoint
+    return ArrayPoint;
   }
 
-  return { setLocation, getLocation, getLocalPoints, setLocalPoints, updateLocalPoints };
+  return {
+    setLocation,
+    getLocation,
+    getLocalPoints,
+    setLocalPoints,
+    updateLocalPoints,
+  };
 };

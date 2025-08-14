@@ -1,61 +1,69 @@
 import {
-  Menu,
   MyMap,
   SearchBar,
   CreateButton,
   Loader,
-  Modal,
   MapPin,
-  Alert,
+  ReportSteps,
 } from "@components/index";
 import styles from "./home.module.scss";
 import { MapContainer } from "react-leaflet";
-import { FormEvent, useContext, useEffect, useRef, useState } from "react";
-import { Point, Report, AlertProps, CreatePoint } from "@customtypes/index";
-import { useApi, useLocalStorage, useReports } from "@hooks/index";
+import { useContext, useEffect, useRef, useState, useCallback } from "react";
+import { IMapPoint } from "@customtypes/index";
+import { useApi, useLocalStorage } from "@hooks/index";
 import { LatLngExpression, Map } from "leaflet";
-import { Modal as AntModal } from "antd";
-import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
-import { MapValuesContext } from "@contexts/MapValuesContext";
-import { RoutingContext } from "@contexts/RoutingContext";
+import { Modal as AntModal, Button, Divider } from "antd";
+import {
+  AlertContext,
+  CurrentLocationContext,
+  MapValuesContext,
+  RoutingContext,
+} from "@contexts/index";
 
 export const Home = () => {
   const currentLocation = useContext(CurrentLocationContext);
   const mapCenter = useContext(MapValuesContext);
   const { setMapInstance } = useContext(RoutingContext);
+  const { setAlert } = useContext(AlertContext);
 
-  const { getPointsNearby, createPoint } = useApi();
+  const { getPointsNearby } = useApi();
   const { getLocalPoints, updateLocalPoints } = useLocalStorage();
-  const { homeReport } = useReports();
 
   const mapRef = useRef<Map | null>(null);
 
   const [openReportsModal, setOpenReportsModal] = useState<boolean>(false);
-  const [openLocationModal, setOpenLocationModal] = useState<boolean>(false);
   const [openGetLocationModal, setOpenGetLocationModal] =
     useState<boolean>(false);
   const [center, setCenter] = useState<LatLngExpression>();
   const [pinPosition, setPinPosition] = useState<LatLngExpression>();
-  const [points, setPoints] = useState<Point[]>([]);
-  const [reportPoint, setReportPoint] = useState<CreatePoint>();
-  const [alert, setAlert] = useState<AlertProps>({
-    isOpen: false,
-    message: "",
-    description: "",
-  });
+  const [points, setPoints] = useState<IMapPoint[]>([]);
+  const renderedPointIds = useRef<Set<string>>(new Set());
 
-  const setIsOpen = (isOpen: boolean) =>
-    setAlert((prev) => ({ ...prev, isOpen }));
+  function getPointKey(point: IMapPoint): string {
+    if (point.id) return point.id;
+    return `${point.coordinates.lat}_${point.coordinates.lng}`;
+  }
 
-  async function fetchPoints() {
+  const fetchPoints = useCallback(async () => {
     try {
       if (currentLocation) {
         const { lat, lng } = mapCenter;
         const maxDistance = (20 - mapCenter.zoom) * 1000;
         const data = await getPointsNearby(lat, lng, maxDistance);
 
+        const newPoints = data.map((point: IMapPoint) => {
+          const key = getPointKey(point);
+          const isNew = !renderedPointIds.current.has(key);
+          if (isNew) renderedPointIds.current.add(key);
+
+          return {
+            ...point,
+            animate: isNew,
+          };
+        });
+
         updateLocalPoints("lastPoints", data);
-        setPoints(data);
+        setPoints(newPoints);
       } else {
         const localPoints = getLocalPoints("lastPoints");
         setPoints(localPoints);
@@ -63,9 +71,15 @@ export const Home = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [
+    currentLocation,
+    getLocalPoints,
+    getPointsNearby,
+    mapCenter,
+    updateLocalPoints,
+  ]);
 
-  function handleCreateButtonClick() {
+  function handleOpenReportsModal() {
     if (currentLocation) {
       setOpenReportsModal(true);
       return;
@@ -73,69 +87,23 @@ export const Home = () => {
     setOpenGetLocationModal(true);
   }
 
-  function handleReportClick(reportType: Report) {
-    if (currentLocation) {
-      setOpenReportsModal(false);
-      setOpenLocationModal(true);
-      setPinPosition(currentLocation);
-      const { lat, lng } = currentLocation;
-      setReportPoint({
-        type: reportType,
-        coordinates: { lat, lng },
-        position: "left",
-        description: "Sem Descrição",
-      });
-    }
-  }
-
   function handleGetLocationModalClick() {
     setOpenGetLocationModal(false);
   }
 
-  function handleModalClose() {
+  function handleCloseReportsModal() {
     setOpenReportsModal(false);
-    setOpenLocationModal(false);
     setPinPosition(undefined);
-  }
-
-  async function handleFormSubmit(e?: FormEvent) {
-    if (e) e.preventDefault();
-
-    if (reportPoint) {
-      try {
-        const response = await createPoint(reportPoint);
-
-        if (response.status === 201) {
-          updateLocalPoints("lastPoints", response.data);
-          fetchPoints();
-          setAlert({
-            message: "Sucesso!",
-            description: "Denúncia criada com sucesso!",
-            isOpen: true,
-          });
-        } else {
-          setAlert({
-            message: "Erro!",
-            description: "Erro ao criar denúncia!",
-            isOpen: true,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    handleModalClose();
   }
 
   useEffect(() => {
     setAlert({
-      message: "Carregando",
-      description: "Estamos carregando os pontos...",
+      message: "Carregando...",
+      description: "Estamos carregando a localização dos pontos!",
       isOpen: true,
       duration: 2,
     });
-  }, []);
+  }, [setAlert]);
 
   useEffect(() => {
     setCenter(currentLocation);
@@ -145,14 +113,6 @@ export const Home = () => {
 
   return (
     <main className={styles.pointsContainer}>
-      <Alert
-        message={alert.message}
-        description={alert.description}
-        isOpen={alert.isOpen}
-        setIsOpen={setIsOpen}
-        className={styles.alert}
-        duration={alert.duration}
-      />
       <SearchBar />
       {center ? (
         <MapContainer
@@ -173,82 +133,26 @@ export const Home = () => {
           }}
         >
           <MyMap className={styles.map} points={points} />
-          <CreateButton onClick={handleCreateButtonClick} />
+          <CreateButton onClick={handleOpenReportsModal} />
           {pinPosition ? <MapPin position={pinPosition} /> : ""}
         </MapContainer>
       ) : (
         <Loader text={"Carregando Mapa"} />
       )}
 
-      <Modal
-        openModal={openReportsModal}
-        setOpenModal={setOpenReportsModal}
-        classNameModalContainer={styles.modalContainer}
-        classNameModalContent={styles.modalContent}
+      <AntModal
+        open={openReportsModal}
+        onCancel={handleCloseReportsModal}
+        cancelText="Cancelar"
+        footer={[
+          <Button key="cancel" onClick={handleCloseReportsModal}>
+            Cancelar
+          </Button>,
+        ]}
       >
-        <h2 className={styles.modalTitle}>Qual é a sua denúncia?</h2>
-
-        <section className={styles.reportWrapper}>
-          {homeReport.map((report) => (
-            <div
-              className={styles.report}
-              key={report.label}
-              onClick={() => handleReportClick(report.type)}
-            >
-              <img src={report.image} alt={report.label} />
-              <h3>{report.label}</h3>
-            </div>
-          ))}
-        </section>
-      </Modal>
-
-      <Modal
-        openModal={openLocationModal}
-        setOpenModal={setOpenLocationModal}
-        classNameModalContainer={styles.modalContainer}
-        classNameModalContent={styles.modalContent}
-        onClose={() => {
-          setReportPoint(undefined);
-          setPinPosition(undefined);
-        }}
-      >
-        <form className={styles.form}>
-          <h2 className={styles.formTitle}>
-            Confirme a localização da denúncia
-          </h2>
-          <button
-            type="button"
-            className={styles.formButton}
-            onClick={handleFormSubmit}
-          >
-            Ok
-          </button>
-        </form>
-      </Modal>
-
-      <Modal
-        openModal={openLocationModal}
-        setOpenModal={setOpenLocationModal}
-        classNameModalContainer={styles.modalContainer}
-        classNameModalContent={styles.modalContent}
-        onClose={() => {
-          setReportPoint(undefined);
-          setPinPosition(undefined);
-        }}
-      >
-        <form className={styles.form}>
-          <h2 className={styles.formTitle}>
-            Confirme a localização da denúncia
-          </h2>
-          <button
-            type="button"
-            className={styles.formButton}
-            onClick={handleFormSubmit}
-          >
-            Ok
-          </button>
-        </form>
-      </Modal>
+        <ReportSteps closeModal={handleCloseReportsModal} />
+        <Divider />
+      </AntModal>
 
       <AntModal
         title="Localização não encontrada!"

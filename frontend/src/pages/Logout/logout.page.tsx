@@ -1,6 +1,6 @@
 import { LOGIN_ROUTE } from "@constants/routes";
 import { useContext, useEffect } from "react";
-import { AUTH_CONTEXT_INITIAL_STATE, AuthContext } from "@contexts/AuthContext";
+import { AUTH_CONTEXT_INITIAL_STATE, AuthContext } from "@contexts/Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "@components/index";
 

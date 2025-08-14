@@ -1,7 +1,6 @@
 import { createContext } from "react";
 
 interface IAuthContextState {
-  accessKey: string;
   setAuth: ({
     accessKey,
     isLogged,
@@ -9,6 +8,7 @@ interface IAuthContextState {
     accessKey: string;
     isLogged: boolean;
   }) => void;
+  accessKey: string;
   isLogged: boolean;
 }
 

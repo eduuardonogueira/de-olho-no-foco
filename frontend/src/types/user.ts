@@ -14,4 +14,10 @@ export interface IUser extends ICreateUser {
   updatedAt: Date;
 }
 
-export type IUserRole = "adventure" | "organization" | "admin";
+export type IUserRole = "ADVENTURE" | "ORGANIZATION" | "ADMIN";
+
+export enum EnumUserRoles {
+  ADVENTURE = "ADVENTURE",
+  ORGANIZATION = "ORGANIZATION",
+  ADMIN = "ADMIN",
+}

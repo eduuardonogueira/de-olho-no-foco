@@ -9,12 +9,8 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
+import { EnumUserRoles, UserRoles } from 'src/types/user';
 
-export enum UserRole {
-  ADVENTURE = 'adventure',
-  ORGANIZATION = 'organization',
-  ADMIN = 'admin',
-}
 export class CreateUserDto {
   @MaxLength(50)
   @IsNotEmpty()
@@ -41,10 +37,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @Transform(({ value }) => ('' + value).toLowerCase())
-  @IsEnum(UserRole)
-  role: 'adventure' | 'organization' | 'admin';
+  @IsEnum(EnumUserRoles)
+  role: UserRoles;
 
   @IsOptional()
+  @IsPhoneNumber()
   @IsNotEmpty()
   @IsString()
   phone: string;

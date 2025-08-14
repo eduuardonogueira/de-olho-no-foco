@@ -14,6 +14,8 @@ import { CreatePointDto } from './dtos/create-points.dto';
 import { GetPointsNearbyDto } from './dtos/get-points-nearby.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { UserEntity } from 'src/users/entities/user.entity';
+import { ImgurService } from '../providers/imgur.service';
+import { SetRequestTimeout } from 'src/decorators/timeout.decorator';
 
 interface Request {
   user: UserEntity;
@@ -22,21 +24,29 @@ interface Request {
 @UseGuards(JwtAuthGuard)
 @Controller('points')
 export class PointsController {
-  constructor(private pointsService: PointsService) {}
+  constructor(
+    private readonly pointsService: PointsService,
+    private readonly imgurService: ImgurService,
+  ) {}
 
   @Post('/create')
+  @SetRequestTimeout(30000)
   async createPoints(
     @Body()
-    pointPayload: CreatePointDto,
+    payload: CreatePointDto,
     @Req() req: Request,
   ) {
-    const points = await this.pointsService.create(pointPayload, req.user);
-    return points;
+    const { images } = payload;
+    const imageUrls = await this.imgurService.sendImages(images);
+
+    const pointPayload = { ...payload, images: imageUrls };
+
+    return this.pointsService.create(pointPayload, req.user);
   }
 
   @Get()
-  async getAllPoints() {
-    return await this.pointsService.findMany();
+  getAllPoints() {
+    return this.pointsService.findMany();
   }
 
   @Get('/nearby')

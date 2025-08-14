@@ -3,7 +3,7 @@ import { useMapEvents } from "react-leaflet";
 import { Gps } from "@phosphor-icons/react";
 import { UserLocation } from "@customtypes/map";
 import { useContext } from "react";
-import { MapValuesContext } from "@contexts/MapValuesContext";
+import { MapValuesContext } from "@contexts/MapValues/MapValuesContext";
 
 export const Centralize = ({
   currentPosition,

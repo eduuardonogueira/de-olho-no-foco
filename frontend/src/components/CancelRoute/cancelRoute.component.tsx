@@ -1,5 +1,5 @@
 import styles from "./cancelRoute.module.scss";
-import { RoutingContext } from "@contexts/RoutingContext";
+import { RoutingContext } from "@contexts/Routing/RoutingContext";
 import { XCircle } from "@phosphor-icons/react";
 import { useContext, useEffect, useState } from "react";
 

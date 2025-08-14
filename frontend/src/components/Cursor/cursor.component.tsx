@@ -3,7 +3,7 @@ import { Circle, Marker } from "react-leaflet";
 import { CursorIcon, CursorPointerIcon } from "@assets/icons/index";
 import L from "leaflet";
 import { useContext } from "react";
-import { CurrentLocationContext } from "@contexts/CurrentLocationContext";
+import { CurrentLocationContext } from "@contexts/CurrentLocation/CurrentLocationContext";
 
 export const Cursor = ({ zoom }: { zoom: number }) => {
   const currentLocation = useContext(CurrentLocationContext);
