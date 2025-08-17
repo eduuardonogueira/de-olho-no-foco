@@ -9,7 +9,13 @@ import {
 } from 'class-validator';
 import { CoordinatesDto } from './coordinates.dto';
 import { Transform } from 'class-transformer';
-import { EnumPointPosition, EnumPointType, PointType } from 'src/types/points';
+import {
+  EnumPointPosition,
+  EnumPointStatus,
+  EnumPointType,
+  PointStatus,
+  PointType,
+} from 'src/types/points';
 
 export class CreatePointDto {
   @IsString()
@@ -45,4 +51,12 @@ export class CreatePointDto {
 
   @IsNotEmpty()
   coordinates: CoordinatesDto;
+
+  @IsOptional()
+  @IsEnum(EnumPointStatus)
+  status: PointStatus;
+
+  @IsOptional()
+  @IsBoolean()
+  is_active: boolean;
 }

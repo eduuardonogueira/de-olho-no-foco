@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateNotificationsTypeDto } from './dtos/create-notifications-type.dto';
-import { ImgurService } from '../providers/imgur.service';
+import { ImgurService } from '../../providers/imgur.service';
 
 @Injectable()
 export class NotificationsTypeService {

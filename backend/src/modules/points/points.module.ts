@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PointsController } from './points.controller';
 import { PointsService } from './points.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from 'src/modules/users/users.module';
 import { ImgurService } from 'src/providers/imgur.service';
 
 @Module({

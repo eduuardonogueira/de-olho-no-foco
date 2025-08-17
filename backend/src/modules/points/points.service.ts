@@ -4,10 +4,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { UsersService } from 'src/users/users.service';
-import { CreatePointDto } from './dtos/create-points.dto';
+import { UsersService } from 'src/modules/users/users.service';
+import { CreatePointDto } from './dtos/create-point.dto';
 import { INearbyPoints } from 'src/types/points';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class PointsService {
@@ -119,7 +119,16 @@ export class PointsService {
     return point;
   }
 
-  // async update(id: string, data) {}
+  async update(id: string, updatedPointData) {
+    const findedPoint = await this.findOne(id);
+
+    const updatedPoint = await this.prismaService.point.update({
+      data: updatedPointData,
+      where: { id: findedPoint.id },
+    });
+
+    return updatedPoint;
+  }
 
   async remove(id: string) {
     const findPoint = await this.findOne(id);

@@ -4,18 +4,20 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { PointsService } from './points.service';
-import { CreatePointDto } from './dtos/create-points.dto';
+import { CreatePointDto } from './dtos/create-point.dto';
 import { GetPointsNearbyDto } from './dtos/get-points-nearby.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { UserEntity } from 'src/users/entities/user.entity';
-import { ImgurService } from '../providers/imgur.service';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
+import { ImgurService } from '../../providers/imgur.service';
 import { SetRequestTimeout } from 'src/decorators/timeout.decorator';
+import { UpdatePointDto } from './dtos/update-point.dto';
 
 interface Request {
   user: UserEntity;
@@ -63,10 +65,10 @@ export class PointsController {
     return this.pointsService.findOne(id);
   }
 
-  // @Patch('/:id')
-  // updateProduct(@Param('id') id: string, @Body() body: UpdateProductDto) {
-  //   return this.pointsService.update(parseInt(id), body);
-  // }
+  @Patch('/:id')
+  updatePoint(@Param('id') id: string, @Body() body: UpdatePointDto) {
+    return this.pointsService.update(id, body);
+  }
 
   @Delete('/delete/:id')
   removePoint(@Param('id') id: string) {

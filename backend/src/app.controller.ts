@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { TasksService } from './tasks.service';
+import { TasksService } from './tasks/tasks.service';
 
 @Controller('api')
 export class AppController {

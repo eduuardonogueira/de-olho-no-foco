@@ -1,4 +1,4 @@
-import { NotificationsService } from './../notifications.service';
+import { NotificationsService } from '../notifications.service';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('UsersService', () => {
