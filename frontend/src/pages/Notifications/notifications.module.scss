@@ -43,6 +43,13 @@
   line-height: 1.5rem;
 }
 
+.titleContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
 .contentTitle {
   display: flex;
   width: 100%;
@@ -115,3 +122,4 @@
   font-weight: bold;
   line-height: 0.75rem;
 }
+

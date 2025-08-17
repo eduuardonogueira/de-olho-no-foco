@@ -1,0 +1,86 @@
+.notificationWrapper {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: repeat(3, 1fr);
+  row-gap: 4px;
+  column-gap: 10px;
+  grid-template-areas:
+    "image title actions"
+    "image message actions"
+    "image footer actions";
+
+  border: 1px solid var(--color-gray-200);
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  opacity: 0.7;
+}
+
+.newNotification {
+  border-left: 4px solid var(--color-blue-400);
+}
+
+.image {
+  grid-area: image;
+}
+
+.title {
+  grid-area: title;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  > h4 {
+    font-weight: bold;
+  }
+}
+
+.message {
+  grid-area: message;
+}
+
+.footer {
+  grid-area: footer;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  height: min-content;
+  padding: 4px;
+  border-radius: 4px;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.readButton:hover {
+  background: var(--color-green-200);
+}
+
+.deleteButton {
+  color: var(--color-red-500);
+}
+
+.deleteButton:hover {
+  background: var(--color-red-500);
+  color: white;
+}
+

@@ -21,3 +21,5 @@ export * from "./CreateReportSteps/reportsList.component";
 export * from "./CreateReportSteps/reportImage.component";
 export * from "./CreateReportSteps/reportDetails.component";
 export * from "./File/file.component";
+export * from "./NotificationCard/notificationCard.component";
+

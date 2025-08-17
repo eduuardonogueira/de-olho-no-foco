@@ -3,7 +3,7 @@ import axios from "axios";
 import {
   ICreatePoint,
   IPoint,
-  INotification,
+  INotificationWithStatus,
   ICreateUser,
   IMapPoint,
 } from "@customtypes/index";
@@ -133,7 +133,7 @@ export const useApi = () => {
     type?: string;
     expiresAt?: Date;
   }): Promise<{
-    notifications: INotification[];
+    notifications: INotificationWithStatus[];
     total: number;
   }> {
     const response = await api.get("notifications/global/all/filter", {
@@ -161,3 +161,4 @@ export const useApi = () => {
     getUserNotification,
   };
 };
+

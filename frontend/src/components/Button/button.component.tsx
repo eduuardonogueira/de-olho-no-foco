@@ -5,17 +5,19 @@ import styles from "./button.module.scss";
 interface IButtonProps {
   onClick?: () => void;
   isLoading?: boolean;
-  label: string;
-  type: "submit" | "reset" | "button" | undefined;
+  label?: string;
+  type?: "submit" | "reset" | "button" | undefined;
   className?: string;
+  children?: React.ReactNode
 }
 
 export const Button = ({
   onClick,
   isLoading,
-  type,
+  type = "button",
   label,
   className,
+  children
 }: IButtonProps) => {
   const customButtonStyles = cn(styles.button, className);
   return (
@@ -26,6 +28,7 @@ export const Button = ({
       disabled={isLoading}
     >
       {isLoading ? <div className={styles.spinner}></div> : label}
+      {children}
     </button>
   );
 };
